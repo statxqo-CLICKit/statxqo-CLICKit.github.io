@@ -1167,7 +1167,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           <dialog class="x-modal" id="admin-dlg" aria-labelledby="admin-title">
             <form id="admin-form" novalidate="">
               <h3 id="admin-title">Admin</h3>
-              <input class="x-admin-input" id="admin-pw" type="password" autocomplete="current-password" aria-label="Admin password" placeholder="Password"/>
+              <input class="x-admin-input" id="admin-pw" type="password" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" aria-label="Admin password" placeholder="Password"/>
               <p class="x-paymsg" id="admin-msg" aria-live="polite" hidden=""></p>
               <div class="links">
                 <button class="btn" type="button" id="admin-cancel">Cancel</button>
@@ -1324,7 +1324,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         explorerApi: "https://base.blockscout.com/api/v2",
         baseRpc: "https://mainnet.base.org",
         adminSalt: "172669b356b59bea",
-        adminHash: "7b6337ae9966baf485477dbeb7625821d53d1a3adb548065806be2b6970f0a82"
+        adminHash: "130bb0ae44ce9557521660d5baa079c9636f3a266ad9f045b2d10119b7a97214"
       };
 
       // WalletConnect (Reown) project id. The provider is loaded from the CDN only when someone picks WalletConnect.
@@ -1582,7 +1582,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         $("admin-cancel").addEventListener("click", closeAdmin);
         $("admin-form").addEventListener("submit", function (e) {
           e.preventDefault();
-          var ok = $("admin-ok"), msg = $("admin-msg"), pw = ($("admin-pw").value || "").trim();
+          var ok = $("admin-ok"), msg = $("admin-msg"), pw = ($("admin-pw").value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
           if (!pw) { say(msg, "Enter the password.", true); return; }
           if (!(window.crypto && crypto.subtle && window.TextEncoder)) { say(msg, "This browser can't check the password here.", true); return; }
           ok.disabled = true;
