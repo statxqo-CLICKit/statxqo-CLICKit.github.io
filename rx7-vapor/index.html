@@ -921,6 +921,14 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
       .x-modal dt { font: var(--type-caption); color: var(--text-secondary); }
       .x-modal dd { margin: 0; font: var(--type-label); overflow-wrap: anywhere; }
       .x-modal .links { justify-content: flex-end; }
+      .x-walletbar, .x-adminbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0; }
+      .x-walletbar__status { font: var(--type-label); color: var(--text-secondary); overflow-wrap: anywhere; }
+      .x-walletbar .btn, .x-adminbar .btn { min-height: var(--tap); cursor: pointer; }
+      .x-wpick { display: grid; gap: 10px; }
+      .x-wpick .btn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; text-align: left; padding-top: 10px; padding-bottom: 10px; }
+      .x-wpick .btn small { font: var(--type-caption); color: var(--text-secondary); }
+      .x-admin-input { width: 100%; min-height: var(--tap); padding: 0 14px; border: 1px solid var(--stroke-primary); border-radius: var(--r-s); background: var(--fill-tertiary); color: var(--text-primary); font: var(--type-body); }
+      .x-adminlink { background: none; border: 0; padding: 4px 0; color: var(--text-secondary); font: var(--type-caption); text-decoration: underline; cursor: pointer; }
 
       @keyframes x-pulse { from { transform: scale(1); opacity: 0.6; } to { transform: scale(2.8); opacity: 0; } }
       @keyframes x-grow { from { transform: scaleX(0); } }
@@ -988,6 +996,8 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             <p class="fineprint">Read-only. RX7 VAPOR never asks for your seed phrase or private key and never signs a transaction.</p>
             <p class="fineprint" id="tier-note">Free: 1 scan per visit. The <a class="link" href="#pass">Access Pass</a> unlocks unlimited scans and cleanup actions.</p>
             <p class="x-passbadge" hidden=""><span class="chip chip--solid">Access Pass active</span></p>
+            <p class="x-adminbar" hidden=""><span class="chip chip--solid">Admin access</span><button class="btn x-admin-lock" type="button">Lock</button></p>
+            <div class="x-walletbar" aria-live="polite"><span class="x-walletbar__status">No wallet connected.</span><button class="btn x-wb-connect" type="button">Connect wallet</button><button class="btn x-wb-disconnect" type="button" hidden="">Disconnect</button></div>
           </aside>
           <p class="fineprint" id="wallet-open">Using a wallet app? Open this page in your wallet&#39;s browser: <a class="link" href="https://metamask.app.link/" id="open-metamask">Open in MetaMask</a> · <a class="link" href="https://go.cb-w.com/" id="open-coinbase">Open in Coinbase Wallet</a></p>
           <div class="x-results" id="scan-results" aria-live="polite">
@@ -1089,6 +1099,8 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
                 <a class="btn" href="#verify">I already paid</a>
               </div>
               <p class="x-paymsg" id="pay-msg" aria-live="polite" hidden=""></p>
+              <p class="x-adminbar" hidden=""><span class="chip chip--solid">Admin access</span><button class="btn x-admin-lock" type="button">Lock</button></p>
+              <div class="x-walletbar" aria-live="polite"><span class="x-walletbar__status">No wallet connected.</span><button class="btn x-wb-connect" type="button">Connect wallet</button><button class="btn x-wb-disconnect" type="button" hidden="">Disconnect</button></div>
               <p class="fineprint">You&#39;ll see a plain-English review before your wallet opens.</p>
             </aside>
           </div>
@@ -1139,12 +1151,37 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
               </div>
             </form>
           </dialog>
+          <dialog class="x-modal" id="wallet-pick" aria-labelledby="wallet-pick-title">
+            <form method="dialog">
+              <h3 id="wallet-pick-title">Connect a wallet</h3>
+              <p class="x-modal__lead">Your wallet signs everything. RX7 VAPOR never asks for your seed phrase or private keys.</p>
+              <div class="x-wpick">
+                <button class="btn" type="submit" value="injected" id="pick-injected">Browser wallet<small>MetaMask, Coinbase Wallet, Rabby and others in this browser</small></button>
+                <button class="btn" type="submit" value="wc" id="pick-wc">WalletConnect<small>QR code on desktop · wallet list on mobile</small></button>
+                <button class="btn" type="submit" value="manual" id="pick-manual" hidden="">Pay manually instead<small>Send 9.99 USDC on Base from any wallet</small></button>
+              </div>
+              <p class="fineprint" id="pick-noinjected" hidden="">No browser wallet found here. Use WalletConnect, or open this page in your wallet app.</p>
+              <div class="links"><button class="btn" type="submit" value="cancel">Cancel</button></div>
+            </form>
+          </dialog>
+          <dialog class="x-modal" id="admin-dlg" aria-labelledby="admin-title">
+            <form id="admin-form" novalidate="">
+              <h3 id="admin-title">Admin</h3>
+              <input class="x-admin-input" id="admin-pw" type="password" autocomplete="current-password" aria-label="Admin password" placeholder="Password"/>
+              <p class="x-paymsg" id="admin-msg" aria-live="polite" hidden=""></p>
+              <div class="links">
+                <button class="btn" type="button" id="admin-cancel">Cancel</button>
+                <button class="btn" type="submit" id="admin-ok">Unlock</button>
+              </div>
+            </form>
+          </dialog>
         </section>
       </main>
       <footer class="foot">
         <p>RX7 VAPOR by Racer X. Read-only wallet safety.</p>
         <p><a class="btn" href="https://statxqo-clickit.github.io/rx7-vapor/RX7-VAPOR-1.0.0.apk" download>Download Android app</a></p>
         <p>Also by Racer X: <a class="link" href="https://statxqo-clickit.github.io/dusty/" rel="noopener" target="_blank">Dusty</a></p>
+        <p><button class="x-adminlink" type="button" id="admin-link">Admin</button></p>
         <p class="fineprint">Payments are final and go directly to the Racer X wallet. RX7 VAPOR is read-only and never asks for your seed phrase or private keys. Not financial advice.</p>
         <nav aria-label="Back to sections" data-auto=""></nav>
         <a class="badge" href="https://hark.com/" rel="noopener" target="_blank"><span class="hark-mark"></span><span>built by hark</span></a>
@@ -1284,15 +1321,23 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         chainIdHex: "0x2105", // Base mainnet, 8453
         usdc: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
         priceUnits: "9990000", // 9.99 USDC, 6 decimals
-        explorerApi: "https://base.blockscout.com/api/v2"
+        explorerApi: "https://base.blockscout.com/api/v2",
+        baseRpc: "https://mainnet.base.org",
+        adminSalt: "172669b356b59bea",
+        adminHash: "7b6337ae9966baf485477dbeb7625821d53d1a3adb548065806be2b6970f0a82"
       };
 
+      // WalletConnect (Reown) project id. The provider is loaded from the CDN only when someone picks WalletConnect.
+      var WC_PROJECT_ID = "285acdd88b8d03791c962a3df94f70fa";
+      var WC_URL = "https://esm.sh/@walletconnect/ethereum-provider@2.26.0";
+
       // Shared pass state. In memory only: a reload starts a fresh visit.
-      var RX7 = { pass: "", scansUsed: 0, freeScans: 1 };
+      var RX7 = { pass: "", admin: false, scansUsed: 0, freeScans: 1 };
+      RX7.unlocked = function () { return !!(RX7.pass || RX7.admin); };
 
       (function () {
         var $ = function (id) { return document.getElementById(id); };
-        var eth = window.ethereum || null;
+        var injected = window.ethereum || null;
         var ADDR_RE = /^0x[0-9a-fA-F]{40}$/;
 
         function short(a) { return a.slice(0, 6) + "…" + a.slice(-4); }
@@ -1316,7 +1361,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           var wrap = document.createElement("div");
           wrap.className = "x-lockable";
           inner.classList.add("x-lock__inner");
-          if (!RX7.pass) inner.setAttribute("inert", "");
+          if (!RX7.unlocked()) inner.setAttribute("inert", "");
           wrap.appendChild(inner);
           var lock = document.createElement("a");
           lock.className = "x-lock";
@@ -1328,17 +1373,18 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         RX7.lockify = lockify;
 
         function applyLocks() {
-          var on = !!RX7.pass;
+          var on = RX7.unlocked();
           document.documentElement.classList.toggle("x-has-pass", on);
           [].forEach.call(document.querySelectorAll(".x-lock__inner"), function (n) {
             if (on) n.removeAttribute("inert"); else n.setAttribute("inert", "");
           });
           [].forEach.call(document.querySelectorAll(".x-passbadge"), function (b) {
-            b.hidden = !on;
-            if (on) b.firstElementChild.textContent = "Access Pass active for " + short(RX7.pass);
+            b.hidden = !RX7.pass;
+            if (RX7.pass) b.firstElementChild.textContent = "Access Pass active for " + short(RX7.pass);
           });
+          [].forEach.call(document.querySelectorAll(".x-adminbar"), function (b) { b.hidden = !RX7.admin; });
           var np = $("nav-pass");
-          if (np) np.textContent = on ? "✓ Pass active" : "Get Pass $9.99";
+          if (np) np.textContent = RX7.admin ? "✓ Admin access" : on ? "✓ Pass active" : "Get Pass $9.99";
           var tier = $("tier-note");
           if (tier) tier.hidden = on;
           var acts = $("pay-actions");
@@ -1352,6 +1398,216 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           applyLocks();
         }
 
+
+        // ---- Wallet connection: browser (injected) wallet or WalletConnect. Everything is signed in the wallet. ----
+        var W = { provider: null, kind: "", account: "", wc: null };
+        RX7.wallet = W;
+        function noop() {}
+        function chainNum(id) {
+          if (typeof id === "number") return id;
+          var t = String(id || "");
+          return /^0x/i.test(t) ? parseInt(t, 16) : parseInt(t, 10);
+        }
+        function renderWallet() {
+          var on = !!(W.provider && W.account);
+          [].forEach.call(document.querySelectorAll(".x-walletbar"), function (bar) {
+            bar.querySelector(".x-walletbar__status").textContent = on
+              ? "Connected " + short(W.account) + " via " + (W.kind === "wc" ? "WalletConnect" : "browser wallet")
+              : "No wallet connected.";
+            bar.querySelector(".x-wb-connect").hidden = on;
+            bar.querySelector(".x-wb-disconnect").hidden = !on;
+          });
+        }
+        function setAccount(kind, provider, account) {
+          W.kind = account ? kind : "";
+          W.provider = account ? provider : null;
+          W.account = account || "";
+          renderWallet();
+        }
+        function cancelled() { var e = new Error("Cancelled. Nothing was sent."); e.cancelled = true; return e; }
+
+        function chooseWallet(opts) {
+          var dlg = $("wallet-pick");
+          $("pick-injected").hidden = !injected;
+          $("pick-noinjected").hidden = !!injected;
+          $("pick-manual").hidden = !(opts && opts.manual);
+          return new Promise(function (resolve) {
+            if (!dlg || typeof dlg.showModal !== "function") { resolve(injected ? "injected" : "wc"); return; }
+            dlg.returnValue = "";
+            dlg.addEventListener("close", function onClose() {
+              dlg.removeEventListener("close", onClose);
+              var v = dlg.returnValue;
+              resolve(v === "injected" || v === "wc" || v === "manual" ? v : "");
+            });
+            dlg.showModal();
+          });
+        }
+
+        function connectInjected() {
+          if (!injected) return Promise.reject(new Error("No browser wallet found. Use WalletConnect instead."));
+          return injected.request({ method: "eth_requestAccounts" }).then(function (accts) {
+            if (!accts || !accts[0]) throw new Error("No account was shared.");
+            setAccount("injected", injected, accts[0]);
+            return accts[0];
+          });
+        }
+
+        var wcLoading = null;
+        function loadWC() {
+          if (!wcLoading) {
+            wcLoading = import(WC_URL).then(function (m) {
+              if (!m || !m.EthereumProvider) throw new Error("bad module");
+              return m.EthereumProvider;
+            }).catch(function () {
+              wcLoading = null;
+              var e = new Error("WalletConnect couldn't load (network problem or a blocker). Use a browser wallet, or pay manually with the address below.");
+              e.wcLoad = true;
+              throw e;
+            });
+          }
+          return wcLoading;
+        }
+        function wcInit(EP) {
+          if (W.wc) return Promise.resolve(W.wc);
+          return EP.init({
+            projectId: WC_PROJECT_ID,
+            chains: [8453],
+            optionalChains: [1],
+            methods: ["eth_sendTransaction", "personal_sign", "wallet_switchEthereumChain"],
+            optionalMethods: ["wallet_addEthereumChain", "eth_chainId", "eth_accounts", "eth_requestAccounts", "eth_getTransactionReceipt"],
+            events: ["chainChanged", "accountsChanged", "disconnect"],
+            rpcMap: { 8453: CONFIG.baseRpc, 1: "https://ethereum-rpc.publicnode.com" },
+            showQrModal: true,
+            metadata: {
+              name: "RX7 VAPOR",
+              description: "Read-only wallet safety by Racer X",
+              url: "https://statxqo-clickit.github.io/rx7-vapor/",
+              icons: ["https://statxqo-clickit.github.io/rx7-vapor/icon-512.png"]
+            }
+          }).then(function (wc) {
+            W.wc = wc;
+            wc.on("accountsChanged", function (a) {
+              if (W.kind === "wc") setAccount("wc", wc, a && a[0]);
+            });
+            wc.on("disconnect", function () {
+              if (W.kind === "wc") setAccount("", null, "");
+            });
+            return wc;
+          });
+        }
+        function connectWC() {
+          return loadWC().then(wcInit).then(function (wc) {
+            if (wc.session && wc.accounts && wc.accounts.length) return wc.accounts;
+            return wc.connect().then(function () { return wc.accounts; });
+          }).then(function (accts) {
+            return W.wc.request({ method: "eth_accounts" }).then(function (a) { return a && a.length ? a : accts; }, function () { return accts; });
+          }).then(function (accts) {
+            if (!accts || !accts[0]) throw new Error("No account was shared.");
+            setAccount("wc", W.wc, accts[0]);
+            return accts[0];
+          });
+        }
+
+        // Resolves to the connected account. opts.manual adds a "pay manually" choice (rejects with e.manual).
+        function connect(opts) {
+          if (W.provider && W.account) return Promise.resolve(W.account);
+          return chooseWallet(opts).then(function (kind) {
+            if (kind === "manual") { var e = new Error("manual"); e.manual = true; throw e; }
+            if (!kind) throw cancelled();
+            return kind === "wc" ? connectWC() : connectInjected();
+          });
+        }
+        RX7.connect = connect;
+
+        function disconnect() {
+          var kind = W.kind;
+          setAccount("", null, "");
+          if (kind === "wc" && W.wc) { try { W.wc.disconnect().catch(noop); } catch (e) {} }
+          else if (kind === "injected" && injected) {
+            try { injected.request({ method: "wallet_revokePermissions", params: [{ eth_accounts: {} }] }).catch(noop); } catch (e) {}
+          }
+        }
+        RX7.disconnect = disconnect;
+
+        if (injected && typeof injected.on === "function") {
+          injected.on("accountsChanged", function (a) {
+            if (W.kind === "injected") setAccount("injected", injected, a && a[0]);
+          });
+        }
+
+        function connectError(e) {
+          if (e && e.cancelled) return e.message;
+          if (e && e.wcLoad) return e.message;
+          var m = e && e.message ? String(e.message) : "";
+          if (/user rejected|rejected|reset|closed|cancel/i.test(m) && e.code == null) return "Connection cancelled.";
+          return e && e.code == null && m ? m : walletError(e).replace(" Nothing was sent.", "");
+        }
+
+        [].forEach.call(document.querySelectorAll(".x-wb-connect"), function (b) {
+          b.addEventListener("click", function () {
+            var bar = b.closest(".x-walletbar"), st = bar.querySelector(".x-walletbar__status");
+            st.textContent = "Connecting… approve in your wallet.";
+            connect().catch(function (e) {
+              renderWallet();
+              st.textContent = connectError(e);
+              if (e && e.wcLoad) showNoWallet();
+            });
+          });
+        });
+        [].forEach.call(document.querySelectorAll(".x-wb-disconnect"), function (b) {
+          b.addEventListener("click", disconnect);
+        });
+
+        // ---- Admin unlock (salted SHA-256 compare, in memory only) ----
+        var adminFails = 0;
+        function sha256Hex(text) {
+          var data = new TextEncoder().encode(text);
+          return crypto.subtle.digest("SHA-256", data).then(function (buf) {
+            return Array.prototype.map.call(new Uint8Array(buf), function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+          });
+        }
+        function openAdmin() {
+          var dlg = $("admin-dlg");
+          $("admin-pw").value = "";
+          $("admin-msg").hidden = true;
+          if (dlg && typeof dlg.showModal === "function") dlg.showModal(); else if (dlg) dlg.setAttribute("open", "");
+          setTimeout(function () { $("admin-pw").focus(); }, 30);
+        }
+        function closeAdmin() {
+          var dlg = $("admin-dlg");
+          $("admin-pw").value = "";
+          if (dlg && typeof dlg.close === "function") dlg.close(); else if (dlg) dlg.removeAttribute("open");
+        }
+        $("admin-link").addEventListener("click", openAdmin);
+        $("admin-cancel").addEventListener("click", closeAdmin);
+        $("admin-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          var ok = $("admin-ok"), msg = $("admin-msg"), pw = ($("admin-pw").value || "").trim();
+          if (!pw) { say(msg, "Enter the password.", true); return; }
+          if (!(window.crypto && crypto.subtle && window.TextEncoder)) { say(msg, "This browser can't check the password here.", true); return; }
+          ok.disabled = true;
+          var wait = adminFails >= 3 ? 2000 : 0;
+          new Promise(function (r) { setTimeout(r, wait); })
+            .then(function () { return sha256Hex(CONFIG.adminSalt + pw); })
+            .then(function (h) {
+              if (h === String(CONFIG.adminHash).toLowerCase()) {
+                adminFails = 0;
+                RX7.admin = true;
+                applyLocks();
+                closeAdmin();
+              } else {
+                adminFails++;
+                $("admin-pw").value = "";
+                say(msg, "Wrong password", true);
+              }
+            })
+            .catch(function () { say(msg, "Couldn't check the password. Try again.", true); })
+            .then(function () { ok.disabled = false; });
+        });
+        [].forEach.call(document.querySelectorAll(".x-admin-lock"), function (b) {
+          b.addEventListener("click", function () { RX7.admin = false; applyLocks(); });
+        });
+
         // ---- Sticky header button ----
         function addNavButton() {
           var header = document.querySelector("header.nav");
@@ -1360,7 +1616,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           a.className = "x-navpass";
           a.id = "nav-pass";
           a.href = "#pass";
-          a.textContent = RX7.pass ? "✓ Pass active" : "Get Pass $9.99";
+          a.textContent = RX7.admin ? "✓ Admin access" : RX7.pass ? "✓ Pass active" : "Get Pass $9.99";
           header.insertBefore(a, $("theme-btn"));
         }
         addNavButton();
@@ -1500,8 +1756,8 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           if (!$("qr").firstChild) drawQR($("qr"), CONFIG.payTo);
           box.hidden = false;
         }
-        if (!eth) showNoWallet();
-        else $("verify-connect").hidden = false;
+        if (!injected) showNoWallet();
+        $("verify-connect").hidden = false;
 
         $("copy-btn").addEventListener("click", function () {
           var btn = this;
@@ -1515,7 +1771,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         // ---- Review modal ----
         function review(from) {
           var dlg = $("review");
-          $("review-from").textContent = from;
+          $("review-from").textContent = from + (W.kind === "wc" ? " (WalletConnect)" : " (browser wallet)");
           return new Promise(function (resolve) {
             if (!dlg || typeof dlg.showModal !== "function") {
               resolve(window.confirm("You're about to send 9.99 USDC on Base to " + short(CONFIG.payTo) + ". If your wallet shows anything different, reject it."));
@@ -1531,7 +1787,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         }
 
         // ---- Pay with wallet ----
-        function ensureBase() {
+        function ensureBase(eth) {
           return eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: CONFIG.chainIdHex }] })
             .catch(function (e) {
               var code = e && (e.code || (e.data && e.data.originalError && e.data.originalError.code));
@@ -1549,7 +1805,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             })
             .then(function () { return eth.request({ method: "eth_chainId" }); })
             .then(function (id) {
-              if (String(id).toLowerCase() !== CONFIG.chainIdHex) throw new Error("Your wallet is not on Base. Switch to Base and try again.");
+              if (chainNum(id) !== chainNum(CONFIG.chainIdHex)) throw new Error("Your wallet is not on Base. Switch to Base and try again.");
             });
         }
 
@@ -1558,11 +1814,20 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           return "Transaction <a class=\"link\" href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">" + hash.slice(0, 10) + "…" + hash.slice(-8) + " on BaseScan</a> · " + state;
         }
 
-        function pollReceipt(hash, from) {
+        function baseRpc(method, params) {
+          return fetch(CONFIG.baseRpc, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: method, params: params }) })
+            .then(function (r) { return r.json(); })
+            .then(function (d) { if (d && d.error) throw new Error(d.error.message || "rpc error"); return d ? d.result : null; });
+        }
+        function pollReceipt(hash, from, eth) {
           var tries = 0, msg = $("pay-msg");
+          function getReceipt() {
+            if (eth && eth === injected) return eth.request({ method: "eth_getTransactionReceipt", params: [hash] });
+            return baseRpc("eth_getTransactionReceipt", [hash]);
+          }
           function tick() {
             tries++;
-            eth.request({ method: "eth_getTransactionReceipt", params: [hash] })
+            getReceipt()
               .then(function (rc) {
                 if (rc && rc.status === "0x1") {
                   say(msg, "", false, txLine(hash, "Confirmed. Your Access Pass is active."));
@@ -1590,23 +1855,18 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         var paying = false;
         $("pay-btn").addEventListener("click", function () {
           var msg = $("pay-msg"), btn = this;
-          if (!eth) {
-            showNoWallet();
-            say(msg, "No wallet found in this browser. Open the page in your wallet app, or pay manually below.");
-            $("nowallet").scrollIntoView({ behavior: "smooth", block: "start" });
-            return;
-          }
           if (paying) return;
           paying = true;
           btn.disabled = true;
-          var from = "";
+          var from = "", eth = null;
           say(msg, "Connecting your wallet…");
-          eth.request({ method: "eth_requestAccounts" })
-            .then(function (accts) {
-              from = accts && accts[0];
-              if (!from) throw new Error("No account was shared.");
+          connect({ manual: true })
+            .then(function (acct) {
+              from = acct;
+              eth = W.provider;
+              if (!from || !eth) throw new Error("No account was shared.");
               say(msg, "Switching your wallet to Base…");
-              return ensureBase();
+              return ensureBase(eth);
             })
             .then(function () {
               say(msg, "Review the payment.");
@@ -1622,11 +1882,17 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
               if (!hash) return;
               if (!/^0x[0-9a-fA-F]{64}$/.test(String(hash))) { say(msg, "Your wallet sent it but returned an unexpected receipt. Check your wallet's activity, then use “I already paid”."); return; }
               say(msg, "", false, txLine(hash, "Waiting for confirmation…"));
-              pollReceipt(hash, from);
+              pollReceipt(hash, from, eth);
               $("verify-addr").value = from;
             })
             .catch(function (e) {
-              say(msg, e && e.code == null && e.message ? e.message : walletError(e), true);
+              if (e && (e.manual || e.wcLoad)) {
+                showNoWallet();
+                say(msg, e.manual ? "Pay manually below, then use “I already paid”." : e.message, !e.manual);
+                $("nowallet").scrollIntoView({ behavior: "smooth", block: "start" });
+                return;
+              }
+              say(msg, e && e.cancelled ? e.message : e && e.code == null && e.message ? e.message : walletError(e), !(e && e.cancelled));
             })
             .then(function () { paying = false; btn.disabled = false; });
         });
@@ -1686,15 +1952,17 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         }
         vForm.addEventListener("submit", function (e) { e.preventDefault(); verify((vInput.value || "").trim()); });
         $("verify-connect").addEventListener("click", function () {
-          if (!eth) { say(vMsg, "No wallet found in this browser. Paste the address you paid from instead.", true); return; }
           say(vMsg, "Connecting your wallet… approve the request in your wallet app.");
-          eth.request({ method: "eth_requestAccounts" })
-            .then(function (accts) {
-              if (!accts || !accts[0]) throw new Error("none");
-              vInput.value = accts[0];
-              verify(accts[0]);
+          connect()
+            .then(function (acct) {
+              if (!acct) throw new Error("No account was shared.");
+              vInput.value = acct;
+              verify(acct);
             })
-            .catch(function (e) { say(vMsg, walletError(e).replace(" Nothing was sent.", ""), true); });
+            .catch(function (e) {
+              say(vMsg, connectError(e), true);
+              if (e && e.wcLoad) showNoWallet();
+            });
         });
 
         applyLocks();
@@ -2054,7 +2322,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             input.focus();
             return;
           }
-          if (!RX7.pass && RX7.scansUsed >= RX7.freeScans) {
+          if (!RX7.unlocked() && RX7.scansUsed >= RX7.freeScans) {
             msg.hidden = true;
             $("scan-limit").hidden = false;
             $("scan-limit").scrollIntoView({ behavior: "smooth", block: "nearest" });
