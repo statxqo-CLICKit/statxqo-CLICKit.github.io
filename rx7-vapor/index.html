@@ -1017,6 +1017,23 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         .mc-wide { grid-column: auto; }
         .mc-dispatch, .mc-logp { grid-column: span 2; }
       }
+      .x-modal [hidden] { display: none !important; }
+      .mc-conns { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+      .mc-conn { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--mc-line); }
+      .mc-conn:last-child { border-bottom: 0; }
+      .mc-conn b { color: #fff; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .mc-conn small { grid-column: 1; color: var(--mc-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .mc-tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-left: 6px; vertical-align: 1px; border: 1px solid currentColor; }
+      .mc-tag.unk { color: var(--mc-bad); } .mc-tag.unl { color: var(--mc-warn); } .mc-tag.ver { color: var(--mc-good); }
+      .mc-sw { grid-row: 1 / span 2; grid-column: 2; position: relative; width: 64px; min-height: 44px; border: 0; background: none; cursor: pointer; padding: 0; color: var(--mc-txt); font: 700 9px var(--mc-mono); }
+      .mc-sw i { display: block; width: 52px; height: 28px; margin: 0 auto; border-radius: 14px; background: #3a1d24; border: 1px solid var(--mc-bad); position: relative; transition: background .25s; }
+      .mc-sw i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--mc-bad); transition: left .25s, background .25s; }
+      .mc-sw[aria-checked="true"] i::after { left: 27px; }
+      .mc-sw[aria-checked="false"] i { background: #13241a; border-color: var(--mc-good); }
+      .mc-sw[aria-checked="false"] i::after { background: var(--mc-good); }
+      .mc-sw span { display: block; text-align: center; margin-top: 2px; }
+      .mc-sw[aria-busy="true"] i { animation: mcblink .6s infinite; }
+      .mc-note { color: var(--mc-dim); font-size: 11px; margin: 6px 0 0; }
       @media (prefers-reduced-motion: reduce) { .mc * { animation: none !important; transition: none !important; } }
     </style>
   </head>
@@ -1171,6 +1188,10 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
                   <svg class="mc-spark" id="mc-spark" viewBox="0 0 200 34" preserveAspectRatio="none" aria-hidden="true"></svg>
                 </div>
               </div></div>
+              <div class="mc-p mc-wide mc-connp"><h4>connections <small id="mc-conn-n">who can move your funds</small></h4><div class="mc-b">
+                <ul class="mc-conns" id="mc-conns"><li class="mc-idle">Run a scan to list every contract that can move tokens from this wallet.</li></ul>
+                <p class="mc-note">ON means that contract can move your tokens right now. Flip it OFF to cut its access: your wallet asks you to sign one small revoke transaction. RX7 never signs for you.</p>
+              </div></div>
               <div class="mc-p mc-dispatch mc-wide"><h4>dispatch <small id="mc-disp-n">0 / 4</small></h4><div class="mc-b"><ol class="mc-jobs" id="mc-jobs"></ol></div></div>
               <div class="mc-p mc-logp mc-wide"><h4>run log <small id="mc-log-n">0</small></h4><div class="mc-b"><ul class="mc-log" id="mc-log" aria-live="polite"><li class="mc-idle"><time>--:--:--</time>standing by</li></ul></div></div>
               <div class="mc-p mc-out mc-wide"><h4>output / human gate</h4><div class="mc-b">
@@ -1184,6 +1205,24 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
               <button class="btn" type="button" id="mc-demo">Demo wallet</button>
             </div>
           </div>
+          <dialog class="x-modal" id="mc-off" aria-labelledby="mc-off-title">
+            <form method="dialog">
+              <h3 id="mc-off-title">Switch off this connection?</h3>
+              <p class="x-modal__lead" id="mc-off-lead"></p>
+              <dl>
+                <dt>Contract</dt><dd id="mc-off-who"></dd>
+                <dt>Token</dt><dd id="mc-off-tok"></dd>
+                <dt>Network</dt><dd id="mc-off-net"></dd>
+                <dt>Your wallet will sign</dt><dd id="mc-off-call"></dd>
+                <dt>Cost</dt><dd>Network gas only (shown in your wallet). RX7 charges nothing.</dd>
+              </dl>
+              <p class="fineprint">This stops future spending by this contract. It can't undo transfers that already happened, and it can't stop someone who has your seed phrase. If that's the case, move funds to a new wallet and report at ic3.gov.</p>
+              <div class="links">
+                <button class="btn" type="submit" value="cancel">Cancel</button>
+                <button class="btn" type="submit" value="ok">Continue to wallet</button>
+              </div>
+            </form>
+          </dialog>
           <dialog class="x-modal" id="mc-review" aria-labelledby="mc-review-title">
             <form method="dialog">
               <h3 id="mc-review-title">Cleanup plan: check before you act</h3>
@@ -1464,7 +1503,8 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         explorerApi: "https://base.blockscout.com/api/v2",
         baseRpc: "https://mainnet.base.org",
         adminSalt: "172669b356b59bea",
-        adminHash: "130bb0ae44ce9557521660d5baa079c9636f3a266ad9f045b2d10119b7a97214"
+        adminHash: "130bb0ae44ce9557521660d5baa079c9636f3a266ad9f045b2d10119b7a97214",
+        adminDevHash: "2a4af2f5f8586ffc54323e8619d2b24769647d7971e161cb23227d77102389ec"
       };
 
       // WalletConnect (Reown) project id. The provider is loaded from the CDN only when someone picks WalletConnect.
@@ -1658,6 +1698,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           });
         }
         RX7.connect = connect;
+        RX7.wallet = function () { return { provider: W.provider, account: W.account, kind: W.kind }; };
 
         function disconnect() {
           var kind = W.kind;
@@ -1698,7 +1739,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           b.addEventListener("click", disconnect);
         });
 
-        // ---- Admin unlock (salted SHA-256 compare, in memory only) ----
+        // ---- Admin unlock (salted SHA-256 compare; remembered on this device by a derived key, never the password) ----
         var adminFails = 0;
         function sha256Hex(text) {
           var data = new TextEncoder().encode(text);
@@ -1733,6 +1774,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
               if (h === String(CONFIG.adminHash).toLowerCase()) {
                 adminFails = 0;
                 RX7.admin = true;
+                sha256Hex("rx7dev|" + CONFIG.adminSalt + pw).then(function (k) { try { localStorage.setItem("rx7-admin-key", k); } catch (err) {} });
                 applyLocks();
                 closeAdmin();
               } else {
@@ -1745,8 +1787,22 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             .then(function () { ok.disabled = false; });
         });
         [].forEach.call(document.querySelectorAll(".x-admin-lock"), function (b) {
-          b.addEventListener("click", function () { RX7.admin = false; applyLocks(); });
+          b.addEventListener("click", function () { RX7.admin = false; try { localStorage.removeItem("rx7-admin-key"); } catch (err) {} applyLocks(); });
         });
+        // remembered owner device: restore admin on load
+        (function () {
+          var k = null;
+          try { k = localStorage.getItem("rx7-admin-key"); } catch (err) {}
+          if (!k || !(window.crypto && crypto.subtle && window.TextEncoder)) return;
+          sha256Hex(k).then(function (h) {
+            if (h === String(CONFIG.adminDevHash).toLowerCase()) { RX7.admin = true; applyLocks(); }
+            else { try { localStorage.removeItem("rx7-admin-key"); } catch (err) {} }
+          });
+        })();
+        // direct link: .../rx7-vapor/#admin opens the owner unlock
+        function adminFromHash() { if (location.hash === "#admin" && !RX7.admin) openAdmin(); }
+        window.addEventListener("hashchange", adminFromHash);
+        setTimeout(adminFromHash, 300);
 
         // ---- Sticky header button ----
         function addNavButton() {
@@ -2967,9 +3023,120 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           var cap = $("mc-cap");
           cap.appendChild(el("b", null, short(S.addr)));
           cap.appendChild(document.createTextNode(" · " + S.tokens.length + " tokens · " + active.length + " active approvals · " + risky.length + " risky"));
+          renderConns();
           return { risky: risky, active: active, plan: plan };
         }
 
+
+        // ---- connections: switch a contract's spending access off (user signs a revoke) ----
+        function pad64(hex) { return String(hex).replace(/^0x/, "").toLowerCase().padStart(64, "0"); }
+        function unknownSpender(a) { return !a.spenderName || !a.spenderVerified; }
+        function renderConns() {
+          var ul = $("mc-conns"); ul.textContent = "";
+          var all = [];
+          Object.keys(S.approvals).forEach(function (k) { S.approvals[k].forEach(function (a) { if (a.active || a.offTx) all.push(a); }); });
+          all.sort(function (x, y) { return (unknownSpender(y) - unknownSpender(x)) || (y.active - x.active); });
+          var on = all.filter(function (a) { return a.active; }).length;
+          $("mc-conn-n").textContent = on + " on" + (all.length - on ? " · " + (all.length - on) + " off" : "");
+          if (!all.length) {
+            ul.appendChild(el("li", "mc-idle", S.apprOk ? "No contract can move tokens from this wallet right now." : "Couldn't read approvals for this wallet."));
+            return;
+          }
+          all.forEach(function (a) {
+            var li = el("li", "mc-conn");
+            var b = el("b", null, a.spenderName || "Unknown contract " + short(a.spender));
+            if (unknownSpender(a)) b.appendChild(el("span", "mc-tag unk", "UNKNOWN"));
+            else b.appendChild(el("span", "mc-tag ver", "VERIFIED"));
+            if (a.active && isUnlimited(a)) b.appendChild(el("span", "mc-tag unl", a.nft ? "ALL NFTS" : "UNLIMITED"));
+            li.appendChild(b);
+            li.appendChild(el("small", null, (a.symbol || short(a.token)) + " · " + NETS[a.slug].name + (a.note ? " · " + a.note : "")));
+            var sw = el("button", "mc-sw"); sw.type = "button";
+            sw.setAttribute("role", "switch");
+            sw.setAttribute("aria-checked", a.active ? "true" : "false");
+            sw.setAttribute("aria-label", (a.spenderName || "Unknown contract") + " access to " + (a.symbol || "token") + ": " + (a.active ? "on" : "off"));
+            if (a.busy) sw.setAttribute("aria-busy", "true");
+            sw.appendChild(el("i")); sw.appendChild(el("span", null, a.busy ? "…" : a.active ? "ON" : "OFF"));
+            sw.addEventListener("click", function () { toggleConn(a); });
+            li.appendChild(sw);
+            ul.appendChild(li);
+          });
+        }
+        function toggleConn(a) {
+          if (a.busy) return;
+          if (!a.active) {
+            a.note = "off · to turn it back on, approve again inside an app you trust";
+            log((a.spenderName || short(a.spender)) + " stays off · RX7 never grants spending access", "acc");
+            renderConns(); return;
+          }
+          if (RX7.unlocked && !RX7.unlocked()) {
+            a.note = "switching off needs the Access Pass";
+            renderConns();
+            log("switch-off needs the Access Pass", "warn");
+            var ps = $("pass"); if (ps) ps.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
+          var dlg = $("mc-off");
+          $("mc-off-lead").textContent = (unknownSpender(a) ? "An unknown contract" : (a.spenderName || "This contract")) + " can move " + (a.nft ? "your NFTs in this collection" : (isUnlimited(a) ? "all of your " : "some of your ") + (a.symbol || "tokens")) + " without asking. Switching it off sets its allowance to zero.";
+          $("mc-off-who").textContent = (a.spenderName ? a.spenderName + " " : "") + a.spender;
+          $("mc-off-tok").textContent = (a.symbol ? a.symbol + " " : "") + a.token;
+          $("mc-off-net").textContent = NETS[a.slug].name + " (chain " + NETS[a.slug].id + ")";
+          $("mc-off-call").textContent = a.nft ? "setApprovalForAll(" + short(a.spender) + ", false)" : "approve(" + short(a.spender) + ", 0)";
+          dlg.returnValue = "";
+          dlg.addEventListener("close", function onClose() {
+            dlg.removeEventListener("close", onClose);
+            if (dlg.returnValue === "ok") switchOff(a);
+          });
+          dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
+        }
+        function switchOff(a) {
+          var my = S.id, eth = null, from = "";
+          var chainHex = "0x" + NETS[a.slug].id.toString(16);
+          a.busy = true; a.note = "connecting wallet…"; renderConns();
+          (RX7.connect ? RX7.connect() : Promise.reject(new Error("Wallet connect isn't available.")))
+            .then(function (acct) {
+              from = acct; eth = RX7.wallet().provider;
+              if (!eth || !from) throw new Error("No account was shared.");
+              if (from.toLowerCase() !== S.addr.toLowerCase()) throw new Error("Connect the scanned wallet " + short(S.addr) + " (you connected " + short(from) + ").");
+              a.note = "switching wallet to " + NETS[a.slug].name + "…"; renderConns();
+              return eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: chainHex }] }).catch(function (e) {
+                if (!(e && e.code === 4902 && a.slug === "base")) throw e;
+                return eth.request({ method: "wallet_addEthereumChain", params: [{ chainId: chainHex, chainName: "Base", nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 }, rpcUrls: ["https://mainnet.base.org"], blockExplorerUrls: ["https://basescan.org"] }] });
+              });
+            })
+            .then(function () {
+              a.note = "confirm in your wallet…"; renderConns();
+              var data = (a.nft ? "0xa22cb465" : "0x095ea7b3") + pad64(a.spender) + pad64("0");
+              return eth.request({ method: "eth_sendTransaction", params: [{ from: from, to: a.token, data: data, value: "0x0" }] });
+            })
+            .then(function (hash) {
+              if (!/^0x[0-9a-fA-F]{64}$/.test(String(hash))) throw new Error("Your wallet didn't return a transaction hash. Check its activity.");
+              a.offTx = hash; a.note = "sent · waiting for the block…"; renderConns();
+              log("switch-off sent for " + (a.spenderName || short(a.spender)) + " · " + short(hash), "acc");
+              var tries = 0;
+              (function poll() {
+                rpc(a.slug, "eth_getTransactionReceipt", [hash]).then(function (r) {
+                  if (r && r.status) {
+                    a.busy = false;
+                    if (r.status === "0x1") {
+                      a.active = false; a.note = "switched off";
+                      log((a.spenderName || short(a.spender)) + " switched OFF · confirmed", "ok");
+                      if (my === S.id) { buildGraph(); finish(); }
+                    } else { a.note = "transaction failed · still on"; log("switch-off failed on-chain", "bad"); }
+                    renderConns(); return;
+                  }
+                  if (++tries < 45) setTimeout(poll, 4000);
+                  else { a.busy = false; a.note = "still pending · check your wallet"; renderConns(); }
+                }, function () { if (++tries < 45) setTimeout(poll, 4000); });
+              })();
+            })
+            .catch(function (e) {
+              a.busy = false;
+              var m = e && e.message ? String(e.message) : "";
+              a.note = (e && (e.code === 4001 || /reject|denied|cancel/i.test(m))) ? "cancelled · nothing sent" : (m || "couldn't send");
+              log("switch-off: " + a.note, "warn");
+              renderConns();
+            });
+        }
         function openReview() {
           if (!S || !S.plan) return;
           var dlg = $("mc-review"), ol = $("mc-plan"); ol.textContent = "";
@@ -3016,6 +3183,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           renderSources(); renderJobs();
           $("mc-gate").disabled = true; $("mc-gate").textContent = "Approval required · review plan";
           $("mc-budget").textContent = "";
+          $("mc-conns").innerHTML = '<li class="mc-idle">Checking which contracts can move your funds…</li>';
         }
 
         RX7.mc = {
