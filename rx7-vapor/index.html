@@ -937,6 +937,87 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
         .x-tok, .x-share__fill, .x-live__dot::after { animation: none; }
         .x-ring__val, .x-cta { transition: none; }
       }
+
+      /* ---- Mission Control ---- */
+      .mc { --mc-bg: #0a0912; --mc-panel: #13111d; --mc-line: #2a2540; --mc-head: #2b2150; --mc-txt: #d9d6ea; --mc-dim: #8b86a6;
+        --mc-good: #4ade80; --mc-warn: #fbbf24; --mc-bad: #f87171; --mc-acc: #a78bfa; --mc-cyan: #5eead4;
+        --mc-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Roboto Mono", monospace;
+        background: var(--mc-bg); color: var(--mc-txt); border-radius: 18px; padding: 10px; font: 12px/1.45 var(--mc-mono);
+        box-shadow: 0 0 0 1px var(--mc-line), 0 20px 60px -20px rgba(120, 80, 255, .35); overflow: hidden; color-scheme: dark; }
+      .mc * { box-sizing: border-box; }
+      .mc-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 6px 4px 10px; border-bottom: 1px solid var(--mc-line); text-transform: uppercase; letter-spacing: .04em; font-size: 11px; color: var(--mc-dim); }
+      .mc-bar b { color: var(--mc-txt); font-weight: 700; text-transform: none; letter-spacing: 0; }
+      .mc-bar .mc-run { color: #fff; font-weight: 700; text-transform: none; font-size: 13px; }
+      .mc-bar .mc-clock { margin-left: auto; color: var(--mc-txt); }
+      .mc-live { display: inline-flex; align-items: center; gap: 6px; color: var(--mc-dim); }
+      .mc-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--mc-dim); display: inline-block; }
+      .mc[data-state="live"] .mc-live { color: var(--mc-good); }
+      .mc[data-state="live"] .mc-live i { background: var(--mc-good); box-shadow: 0 0 10px var(--mc-good); animation: mcblink 1.2s infinite; }
+      .mc[data-state="run"] .mc-live { color: var(--mc-cyan); }
+      .mc[data-state="run"] .mc-live i { background: var(--mc-cyan); box-shadow: 0 0 10px var(--mc-cyan); animation: mcblink .5s infinite; }
+      .mc[data-state="snap"] .mc-live { color: var(--mc-warn); }
+      .mc[data-state="snap"] .mc-live i { background: var(--mc-warn); }
+      @keyframes mcblink { 50% { opacity: .3; } }
+      .mc-grid { display: grid; gap: 8px; margin-top: 8px; grid-template-columns: 1fr; }
+      @media (min-width: 600px) { .mc-grid { grid-template-columns: 1fr 1fr; } }
+      .mc-graphwrap { grid-column: 1 / -1; position: relative; border-radius: 12px; background: radial-gradient(ellipse at center, #1a1433 0%, #0a0912 70%); border: 1px solid var(--mc-line); min-height: 340px; }
+      .mc-graph { display: block; width: 100%; height: 360px; }
+      .mc-cap { position: absolute; left: 10px; bottom: 8px; right: 10px; color: var(--mc-dim); font-size: 11px; pointer-events: none; }
+      .mc-cap b { color: #fff; }
+      .mc-legend { position: absolute; top: 8px; left: 10px; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 10px; color: var(--mc-dim); pointer-events: none; }
+      .mc-legend span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; background: var(--c); vertical-align: 0; }
+      .mc-p { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 10px; overflow: hidden; min-width: 0; }
+      .mc-p > h4 { margin: 0; padding: 5px 9px; background: linear-gradient(90deg, var(--mc-head), transparent); font: 700 11px/1.4 var(--mc-mono); color: #fff; text-transform: lowercase; letter-spacing: .02em; display: flex; justify-content: space-between; gap: 6px; }
+      .mc-p > h4 small { color: var(--mc-dim); font-weight: 400; }
+      .mc-p .mc-b { padding: 7px 9px; }
+      .mc-kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; margin: 0; }
+      .mc-kv dt { color: var(--mc-dim); margin: 0; }
+      .mc-kv dd { margin: 0; text-align: right; color: var(--mc-txt); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .mc-kv dd.ok { color: var(--mc-good); } .mc-kv dd.bad { color: var(--mc-bad); } .mc-kv dd.warn { color: var(--mc-warn); }
+      .mc-wide { grid-column: 1 / -1; }
+      .mc-findings .mc-b { display: flex; gap: 10px; align-items: center; }
+      .mc-gauge { position: relative; width: 84px; height: 84px; flex: none; }
+      .mc-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+      .mc-gauge circle { fill: none; stroke-width: 9; }
+      .mc-gauge .t { stroke: #241f38; } .mc-gauge .v { stroke: var(--mc-good); stroke-linecap: round; transition: stroke-dasharray 1s ease, stroke .4s; stroke-dasharray: 0 100; }
+      .mc[data-state="idle"] .mc-gauge .v { opacity: 0; }
+      .mc-gauge .n { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-weight: 700; font-size: 20px; color: #fff; line-height: 1; }
+      .mc-gauge .n small { display: block; font-size: 9px; color: var(--mc-dim); font-weight: 400; margin-top: 2px; }
+      .mc-findings .mc-kv { flex: 1; }
+      .mc-spark { width: 100%; height: 34px; display: block; margin-top: 4px; }
+      .mc-log { height: 150px; overflow: auto; margin: 0; padding: 0; list-style: none; font-size: 11px; }
+      .mc-log li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .mc-log time { color: var(--mc-dim); margin-right: 6px; }
+      .mc-log .ok { color: var(--mc-good); } .mc-log .bad { color: var(--mc-bad); } .mc-log .warn { color: var(--mc-warn); } .mc-log .acc { color: var(--mc-acc); }
+      .mc-jobs { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+      .mc-job { display: grid; grid-template-columns: 1fr auto; gap: 3px 8px; align-items: center; }
+      .mc-job span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .mc-job em { font-style: normal; font-size: 10px; text-transform: uppercase; color: var(--mc-dim); }
+      .mc-job[data-s="run"] em { color: var(--mc-cyan); } .mc-job[data-s="done"] em { color: var(--mc-good); } .mc-job[data-s="fail"] em { color: var(--mc-bad); }
+      .mc-job .mc-track { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: #241f38; overflow: hidden; }
+      .mc-job .mc-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--mc-acc), var(--mc-cyan)); transition: width .4s ease; }
+      .mc-job[data-s="run"] .mc-fill { background: repeating-linear-gradient(90deg, var(--mc-acc) 0 6px, var(--mc-cyan) 6px 10px); animation: mcflow .6s linear infinite; background-size: 20px 100%; }
+      .mc-job[data-s="fail"] .mc-fill { background: var(--mc-bad); }
+      @keyframes mcflow { to { background-position: 20px 0; } }
+      .mc-out .mc-big { font-size: 30px; font-weight: 700; color: #fff; line-height: 1.1; }
+      .mc-out .mc-big small { font-size: 11px; color: var(--mc-dim); font-weight: 400; margin-left: 6px; }
+      .mc-gate { margin-top: 8px; width: 100%; min-height: 44px; border-radius: 10px; border: 1px solid var(--mc-warn); background: rgba(251, 191, 36, .1); color: var(--mc-warn); font: 700 13px var(--mc-mono); cursor: pointer; }
+      .mc-gate[disabled] { border-color: var(--mc-line); color: var(--mc-dim); background: transparent; cursor: default; }
+      .mc-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      .mc-actions .btn { min-height: 44px; }
+      .mc-idle { color: var(--mc-dim); }
+      .mc-plan { list-style: none; margin: 10px 0; padding: 0; display: grid; gap: 10px; }
+      .mc-plan li { border: 1px solid var(--stroke-primary, #ccc); border-radius: 12px; padding: 10px 12px; }
+      .mc-plan li p { margin: 2px 0 8px; }
+      .mc-plan .links { display: flex; flex-wrap: wrap; gap: 8px; }
+      @media (min-width: 900px) {
+        .mc-grid { grid-template-columns: 220px 1fr 1fr 220px; }
+        .mc-graphwrap { grid-column: 2 / 4; grid-row: 1 / 5; }
+        .mc-graph { height: 100%; min-height: 520px; }
+        .mc-wide { grid-column: auto; }
+        .mc-dispatch, .mc-logp { grid-column: span 2; }
+      }
+      @media (prefers-reduced-motion: reduce) { .mc * { animation: none !important; transition: none !important; } }
     </style>
   </head>
   <body>
@@ -1007,7 +1088,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             <div class="x-dash" id="dash" hidden="">
               <div class="x-dash__bar">
                 <p class="x-live" id="dash-live"><span class="x-live__dot" aria-hidden="true"></span><span class="x-live__tag" id="dash-tag">LIVE</span><span id="dash-stamp">Scanned just now from Blockscout</span></p>
-                <button class="btn" type="button" id="rescan-btn">Rescan</button>
+                <button class="btn" type="button" id="rescan-btn">Rescan</button><a class="btn" href="#mission" id="open-mc">Mission Control →</a>
               </div>
               <p class="fineprint x-dash__addr" id="dash-addr"></p>
               <div class="x-dash__top">
@@ -1054,6 +1135,65 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           </div>
         </section>
 
+        <section class="section" id="mission" data-nav="Mission Control">
+          <div class="head">
+            <h2>Mission Control</h2>
+            <p>Watch every scan run live: what RX7 checked, where the data came from, what it found, and the cleanup plan waiting for your OK. Every number here comes from a real scan. Nothing moves without you.</p>
+          </div>
+          <div class="mc" id="mc" data-state="idle">
+            <div class="mc-bar" role="status" aria-live="off">
+              <span class="mc-run" id="mc-run">rx7-idle</span>
+              <span>nodes <b id="mc-nodes">0</b></span>
+              <span>edges <b id="mc-edges">0</b></span>
+              <span>workers <b id="mc-workers">0</b></span>
+              <span class="mc-live"><i aria-hidden="true"></i><span id="mc-state">IDLE</span></span>
+              <span class="mc-clock" id="mc-clock">--:--:--</span>
+            </div>
+            <div class="mc-grid">
+              <div class="mc-graphwrap">
+                <canvas class="mc-graph" id="mc-graph" role="img" aria-label="Wallet graph: waiting for a scan"></canvas>
+                <div class="mc-legend" aria-hidden="true"><span style="--c:#a78bfa">chain</span><span style="--c:#4ade80">safe</span><span style="--c:#fbbf24">dust</span><span style="--c:#f87171">flagged</span><span style="--c:#f472b6">approval</span></div>
+                <p class="mc-cap" id="mc-cap">Waiting for a wallet. Run a scan to light this up.</p>
+              </div>
+              <div class="mc-p"><h4>sources <small id="mc-src-n">0 calls</small></h4><div class="mc-b"><dl class="mc-kv" id="mc-sources"><dt>status</dt><dd class="mc-idle">idle</dd></dl></div></div>
+              <div class="mc-p"><h4>constraints</h4><div class="mc-b"><dl class="mc-kv">
+                <dt>mode</dt><dd class="ok">read-only</dd>
+                <dt>seed / keys</dt><dd class="ok">never asked</dd>
+                <dt>each tx</dt><dd class="warn">your approval</dd>
+                <dt>signing</dt><dd>in your wallet</dd>
+                <dt>auto-send</dt><dd class="ok">none</dd>
+              </dl></div></div>
+              <div class="mc-p"><h4>budget <small>gas</small></h4><div class="mc-b"><dl class="mc-kv" id="mc-budget"><dt>status</dt><dd class="mc-idle">idle</dd></dl></div></div>
+              <div class="mc-p mc-findings mc-wide"><h4>findings <small id="mc-risk-label">risk</small></h4><div class="mc-b">
+                <div class="mc-gauge" role="img" id="mc-gauge" aria-label="Risk score: no scan yet"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="t" cx="60" cy="60" r="50" pathLength="100"></circle><circle class="v" id="mc-gauge-v" cx="60" cy="60" r="50" pathLength="100"></circle></svg><div class="n"><span><span id="mc-risk">–</span><small>risk</small></span></div></div>
+                <div style="flex:1;min-width:0">
+                  <dl class="mc-kv" id="mc-find"><dt>spam tokens</dt><dd>–</dd><dt>risky approvals</dt><dd>–</dd><dt>dust value</dt><dd>–</dd></dl>
+                  <svg class="mc-spark" id="mc-spark" viewBox="0 0 200 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+                </div>
+              </div></div>
+              <div class="mc-p mc-dispatch mc-wide"><h4>dispatch <small id="mc-disp-n">0 / 4</small></h4><div class="mc-b"><ol class="mc-jobs" id="mc-jobs"></ol></div></div>
+              <div class="mc-p mc-logp mc-wide"><h4>run log <small id="mc-log-n">0</small></h4><div class="mc-b"><ul class="mc-log" id="mc-log" aria-live="polite"><li class="mc-idle"><time>--:--:--</time>standing by</li></ul></div></div>
+              <div class="mc-p mc-out mc-wide"><h4>output / human gate</h4><div class="mc-b">
+                <div class="mc-big" id="mc-spent">$0<small>spent by RX7</small></div>
+                <dl class="mc-kv" id="mc-out"><dt>value at risk</dt><dd>–</dd><dt>actions queued</dt><dd>–</dd><dt>gate</dt><dd class="warn">approval required</dd></dl>
+                <button class="mc-gate" type="button" id="mc-gate" disabled>Approval required · review plan</button>
+              </div></div>
+            </div>
+            <div class="mc-actions">
+              <button class="btn" type="button" id="mc-runbtn">Run a scan</button>
+              <button class="btn" type="button" id="mc-demo">Demo wallet</button>
+            </div>
+          </div>
+          <dialog class="x-modal" id="mc-review" aria-labelledby="mc-review-title">
+            <form method="dialog">
+              <h3 id="mc-review-title">Cleanup plan: check before you act</h3>
+              <p class="x-modal__lead" id="mc-review-lead"></p>
+              <ol class="mc-plan" id="mc-plan"></ol>
+              <p class="fineprint">RX7 never sends anything for you. Each step opens a trusted tool, and every transaction is signed by you in your own wallet. Never type a seed phrase or private key anywhere.</p>
+              <div class="links"><button class="btn" type="submit" value="close">Close</button></div>
+            </form>
+          </dialog>
+        </section>
         <section class="section" id="pass" data-nav="Access Pass">
           <div class="head">
             <p class="head__eyebrow">RX7 VAPOR Access Pass</p>
@@ -2304,6 +2444,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           snapBtn.hidden = true;
           dash.hidden = false;
           if (meta.mode === "live") RX7.scansUsed++;
+          if (RX7.mc) { try { RX7.mc.tokens(list, meta); } catch (err) {} }
           if (RX7.applyLocks) RX7.applyLocks();
         }
 
@@ -2335,12 +2476,14 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           btn.textContent = "Scanning...";
           $("rescan-btn").disabled = true;
           show("Scanning Ethereum and Base on Blockscout...");
-          Promise.all(CHAINS.map(function (c) { return fetchChain(c, addr); }))
+          if (RX7.mc) RX7.mc.start(addr);
+          Promise.all(CHAINS.map(function (c) { return fetchChain(c, addr).then(function (r) { if (RX7.mc) RX7.mc.source(r); return r; }); }))
             .then(function (results) {
               var reached = results.filter(function (r) { return r.ok; });
               if (!reached.length) {
                 if (isDemo) { showSnapshot(); return; }
                 dash.hidden = true;
+                if (RX7.mc) RX7.mc.fail("couldn't reach chain data");
                 show("Couldn't reach the chain data right now (the preview may block live scans) — try again.", true);
                 snapBtn.hidden = false;
                 return;
@@ -2387,4 +2530,615 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
     </script>
   
 
+    <script>
+      /* Mission Control: a live view of the real scan. No invented numbers: every figure comes from Blockscout or a public RPC. */
+      (function () {
+        var root = document.getElementById("mc");
+        if (!root) return;
+        var $ = function (id) { return document.getElementById(id); };
+        var RX7 = window.RX7 || (window.RX7 = {});
+        var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        var APPROVAL = "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925";
+        var APPROVAL_ALL = "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31";
+        var NETS = {
+          mainnet: { name: "Ethereum", explorer: "https://eth.blockscout.com", rpc: "https://ethereum-rpc.publicnode.com", id: 1 },
+          base: { name: "Base", explorer: "https://base.blockscout.com", rpc: "https://mainnet.base.org", id: 8453 }
+        };
+        var REVOKE_GAS = 46000; // a typical approve(spender, 0) revoke
+        var DUSTY = "https://statxqo-clickit.github.io/dusty/";
+        var JOBS = [
+          { id: "bal", label: "fetch balances" },
+          { id: "appr", label: "check approvals" },
+          { id: "spam", label: "flag spam" },
+          { id: "plan", label: "build cleanup plan" }
+        ];
+
+        var S = null;          // current run
+        var runId = 0;
+
+        function hms(d) { d = d || new Date(); return d.toTimeString().slice(0, 8); }
+        function short(a) { return a ? a.slice(0, 6) + "…" + a.slice(-4) : ""; }
+        function money(v) {
+          if (v == null || !isFinite(v)) return "–";
+          if (v > 0 && v < 0.01) return "<$0.01";
+          return "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+        function host(u) { try { return new URL(u).host; } catch (e) { return u; } }
+
+        // ---- clock ----
+        function tickClock() { $("mc-clock").textContent = hms(); }
+        tickClock(); setInterval(tickClock, 1000);
+
+        // ---- run log ----
+        function log(text, tone) {
+          var ul = $("mc-log");
+          if (ul.firstElementChild && ul.firstElementChild.classList.contains("mc-idle")) ul.textContent = "";
+          var li = el("li", tone || "");
+          li.appendChild(el("time", null, hms()));
+          li.appendChild(document.createTextNode(text));
+          ul.appendChild(li);
+          ul.scrollTop = ul.scrollHeight;
+          $("mc-log-n").textContent = ul.children.length;
+        }
+
+        // ---- sources ----
+        function src(key, label) {
+          if (!S) return null;
+          if (!S.sources[key]) S.sources[key] = { label: label, calls: 0, ok: 0, fail: 0, note: "" };
+          return S.sources[key];
+        }
+        function renderSources() {
+          var dl = $("mc-sources"); dl.textContent = "";
+          var total = 0;
+          Object.keys(S.sources).forEach(function (k) {
+            var s = S.sources[k]; total += s.calls;
+            dl.appendChild(el("dt", null, s.label));
+            var dd = el("dd", s.fail && !s.ok ? "bad" : s.fail ? "warn" : "ok", (s.note ? s.note + " · " : "") + s.ok + "/" + s.calls + " ok");
+            dl.appendChild(dd);
+          });
+          $("mc-src-n").textContent = total + " call" + (total === 1 ? "" : "s");
+        }
+        function getJSON(key, label, url, body) {
+          var s = src(key, label); s.calls++; renderSources();
+          var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+          var t = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+          var opts = { headers: { Accept: "application/json" }, signal: ctrl ? ctrl.signal : undefined };
+          if (body) { opts.method = "POST"; opts.headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(body); }
+          return fetch(url, opts).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+            .then(function (d) { if (t) clearTimeout(t); s.ok++; renderSources(); return d; },
+                  function (e) { if (t) clearTimeout(t); s.fail++; renderSources(); throw e; });
+        }
+        function rpc(slug, method, params) {
+          var n = NETS[slug];
+          return getJSON("rpc-" + slug, host(n.rpc), n.rpc, { jsonrpc: "2.0", id: 1, method: method, params: params })
+            .then(function (d) { if (d.error) throw new Error(d.error.message || "rpc error"); return d.result; });
+        }
+
+        // ---- dispatch queue ----
+        function renderJobs() {
+          var ol = $("mc-jobs"); ol.textContent = "";
+          var done = 0, workers = 0;
+          JOBS.forEach(function (j, i) {
+            var st = S ? S.jobs[j.id] : { s: "wait", p: 0, note: "" };
+            if (st.s === "done") done++;
+            if (st.s === "run") workers++;
+            var li = el("li", "mc-job"); li.setAttribute("data-s", st.s);
+            li.appendChild(el("span", null, "j" + (i + 1) + " " + j.label + (st.note ? " · " + st.note : "")));
+            li.appendChild(el("em", null, st.s === "done" ? "done" : st.s === "run" ? "run" : st.s === "fail" ? "fail" : "wait"));
+            var tr = el("div", "mc-track"), f = el("div", "mc-fill");
+            f.style.width = Math.round((st.s === "done" ? 1 : st.p || 0) * 100) + "%";
+            tr.appendChild(f); li.appendChild(tr); ol.appendChild(li);
+          });
+          $("mc-disp-n").textContent = done + " / " + JOBS.length;
+          $("mc-workers").textContent = workers;
+        }
+        function job(id, s, p, note) {
+          if (!S) return;
+          var j = S.jobs[id];
+          j.s = s; if (p != null) j.p = p; if (note != null) j.note = note;
+          renderJobs();
+        }
+
+        function setState(st, label) {
+          root.setAttribute("data-state", st);
+          $("mc-state").textContent = label;
+        }
+
+        // ---- graph ----
+        var cv = $("mc-graph"), ctx = cv.getContext("2d");
+        var G = { nodes: [], edges: [], parts: [], W: 0, H: 0, dpr: 1, t0: performance.now() };
+        var COL = { wallet: "#ffffff", chain: "#a78bfa", safe: "#4ade80", dust: "#fbbf24", flag: "#f87171", appr: "#f472b6", apprOk: "#c084fc", more: "#8b86a6" };
+
+        function size() {
+          var r = cv.getBoundingClientRect();
+          G.dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+          G.W = r.width; G.H = r.height;
+          cv.width = Math.round(r.width * G.dpr); cv.height = Math.round(r.height * G.dpr);
+          layout();
+        }
+        if (window.ResizeObserver) new ResizeObserver(size).observe(cv); else window.addEventListener("resize", size);
+
+        function layout() {
+          var W = G.W, H = G.H, cx = W / 2, cy = H / 2 - 8;
+          var R = Math.min(W, H) / 2 - 18;
+          var chains = G.nodes.filter(function (n) { return n.kind === "chain"; });
+          G.nodes.forEach(function (n) {
+            if (n.kind === "wallet") { n.x = cx; n.y = cy; }
+          });
+          chains.forEach(function (c, ci) {
+            var a0 = -Math.PI / 2 + (ci + 0.5) * (2 * Math.PI / chains.length) - Math.PI / chains.length;
+            var span = 2 * Math.PI / chains.length;
+            var mid = a0 + span / 2;
+            c.x = cx + Math.cos(mid) * R * 0.38; c.y = cy + Math.sin(mid) * R * 0.38;
+            var kids = G.nodes.filter(function (n) { return n.parent === c.id; });
+            kids.forEach(function (k, ki) {
+              var a = a0 + span * (ki + 0.5) / kids.length;
+              var rr = R * (k.kind === "appr" ? 0.98 : 0.8) - (ki % 2) * R * 0.1;
+              k.x = cx + Math.cos(a) * rr; k.y = cy + Math.sin(a) * rr;
+            });
+          });
+        }
+
+        function setGraph(nodes, edges) {
+          G.nodes = nodes; G.edges = edges; G.parts = [];
+          edges.forEach(function (e) {
+            var n = e.particles || 2;
+            for (var i = 0; i < n; i++) G.parts.push({ e: e, t: Math.random(), v: 0.12 + Math.random() * 0.18 });
+          });
+          layout();
+          $("mc-nodes").textContent = nodes.length;
+          $("mc-edges").textContent = edges.length;
+        }
+
+        function nodeById(id) { for (var i = 0; i < G.nodes.length; i++) if (G.nodes[i].id === id) return G.nodes[i]; return null; }
+        function ctrlPt(a, b) {
+          var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y;
+          return { x: mx - dy * 0.18, y: my + dx * 0.18 };
+        }
+        function qpt(a, c, b, t) {
+          var u = 1 - t;
+          return { x: u * u * a.x + 2 * u * t * c.x + t * t * b.x, y: u * u * a.y + 2 * u * t * c.y + t * t * b.y };
+        }
+
+        var last = performance.now();
+        function frame(now) {
+          var dt = Math.min(0.05, (now - last) / 1000); last = now;
+          var t = (now - G.t0) / 1000;
+          var W = G.W, H = G.H, d = G.dpr;
+          ctx.setTransform(d, 0, 0, d, 0, 0);
+          ctx.clearRect(0, 0, W, H);
+          var cx = W / 2, cy = H / 2 - 8, R = Math.min(W, H) / 2 - 18;
+
+          // idle / background rings
+          ctx.lineWidth = 1;
+          for (var i = 1; i <= 3; i++) {
+            ctx.strokeStyle = "rgba(167,139,250," + (0.06 + 0.03 * Math.sin(t * 0.8 + i)) + ")";
+            ctx.beginPath(); ctx.arc(cx, cy, R * (0.3 * i), 0, Math.PI * 2); ctx.stroke();
+          }
+          if (!G.nodes.length) {
+            var sweep = t * 0.6;
+            ctx.strokeStyle = "rgba(94,234,212,.35)"; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(cx, cy, R * 0.6, sweep, sweep + 0.7); ctx.stroke();
+            ctx.strokeStyle = "rgba(167,139,250,.3)";
+            ctx.beginPath(); ctx.arc(cx, cy, R * 0.9, -sweep * 0.7, -sweep * 0.7 + 0.5); ctx.stroke();
+            var pr = 10 + 3 * Math.sin(t * 2);
+            ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.beginPath(); ctx.arc(cx, cy, pr + 12, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#d9d6ea"; ctx.beginPath(); ctx.arc(cx, cy, pr, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#0a0912"; ctx.font = "bold 12px ui-monospace, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+            ctx.fillText("?", cx, cy + 1);
+          }
+
+          // edges
+          G.edges.forEach(function (e) {
+            var a = nodeById(e.from), b = nodeById(e.to); if (!a || !b) return;
+            var c = ctrlPt(a, b);
+            ctx.strokeStyle = e.color; ctx.globalAlpha = 0.28; ctx.lineWidth = e.w || 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(c.x, c.y, b.x, b.y); ctx.stroke();
+            ctx.globalAlpha = 1;
+          });
+          // particles
+          G.parts.forEach(function (p) {
+            var a = nodeById(p.e.from), b = nodeById(p.e.to); if (!a || !b) return;
+            if (!reduce) p.t = (p.t + p.v * dt * (p.e.speed || 1)) % 1;
+            var q = qpt(a, ctrlPt(a, b), b, p.e.reverse ? 1 - p.t : p.t);
+            ctx.fillStyle = p.e.color; ctx.shadowColor = p.e.color; ctx.shadowBlur = 8;
+            ctx.beginPath(); ctx.arc(q.x, q.y, 1.8, 0, Math.PI * 2); ctx.fill();
+            ctx.shadowBlur = 0;
+          });
+          // nodes
+          var small = W < 520;
+          G.nodes.forEach(function (n) {
+            var col = COL[n.tone] || "#fff";
+            var r = n.kind === "wallet" ? 13 : n.kind === "chain" ? 9 : 5;
+            var pulse = n.kind === "wallet" ? 2 * Math.sin(t * 2) : 0;
+            ctx.fillStyle = col; ctx.shadowColor = col; ctx.shadowBlur = n.kind === "wallet" ? 22 : 12;
+            ctx.beginPath();
+            if (n.kind === "appr") { ctx.rect(n.x - r, n.y - r, r * 2, r * 2); } else ctx.arc(n.x, n.y, r + pulse, 0, Math.PI * 2);
+            ctx.fill(); ctx.shadowBlur = 0;
+            if (n.label) {
+              ctx.font = (n.kind === "leaf" || n.kind === "appr" ? (small ? "9px" : "10px") : "bold 11px") + " ui-monospace, monospace";
+              ctx.textBaseline = "middle";
+              var right = n.x >= cx;
+              ctx.textAlign = n.kind === "wallet" || n.kind === "chain" ? "center" : right ? "left" : "right";
+              var ly = n.kind === "wallet" ? n.y - 26 : n.kind === "chain" ? n.y + 19 : n.y;
+              var lx = n.kind === "wallet" || n.kind === "chain" ? n.x : n.x + (right ? 9 : -9);
+              var txt = n.label; if (small && txt.length > 10 && n.kind !== "wallet") txt = txt.slice(0, 9) + "…";
+              ctx.fillStyle = "rgba(10,9,18,.75)";
+              var w = ctx.measureText(txt).width;
+              var bx = ctx.textAlign === "center" ? lx - w / 2 : ctx.textAlign === "left" ? lx : lx - w;
+              var nb = Math.max(4, Math.min(W - w - 4, bx));
+              if (nb !== bx) { lx += nb - bx; bx = nb; }
+              ctx.fillRect(bx - 2, ly - 7, w + 4, 14);
+              ctx.fillStyle = n.kind === "leaf" || n.kind === "appr" ? "#cfcbe3" : "#fff";
+              ctx.fillText(txt, lx, ly);
+            }
+          });
+          requestAnimationFrame(frame);
+        }
+
+        function buildGraph() {
+          var nodes = [{ id: "w", kind: "wallet", tone: "wallet", label: short(S.addr) }];
+          var edges = [];
+          var chains = {};
+          S.tokens.forEach(function (r) { var k = r.slug || r.chain; if (k) chains[k] = r.chain; });
+          Object.keys(S.approvals).forEach(function (slug) { if (S.approvals[slug].length) chains[slug] = NETS[slug].name; });
+          (S.chainList || []).forEach(function (c) { if (c.ok) chains[c.slug] = c.name; });
+          Object.keys(chains).forEach(function (slug) {
+            var cid = "c-" + slug;
+            nodes.push({ id: cid, kind: "chain", tone: "chain", label: chains[slug] });
+            edges.push({ from: "w", to: cid, color: COL.chain, w: 1.6, particles: 3, speed: 1.2 });
+            var toks = S.tokens.filter(function (r) { return (r.slug || r.chain) === slug; });
+            var MAX = G.W < 520 ? 7 : 12;
+            toks.slice(0, MAX).forEach(function (r, i) {
+              var id = "t-" + slug + "-" + i;
+              nodes.push({ id: id, parent: cid, kind: "leaf", tone: r.status, label: r.symbol });
+              edges.push({ from: id, to: cid, color: COL[r.status], particles: r.status === "safe" ? 2 : 1 });
+            });
+            if (toks.length > MAX) {
+              nodes.push({ id: "t-" + slug + "-more", parent: cid, kind: "leaf", tone: "more", label: "+" + (toks.length - MAX) + " more" });
+              edges.push({ from: "t-" + slug + "-more", to: cid, color: COL.more, particles: 1 });
+            }
+            var aps = (S.approvals[slug] || []).filter(function (a) { return a.active; });
+            var AMAX = G.W < 520 ? 5 : 8;
+            aps.slice(0, AMAX).forEach(function (a, i) {
+              var id = "a-" + slug + "-" + i;
+              nodes.push({ id: id, parent: cid, kind: "appr", tone: a.risky ? "appr" : "apprOk", label: (a.spenderName || short(a.spender)) });
+              edges.push({ from: cid, to: id, color: a.risky ? COL.flag : COL.apprOk, particles: a.risky ? 3 : 1, speed: a.risky ? 1.6 : 1, w: a.risky ? 1.4 : 1 });
+            });
+            if (aps.length > AMAX) {
+              nodes.push({ id: "a-" + slug + "-more", parent: cid, kind: "appr", tone: "appr", label: "+" + (aps.length - AMAX) + " approvals" });
+              edges.push({ from: cid, to: "a-" + slug + "-more", color: COL.flag, particles: 1 });
+            }
+          });
+          setGraph(nodes, edges);
+          var nTok = S.tokens.length, nAp = 0;
+          Object.keys(S.approvals).forEach(function (k) { nAp += S.approvals[k].filter(function (a) { return a.active; }).length; });
+          $("mc-graph").setAttribute("aria-label", "Wallet graph: " + Object.keys(chains).length + " chains, " + nTok + " tokens, " + nAp + " active approvals");
+        }
+
+        // ---- approvals (real Approval / ApprovalForAll logs, then live allowance checks) ----
+        function approvalsFor(slug) {
+          var n = NETS[slug];
+          var owner = "0x" + S.addr.slice(2).toLowerCase().padStart(64, "0");
+          function logs(topic0) {
+            var u = n.explorer + "/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&topic0=" + topic0 + "&topic1=" + owner + "&topic0_1_opr=and";
+            return getJSON("logs-" + slug, host(n.explorer) + " logs", u).then(function (d) {
+              if (d && Array.isArray(d.result)) return d.result;
+              if (d && /no (records|logs)/i.test(d.message || "")) return [];
+              if (d && d.status === "0" && (!d.result || !d.result.length)) return [];
+              throw new Error("bad logs");
+            });
+          }
+          return Promise.all([logs(APPROVAL), logs(APPROVAL_ALL).catch(function () { return []; })]).then(function (res) {
+            var latest = {};
+            function key(l) { return parseInt(l.blockNumber, 16) * 1e5 + parseInt(l.logIndex || "0x0", 16); }
+            res[0].concat(res[1]).forEach(function (l) {
+              if (!l.topics || !l.topics[2]) return;
+              var all = l.topics[0].toLowerCase() === APPROVAL_ALL;
+              var k = l.address.toLowerCase() + "|" + l.topics[2].toLowerCase() + "|" + (all ? "all" : "one");
+              if (!latest[k] || key(l) > key(latest[k].l)) latest[k] = { l: l, all: all };
+            });
+            S.logCount[slug] = res[0].length + res[1].length;
+            var list = Object.keys(latest).map(function (k) {
+              var o = latest[k], l = o.l;
+              var spender = "0x" + l.topics[2].slice(-40);
+              var raw = (l.data || "0x").replace(/^0x/, "") || "0";
+              var amt = o.all ? (/[1-9a-f]/i.test(raw) ? "all" : "0") : raw;
+              return { token: l.address, spender: spender, nft: o.all, raw: amt, active: amt !== "0" && /[1-9a-f]/i.test(amt === "all" ? "1" : amt), slug: slug };
+            });
+            return list;
+          });
+        }
+        function verifyAllowance(a) {
+          var own = S.addr.slice(2).toLowerCase().padStart(64, "0"), sp = a.spender.slice(2).toLowerCase().padStart(64, "0");
+          var data = (a.nft ? "0xe985e9c5" : "0xdd62ed3e") + own + sp;
+          return rpc(a.slug, "eth_call", [{ to: a.token, data: data }, "latest"]).then(function (res) {
+            var hex = String(res || "0x").replace(/^0x/, "");
+            if (!hex) return;
+            a.verified = true;
+            a.active = /[1-9a-f]/i.test(hex);
+            if (!a.nft) a.raw = hex.replace(/^0+/, "") || "0";
+          }, function () { /* keep the log state */ });
+        }
+        function spenderInfo(a) {
+          var n = NETS[a.slug];
+          return getJSON("info-" + a.slug, host(n.explorer) + " contracts", n.explorer + "/api/v2/addresses/" + a.spender).then(function (d) {
+            a.spenderName = (d && (d.name || (d.metadata && d.metadata.tags && d.metadata.tags[0] && d.metadata.tags[0].name))) || "";
+            a.spenderVerified = !!(d && d.is_verified);
+            a.spenderContract = !!(d && d.is_contract);
+          }, function () {});
+        }
+        function isUnlimited(a) {
+          if (a.nft) return true;
+          var h = String(a.raw).replace(/^0x/, "");
+          return h.length >= 60; // >= ~2^236, effectively unlimited
+        }
+
+        // ---- budget ----
+        function budget() {
+          var dl = $("mc-budget"); dl.textContent = "";
+          var slugs = Object.keys(S.gas);
+          if (!slugs.length) { dl.appendChild(el("dt", null, "status")); dl.appendChild(el("dd", "mc-idle", "no gas data")); return; }
+          slugs.forEach(function (slug) {
+            var g = S.gas[slug], nat = S.natives[slug];
+            dl.appendChild(el("dt", null, NETS[slug].name.toLowerCase() + " gas"));
+            dl.appendChild(el("dd", nat && nat.amount > 0 ? "" : "warn", nat ? nat.amount.toLocaleString("en-US", { maximumSignificantDigits: 4 }) + " ETH" : "0 ETH"));
+            if (g.gwei != null) {
+              dl.appendChild(el("dt", null, "gas price"));
+              dl.appendChild(el("dd", null, g.gwei < 0.01 ? g.gwei.toFixed(4) + " gwei" : g.gwei.toFixed(2) + " gwei"));
+              var rate = (nat && nat.rate) || S.ethRate;
+              var revokes = (S.approvals[slug] || []).filter(function (a) { return a.active && a.risky; }).length;
+              if (revokes) {
+                var eth = g.gwei * 1e-9 * REVOKE_GAS * revokes;
+                dl.appendChild(el("dt", null, "est. " + revokes + " revoke" + (revokes === 1 ? "" : "s")));
+                var enough = nat && nat.amount >= eth;
+                dl.appendChild(el("dd", enough ? "ok" : "bad", (rate ? money(eth * rate) : eth.toPrecision(2) + " ETH") + (enough ? "" : " · low gas")));
+              }
+            }
+          });
+        }
+
+        // ---- findings + output ----
+        function finish() {
+          var spam = S.tokens.filter(function (r) { return r.spam; });
+          var flagged = S.tokens.filter(function (r) { return r.status === "flag"; });
+          var dust = S.tokens.filter(function (r) { return r.status === "dust"; });
+          var dustVal = dust.reduce(function (s, r) { return s + (r.usd || 0); }, 0);
+          var active = [], risky = [];
+          Object.keys(S.approvals).forEach(function (k) { S.approvals[k].forEach(function (a) { if (a.active) { active.push(a); if (a.risky) risky.push(a); } }); });
+
+          // value at risk: what risky approvals could pull, using the scanned balances and prices
+          var atRisk = 0;
+          risky.forEach(function (a) {
+            if (a.nft) return;
+            var t = S.tokens.filter(function (r) { return r.contract && r.contract.toLowerCase() === a.token.toLowerCase() && (r.slug === a.slug); })[0];
+            if (t && t.usd) { a.usd = t.usd; a.symbol = t.symbol; atRisk += t.usd; }
+            else if (t) a.symbol = t.symbol;
+          });
+
+          var risk = Math.min(100, risky.reduce(function (s, a) { return s + (a.spenderVerified ? 8 : 15); }, 0) +
+            (active.length - risky.length) * 3 + spam.length * 4 + (flagged.length - spam.length) * 2);
+          var tone = risk >= 50 ? "var(--mc-bad)" : risk >= 20 ? "var(--mc-warn)" : "var(--mc-good)";
+          $("mc-risk").textContent = risk;
+          var gv = $("mc-gauge-v"); gv.style.stroke = tone;
+          requestAnimationFrame(function () { requestAnimationFrame(function () { gv.style.strokeDasharray = Math.max(risk, 1) + " 100"; }); });
+          $("mc-gauge").setAttribute("aria-label", "Risk " + risk + " out of 100");
+          $("mc-risk-label").textContent = risk >= 50 ? "high risk" : risk >= 20 ? "medium risk" : "low risk";
+
+          var fd = $("mc-find"); fd.textContent = "";
+          [["spam tokens", spam.length, spam.length ? "bad" : "ok"],
+           ["unverified", flagged.length - spam.length, flagged.length - spam.length ? "warn" : "ok"],
+           ["risky approvals", S.apprOk ? risky.length + " of " + active.length : "unchecked", S.apprOk ? (risky.length ? "bad" : "ok") : "warn"],
+           ["dust value", money(dustVal) + " · " + dust.length, dust.length ? "warn" : "ok"]].forEach(function (p) {
+            fd.appendChild(el("dt", null, p[0])); fd.appendChild(el("dd", p[2], String(p[1])));
+          });
+
+          // sparkline: the real USD values of the tokens found, largest first
+          var vals = S.tokens.filter(function (r) { return r.usd > 0; }).map(function (r) { return r.usd; }).sort(function (a, b) { return b - a; });
+          var sp = $("mc-spark"); sp.textContent = "";
+          if (vals.length > 1) {
+            var mx = Math.log10(vals[0] + 1), pts = vals.map(function (v, i) { return (i / (vals.length - 1) * 200).toFixed(1) + "," + (32 - Math.log10(v + 1) / mx * 30).toFixed(1); });
+            var pl = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            pl.setAttribute("points", pts.join(" ")); pl.setAttribute("fill", "none"); pl.setAttribute("stroke", "#5eead4"); pl.setAttribute("stroke-width", "1.5");
+            sp.appendChild(pl);
+          }
+
+          // the plan
+          var plan = [];
+          risky.forEach(function (a) {
+            plan.push({ kind: "revoke", a: a });
+          });
+          if (spam.length || flagged.length) plan.push({ kind: "spam", n: flagged.length });
+          if (dust.length) plan.push({ kind: "dust", n: dust.length, v: dustVal });
+          S.plan = plan;
+
+          var od = $("mc-out"); od.textContent = "";
+          [["value at risk", money(atRisk) + (risky.some(function (a) { return a.nft; }) ? " + NFTs" : ""), atRisk > 0 ? "bad" : ""],
+           ["actions queued", String(plan.length), plan.length ? "warn" : "ok"],
+           ["gate", plan.length ? "approval required" : "nothing to approve", plan.length ? "warn" : "ok"]].forEach(function (p) {
+            od.appendChild(el("dt", null, p[0])); od.appendChild(el("dd", p[2], p[1]));
+          });
+          var gate = $("mc-gate");
+          gate.disabled = !plan.length;
+          gate.textContent = plan.length ? "Approval required · review " + plan.length + " action" + (plan.length === 1 ? "" : "s") : "All clear · nothing queued";
+          $("mc-cap").innerHTML = "";
+          var cap = $("mc-cap");
+          cap.appendChild(el("b", null, short(S.addr)));
+          cap.appendChild(document.createTextNode(" · " + S.tokens.length + " tokens · " + active.length + " active approvals · " + risky.length + " risky"));
+          return { risky: risky, active: active, plan: plan };
+        }
+
+        function openReview() {
+          if (!S || !S.plan) return;
+          var dlg = $("mc-review"), ol = $("mc-plan"); ol.textContent = "";
+          $("mc-review-lead").textContent = "Here's what the scan of " + short(S.addr) + " found and what we suggest. You choose each step, and nothing happens unless you sign it in your own wallet.";
+          S.plan.forEach(function (p) {
+            var li = el("li"), links = el("div", "links"), ex = null;
+            if (p.kind === "revoke") {
+              var a = p.a, who = a.spenderName || short(a.spender);
+              li.appendChild(el("strong", null, "Revoke: " + who + " on " + NETS[a.slug].name));
+              li.appendChild(el("p", null, a.nft
+                ? "This contract can move every NFT in the " + short(a.token) + " collection from your wallet. Revoke it unless you're actively using it."
+                : "This contract can spend " + (isUnlimited(a) ? "an unlimited amount" : "some") + " of your " + (a.symbol || short(a.token)) + (a.usd ? " (" + money(a.usd) + " in the wallet now)" : "") + " without asking again." + (a.spenderVerified ? "" : " Its code isn't verified on the explorer.")));
+              var rv = el("a", "btn", "Review on Revoke.cash →");
+              rv.href = "https://revoke.cash/address/" + S.addr + "?chainId=" + NETS[a.slug].id; rv.target = "_blank"; rv.rel = "noopener";
+              links.appendChild(rv);
+              ex = el("a", "btn", "See the contract on the explorer");
+              ex.href = NETS[a.slug].explorer + "/address/" + a.spender; ex.target = "_blank"; ex.rel = "noopener";
+              li.appendChild(el("p", "fineprint", "Est. cost about " + (S.gas[a.slug] && S.gas[a.slug].gwei != null ? (S.gas[a.slug].gwei * 1e-9 * REVOKE_GAS).toPrecision(2) + " ETH" : "one small gas fee") + ". Your wallet shows the exact fee before you sign."));
+            } else if (p.kind === "spam") {
+              li.appendChild(el("strong", null, "Leave " + p.n + " flagged token" + (p.n === 1 ? "" : "s") + " alone"));
+              li.appendChild(el("p", null, "Don't approve, swap, or visit links in these tokens' names. Hide them in your wallet, or recycle them with Dusty."));
+              var d1 = el("a", "btn", "♻️ Send to Dusty"); d1.href = DUSTY; d1.target = "_blank"; d1.rel = "noopener"; links.appendChild(d1);
+            } else if (p.kind === "dust") {
+              li.appendChild(el("strong", null, "Sweep " + p.n + " dust token" + (p.n === 1 ? "" : "s") + " (" + money(p.v) + ")"));
+              li.appendChild(el("p", null, "Small balances worth under $1 each. Sweep them with Dusty if the gas is worth it."));
+              var d2 = el("a", "btn", "♻️ Send to Dusty"); d2.href = DUSTY; d2.target = "_blank"; d2.rel = "noopener"; links.appendChild(d2);
+            }
+            li.appendChild(RX7.lockify ? RX7.lockify(links) : links);
+            if (ex) { var exl = el("p", "fineprint"); exl.appendChild(ex); li.appendChild(exl); ex.className = "link"; ex = null; }
+            ol.appendChild(li);
+          });
+          if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+        }
+        $("mc-gate").addEventListener("click", openReview);
+
+        // ---- the run ----
+        function reset(addr, snapshot) {
+          runId++;
+          S = { id: runId, addr: addr, sources: {}, jobs: {}, tokens: [], approvals: {}, logCount: {}, gas: {}, natives: {}, chainList: [], apprOk: false, snapshot: snapshot, ethRate: null };
+          JOBS.forEach(function (j) { S.jobs[j.id] = { s: "wait", p: 0, note: "" }; });
+          $("mc-log").textContent = "";
+          $("mc-run").textContent = "rx7-" + addr.slice(2, 8).toLowerCase();
+          setGraph([{ id: "w", kind: "wallet", tone: "wallet", label: short(addr) }], []);
+          renderSources(); renderJobs();
+          $("mc-gate").disabled = true; $("mc-gate").textContent = "Approval required · review plan";
+          $("mc-budget").textContent = "";
+        }
+
+        RX7.mc = {
+          start: function (addr) {
+            reset(addr, false);
+            setState("run", "RUNNING");
+            log("run started for " + short(addr), "acc");
+            log("mode read-only · no keys requested");
+            job("bal", "run", 0.1, "Ethereum + Base");
+          },
+          source: function (r) {
+            if (!S) return;
+            var s = src("bal-" + r.slug, host(NETS[r.slug] ? NETS[r.slug].explorer : r.chain) + " balances");
+            s.calls += 2; if (r.ok) s.ok += 2; else s.fail += 2;
+            s.note = r.ok ? (r.items.length + " tok") : "down";
+            renderSources();
+            S.chainList.push({ slug: r.slug, name: r.chain, ok: r.ok });
+            log(r.chain + " balances: " + (r.ok ? r.items.length + " tokens" + (r.native ? " + " + r.native.amount.toLocaleString("en-US", { maximumSignificantDigits: 3 }) + " ETH" : "") : "unreachable"), r.ok ? "ok" : "bad");
+            if (r.native) { S.natives[r.slug] = r.native; if (r.native.rate) S.ethRate = r.native.rate; }
+            job("bal", "run", Math.min(0.9, S.chainList.length / 2));
+          },
+          fail: function (why) {
+            if (!S) return;
+            job("bal", "fail", 1, "no data");
+            log(why || "chain data unreachable", "bad");
+            setState("idle", "IDLE");
+          },
+          tokens: function (list, meta) {
+            if (!S || S.addr.toLowerCase() !== String(meta.addr).toLowerCase()) { reset(meta.addr, meta.mode === "snapshot"); }
+            var my = S.id;
+            S.tokens = list.slice();
+            S.snapshot = meta.mode === "snapshot";
+            if (S.snapshot) {
+              log("live data blocked · using labelled demo snapshot", "warn");
+              list.forEach(function (r) { if (r.native && r.rate) { S.natives[r.slug] = r; S.ethRate = r.rate; } });
+            }
+            job("bal", "done", 1, list.length + " tokens");
+            buildGraph();
+            setState("run", "RUNNING");
+
+            // j2 approvals
+            job("appr", "run", 0.1);
+            log("checking token approvals on Ethereum + Base");
+            var slugs = ["mainnet", "base"];
+            var gasP = Promise.all(slugs.map(function (slug) {
+              return rpc(slug, "eth_gasPrice", []).then(function (h) { S.gas[slug] = { gwei: parseInt(h, 16) / 1e9 }; }, function () { S.gas[slug] = { gwei: null }; });
+            }));
+            Promise.all(slugs.map(function (slug) {
+              return approvalsFor(slug).then(function (l) { S.approvals[slug] = l; return true; }, function () { S.approvals[slug] = []; log(NETS[slug].name + " approval logs unreachable", "bad"); return false; });
+            })).then(function (oks) {
+              if (my !== S.id) return;
+              S.apprOk = oks.some(Boolean);
+              var all = [];
+              slugs.forEach(function (s) { all = all.concat(S.approvals[s]); });
+              slugs.forEach(function (s) { if (S.logCount[s] != null) log(NETS[s].name + ": " + S.logCount[s] + " approval events, " + S.approvals[s].length + " token/spender pairs", "ok"); });
+              job("appr", "run", 0.4, "verifying " + Math.min(all.length, 24) + " on-chain");
+              var check = all.filter(function (a) { return a.active; }).slice(0, 24);
+              var done = 0;
+              return Promise.all(check.map(function (a) {
+                return verifyAllowance(a).then(function () { done++; job("appr", "run", 0.4 + 0.4 * done / Math.max(1, check.length)); });
+              })).then(function () {
+                var act = all.filter(function (a) { return a.active; });
+                var spenders = {};
+                act.forEach(function (a) { spenders[a.slug + a.spender.toLowerCase()] = spenders[a.slug + a.spender.toLowerCase()] || a; });
+                var uniq = Object.keys(spenders).slice(0, 10).map(function (k) { return spenders[k]; });
+                return Promise.all(uniq.map(spenderInfo)).then(function () {
+                  act.forEach(function (a) {
+                    var u = spenders[a.slug + a.spender.toLowerCase()];
+                    a.spenderName = u.spenderName; a.spenderVerified = u.spenderVerified;
+                    a.risky = isUnlimited(a) || !a.spenderVerified;
+                  });
+                  var risky = act.filter(function (a) { return a.risky; }).length;
+                  var named = {};
+                  return Promise.all(act.filter(function (a) { return a.risky; }).slice(0, 10).map(function (a) {
+                    var k = a.slug + a.token.toLowerCase();
+                    if (!named[k]) named[k] = getJSON("info-" + a.slug, host(NETS[a.slug].explorer) + " contracts", NETS[a.slug].explorer + "/api/v2/tokens/" + a.token).then(function (d) { return d && (d.symbol || d.name) || ""; }, function () { return ""; });
+                    return named[k].then(function (sym) { if (sym) a.symbol = sym; });
+                  })).then(function () {
+                  log(act.length + " approvals still active · " + risky + " unlimited or unverified", risky ? "warn" : "ok");
+                  job("appr", S.apprOk ? "done" : "fail", 1, act.length + " active");
+                  });
+                });
+              });
+            }).then(function () {
+              if (my !== S.id) return;
+              // j3 spam
+              job("spam", "run", 0.5);
+              var spam = S.tokens.filter(function (r) { return r.spam; }).length;
+              var flg = S.tokens.filter(function (r) { return r.status === "flag"; }).length;
+              log("flagged " + flg + " tokens (" + spam + " spam-like names)", flg ? "warn" : "ok");
+              job("spam", "done", 1, flg + " flagged");
+              buildGraph();
+              return gasP;
+            }).then(function () {
+              if (my !== S.id) return;
+              job("plan", "run", 0.5);
+              budget();
+              var r = finish();
+              log("cleanup plan: " + r.plan.length + " action" + (r.plan.length === 1 ? "" : "s") + " · waiting for your approval", r.plan.length ? "acc" : "ok");
+              log("RX7 spent $0 · nothing sent", "ok");
+              job("plan", "done", 1, r.plan.length + " queued");
+              setState(S.snapshot ? "snap" : "live", S.snapshot ? "SNAPSHOT" : "LIVE");
+            }).catch(function (e) {
+              log("run error: " + (e && e.message ? e.message : "unknown"), "bad");
+              setState("idle", "IDLE");
+            });
+          }
+        };
+
+        $("mc-runbtn").addEventListener("click", function () {
+          var inp = $("scan-addr");
+          if (inp && /^0x[0-9a-fA-F]{40}$/.test((inp.value || "").trim())) {
+            $("scan-form").requestSubmit ? $("scan-form").requestSubmit() : $("scan-btn").click();
+          } else if (inp) {
+            $("scan").scrollIntoView({ behavior: "smooth", block: "start" });
+            setTimeout(function () { inp.focus(); }, 400);
+          }
+        });
+        $("mc-demo").addEventListener("click", function () { var d = $("demo-link"); if (d) d.click(); setTimeout(function () { $("mission").scrollIntoView({ behavior: "smooth", block: "start" }); }, 50); });
+
+        renderJobs();
+        size();
+        requestAnimationFrame(frame);
+      })();
+    </script>
 </body></html>
