@@ -1,4 +1,18 @@
 <!DOCTYPE html><html lang="en"><head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https:; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; frame-src https://verify.walletconnect.com https://verify.walletconnect.org https://secure.walletconnect.com https://secure.walletconnect.org; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Paste any wallet address and RX7 VAPOR finds the token approvals that can drain it, flags the risky ones and shows how to switch them off. Read-only: no seed phrase, never signs.">
+<link rel="canonical" href="https://statxqo-clickit.github.io/rx7-vapor/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website"><meta property="og:site_name" content="RX7 VAPOR">
+<meta property="og:title" content="RX7 VAPOR — find the approvals that can drain your wallet">
+<meta property="og:description" content="Paste any wallet address and RX7 VAPOR finds the token approvals that can drain it, flags the risky ones and shows how to switch them off. Read-only: no seed phrase, never signs.">
+<meta property="og:url" content="https://statxqo-clickit.github.io/rx7-vapor/"><meta property="og:image" content="https://statxqo-clickit.github.io/rx7-vapor/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RX7 VAPOR — find the approvals that can drain your wallet">
+<meta name="twitter:description" content="Paste any wallet address and RX7 VAPOR finds the token approvals that can drain it, flags the risky ones and shows how to switch them off. Read-only: no seed phrase, never signs."><meta name="twitter:image" content="https://statxqo-clickit.github.io/rx7-vapor/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "RX7 VAPOR", "alternateName": "RX7 VAPOR by Racer X", "url": "https://statxqo-clickit.github.io/rx7-vapor/", "description": "Paste any wallet address and RX7 VAPOR finds the token approvals that can drain it, flags the risky ones and shows how to switch them off. Read-only: no seed phrase, never signs.", "applicationCategory": "SecurityApplication", "operatingSystem": "Web, Android", "image": "https://statxqo-clickit.github.io/rx7-vapor/og.png", "screenshot": "https://statxqo-clickit.github.io/rx7-vapor/demo.gif", "downloadUrl": "https://statxqo-clickit.github.io/rx7-vapor/RX7-VAPOR-1.0.0.apk", "softwareVersion": "1.0.0", "creator": {"@type": "Organization", "name": "Racer X"}, "offers": [{"@type": "Offer", "name": "Free scan", "price": "0", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Access Pass (one-time, paid in USDC on Base)", "price": "9.99", "priceCurrency": "USD"}]}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -6,7 +20,7 @@
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>RX7 VAPOR — by Racer X</title>
+    <title>RX7 VAPOR — Wallet approval scanner for Base & Ethereum (read-only)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400&amp;display=swap"/>
@@ -1046,8 +1060,8 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           <div class="hero__copy">
             <p class="hero__eyebrow">By Racer X</p>
             <h1>RX7 VAPOR</h1>
-            <p class="hero__sub">The security bot that scans any wallet for threats — instantly, and without ever touching your funds.</p>
-            <p class="hero__meta">Read-only · Every major chain · No seed phrase</p>
+            <p class="hero__sub">Find the wallet approvals that can drain you, and switch them off. Read-only, in seconds.</p>
+            <p class="hero__meta">Read-only · Base + Ethereum · No seed phrase</p>
           </div>
         </section>
 
@@ -1056,7 +1070,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             <h2>See what&#39;s really in your wallet, and what can drain it.</h2>
           </div>
           <div class="prose">
-            <p>RX7 VAPOR reads a wallet across every major chain and shows you what&#39;s really there: your balances, the tokens you hold, and the approvals that let other apps move your money. It flags the risky ones — the drainers and scam approvals — so you can shut them down before they cost you anything.</p>
+            <p>RX7 VAPOR reads a wallet on Base and Ethereum and shows you what&#39;s really there: your balances, the tokens you hold, and the approvals that let other apps move your money. It flags the risky ones — the drainers and scam approvals — so you can shut them down before they cost you anything.</p>
             <p>It&#39;s fully read-only: it never asks for your seed phrase or private key, and it never signs a transaction.</p>
           </div>
         </section>
@@ -1072,7 +1086,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
             </article>
             <article class="step">
               <div class="step__intro"><p class="step__num">02</p></div>
-              <div><h3>RX7 VAPOR scans balances, tokens, and approvals across chains.</h3></div>
+              <div><h3>RX7 VAPOR scans balances, tokens, and approvals on Base and Ethereum.</h3></div>
             </article>
             <article class="step">
               <div class="step__intro"><p class="step__num">03</p></div>
@@ -1081,6 +1095,11 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
           </div>
         </section>
 
+        <section class="section" id="demo" data-nav="Demo">
+          <h2>See it in 20 seconds.</h2>
+          <p>A demo wallet scan: health score, where the value sits, and every flagged token and approval.</p>
+          <video src="demo.mp4" poster="og.png" autoplay muted loop playsinline preload="metadata" width="390" style="max-width:100%;height:auto;border-radius:16px;display:block;margin:16px auto" aria-label="RX7 VAPOR demo wallet scan"></video>
+        </section>
         <section class="section" id="scan" data-nav="Scan">
           <div class="head"><h2>Ready when you are.</h2></div>
           <aside class="callout" aria-label="Scan a wallet">

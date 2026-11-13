@@ -3,3 +3,4 @@ Allow: /
 Disallow: /fomo/deploy.html
 
 Sitemap: https://statxqo-clickit.github.io/sitemap.xml
+Sitemap: https://statxqo-clickit.github.io/rx7-vapor/sitemap.xml
