@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FOMO · Web5 NFT Arena</title>
+<meta name="description" content="FOMO Web5 NFT Arena. Join. Play. Win Rare NFTs. Free-to-play testnet demo.">
+<meta name="theme-color" content="#0a0420">
+<style>
+:root{--c:#3ef0ff;--m:#c04bff;--p:#ff4fd8;--g:#ffc531;--bg:#07021a;--card:rgba(20,10,50,.72)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:#e9e6ff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100%}
+body{background:radial-gradient(ellipse at 20% 10%,#3a1a7a55,transparent 50%),radial-gradient(ellipse at 80% 30%,#0a4a8a55,transparent 50%),radial-gradient(ellipse at 50% 100%,#6a1a8a55,transparent 60%),var(--bg);padding-bottom:84px}
+#stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.wrap{max-width:520px;margin:0 auto;padding:16px 16px 24px}
+.banner{font-size:11px;letter-spacing:.06em;text-align:center;background:linear-gradient(90deg,#3ef0ff22,#c04bff33,#3ef0ff22);border:1px solid #3ef0ff55;border-radius:10px;padding:6px 8px;color:#bff}
+h1{font-size:64px;font-weight:900;text-align:center;letter-spacing:.04em;margin-top:14px;line-height:1;background:linear-gradient(90deg,var(--c),#9fd8ff 35%,var(--m) 65%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #3ef0ff88) drop-shadow(0 0 22px #c04bff66)}
+.sub{text-align:center;letter-spacing:.32em;font-weight:700;font-size:14px;margin-top:6px;color:#fff;text-shadow:0 0 8px #3ef0ff}
+.tag{text-align:center;color:var(--c);font-weight:600;margin:14px 0 16px;text-shadow:0 0 10px #3ef0ff88}
+.btn{display:block;width:100%;border:2px solid transparent;border-radius:14px;padding:15px;font-size:17px;font-weight:800;letter-spacing:.08em;color:#fff;cursor:pointer;background:linear-gradient(#150a35,#150a35) padding-box,linear-gradient(90deg,var(--c),var(--m),var(--p)) border-box;box-shadow:0 0 18px #3ef0ff44,inset 0 0 18px #c04bff33;text-transform:uppercase}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:10px;font-size:13px;border-radius:10px}
+.btn.ghost{background:transparent;border:1px solid #ffffff33;box-shadow:none}
+.panel{background:var(--card);border:1px solid #3ef0ff44;border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 0 24px #3ef0ff22,inset 0 0 30px #c04bff18;backdrop-filter:blur(6px)}
+.panel h2{font-size:15px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;color:#fff}
+label{display:block;text-align:center;font-size:14px;margin-bottom:6px;color:#dde}
+input{width:100%;background:#05021099;border:1px solid #ffffff44;border-radius:8px;padding:12px;color:#99a;font-size:15px;margin-bottom:6px;text-align:center}
+.soon{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#111;background:var(--g);border-radius:6px;padding:2px 6px;vertical-align:middle}
+.muted{color:#a9a3cc;font-size:13px;line-height:1.45}
+.center{text-align:center}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.wallet{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}
+.addr{font-family:ui-monospace,monospace;color:var(--c)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.nft{position:relative;border-radius:12px;padding:4px;background:linear-gradient(160deg,var(--t1),var(--t2));box-shadow:0 0 14px var(--t1);cursor:pointer}
+.nft img{display:block;width:100%;aspect-ratio:36/38;object-fit:cover;border-radius:9px}
+.nft .lb{position:absolute;left:6px;right:6px;bottom:7px;background:#000b;border-radius:7px;padding:3px 4px;font-size:10px;font-weight:800;text-align:center;white-space:nowrap;overflow:hidden}
+.nft .lb b{color:var(--g)}
+.nft .ct{position:absolute;top:8px;right:8px;background:#000c;border:1px solid #fff5;border-radius:20px;font-size:11px;font-weight:800;padding:1px 7px}
+.nft.sel{outline:3px solid #fff;outline-offset:2px}
+.nft.locked{filter:grayscale(1) brightness(.35)}
+.foot{text-align:center;font-weight:800;letter-spacing:.06em;margin:18px 0 6px;font-size:14px}
+.foot b{color:var(--g)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:#07021ae8;border-top:1px solid #3ef0ff44;backdrop-filter:blur(8px);padding-bottom:env(safe-area-inset-bottom);z-index:20}
+nav button{flex:1;max-width:130px;background:none;border:0;color:#a9a3cc;padding:10px 0 12px;font-size:11px;font-weight:700;letter-spacing:.06em;cursor:pointer}
+nav button span{display:block;font-size:20px;margin-bottom:2px}
+nav button.on{color:var(--c);text-shadow:0 0 8px #3ef0ff}
+.view{display:none}.view.on{display:block}
+#game{position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 50% 40%,#2a0e5ecc,#05010fee);display:none;touch-action:manipulation;user-select:none}
+#game.on{display:block}
+#hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 18px 10px;font-weight:900;font-size:20px}
+#hud .t{color:var(--g)}#hud .s{color:var(--c)}
+.orb{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--c) 35%,#0a6bff 70%,transparent 72%);box-shadow:0 0 22px var(--c);animation:pop .25s ease-out}
+.orb.gold{background:radial-gradient(circle at 35% 30%,#fff,var(--g) 35%,#ff7a00 70%,transparent 72%);box-shadow:0 0 26px var(--g)}
+.orb.fud{background:radial-gradient(circle at 35% 30%,#fdd,#ff3355 35%,#7a0018 70%,transparent 72%);box-shadow:0 0 22px #ff3355}
+.orb.fud::after{content:"FUD";position:absolute;inset:0;display:grid;place-items:center;font-size:12px;font-weight:900;color:#fff}
+@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+.fx{position:absolute;font-weight:900;pointer-events:none;animation:up .6s forwards}
+@keyframes up{to{transform:translateY(-40px);opacity:0}}
+#modal{position:fixed;inset:0;z-index:60;background:#000a;display:none;align-items:center;justify-content:center;padding:20px}
+#modal.on{display:flex}
+#modal .panel{max-width:420px;width:100%}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#150a35;border:1px solid var(--c);border-radius:12px;padding:10px 16px;font-size:14px;z-index:70;box-shadow:0 0 18px #3ef0ff55;max-width:90vw;text-align:center}
+.shopitem{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #ffffff14}
+.shopitem:first-of-type{border-top:0}
+.shopitem .nft{width:78px;flex:none}
+.shopitem .info{flex:1}
+.shopitem .price{font-weight:900;color:var(--g)}
+.pill{display:inline-block;font-size:11px;border:1px solid #3ef0ff66;border-radius:20px;padding:2px 8px;margin:2px 2px 0 0;color:#bff}
+.tiers{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.tiers div{text-align:center;font-size:10px;padding:6px 0;border-radius:6px;background:#ffffff0d}
+.tiers div b{display:block;font-size:14px;color:var(--g)}
+a{color:var(--c)}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="wrap">
+  <div class="banner">TESTNET DEMO · FREE TO PLAY · NO REAL MONEY · NO REAL-VALUE PRIZES</div>
+  <h1>FOMO</h1>
+  <div class="sub">WEB5 NFT ARENA</div>
+
+  <!-- ARENA -->
+  <section class="view on" id="v-arena">
+    <div class="tag center" style="margin-bottom:4px">ENTER THE ARENA</div><div class="center muted" style="letter-spacing:.14em;margin-bottom:14px">Mint · Battle · Evolve · Dominate</div><div class="tag center" style="margin-top:0">Join. Play. Win Rare NFTs.</div>
+    <div id="walletBox"></div>
+    <div class="panel">
+      <label>Enter Entry Amount <span class="soon">COMING SOON · TESTNET</span></label>
+      <input disabled placeholder="Free to join during testnet" aria-label="Entry amount (disabled)">
+      <p class="muted center" style="margin-bottom:12px">Rounds are free. Your score decides your drops: skill, not luck.</p>
+      <button class="btn" id="joinBtn">Join Round</button>
+      <p class="muted center" style="margin-top:8px" id="roundsLeft"></p>
+    </div>
+    <div class="cards" id="heroCards"></div>
+    <div class="foot">COLLECT. EVOLVE. REACH FOR <b>7★</b> NFT POWER!</div>
+    <div class="panel">
+      <h2>How rounds work</h2>
+      <p class="muted">20 seconds. Tap the blue orbs (+1), gold orbs (+3), dodge red FUD (−2).<br>Score 0–9: one 1★ · 10–19: two 1★ · 20–29: a 2★ and a 1★ · 30+: a 3★ and a 1★.</p>
+      <div class="tiers" id="tierStrip"></div>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section class="view" id="v-coll">
+    <div class="panel">
+      <h2>Your Collection</h2>
+      <p class="muted" id="collMeta"></p>
+      <div class="cards" id="collGrid"></div>
+    </div>
+  </section>
+
+  <!-- EVOLVE -->
+  <section class="view" id="v-evolve">
+    <div class="panel">
+      <h2>Evolve</h2>
+      <p class="muted">Fuse <b>3</b> cards of the same star tier into <b>1</b> card one tier higher. Keep climbing to 7★ God Tier.</p>
+      <p class="muted" style="margin-top:6px">Evolve fee: <b>0 tFOMO</b> (test token only) <span class="soon">TESTNET</span></p>
+      <div class="cards" id="evoGrid" style="margin-top:12px"></div>
+      <p class="muted center" id="evoInfo" style="margin:12px 0"></p>
+      <button class="btn" id="evoBtn" disabled>Evolve</button>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="view" id="v-shop">
+    <div class="panel">
+      <h2>Mint Shop <span class="soon">TESTNET · COMING SOON</span></h2>
+      <p class="muted">Fixed prices. You see exactly which card and star tier you get. No blind boxes, no loot boxes.</p>
+      <div id="shopList" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h2>Season Pass <span class="soon">COMING SOON</span></h2>
+      <p class="muted">Cosmetic card frames and arena skins, extra daily rounds, and early access to new cards. Doesn't change drop odds.</p>
+      <button class="btn sm" disabled style="margin-top:10px">Get Season Pass · testnet soon</button>
+    </div>
+    <div class="panel">
+      <h2>Creator Royalty</h2>
+      <p class="muted">Resales of FOMO cards will carry a 5% creator royalty to <span class="addr">0x20dc…59F2</span>, set in the contract once it ships.</p>
+    </div>
+    <p class="muted center" style="font-size:11px">Nothing here takes real money. Real-money features stay off until legal review.</p>
+  </section>
+</div>
+
+<nav>
+  <button class="on" data-v="arena"><span>⚔️</span>ARENA</button>
+  <button data-v="coll"><span>🃏</span>COLLECTION</button>
+  <button data-v="evolve"><span>🧬</span>EVOLVE</button>
+  <button data-v="shop"><span>💎</span>SHOP</button>
+</nav>
+
+<div id="game"><div id="hud"><span class="s">Score <span id="gs">0</span></span><span class="t" id="gt">20</span></div></div>
+<div id="modal"><div class="panel" id="modalBody"></div></div>
+
+<script>
+const WC_PROJECT_ID='285acdd88b8d03791c962a3df94f70fa';
+const BASE_SEPOLIA={chainId:'0x14a34',chainName:'Base Sepolia',nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:['https://sepolia.base.org'],blockExplorerUrls:['https://sepolia.basescan.org']};
+const TIERS=[null,
+ {n:'Common',art:'knight',f:'none',t1:'#2bd47a',t2:'#0b5a6a',name:'Iron Sentinel'},
+ {n:'Uncommon',art:'knight',f:'hue-rotate(160deg) saturate(1.4)',t1:'#3ef0ff',t2:'#1a3a9a',name:'Frost Sentinel'},
+ {n:'Rare',art:'cat',f:'none',t1:'#c04bff',t2:'#3ef0ff',name:'Neon Prowler'},
+ {n:'Epic',art:'cat',f:'hue-rotate(60deg) saturate(1.3)',t1:'#ff4fd8',t2:'#6a1aff',name:'Void Prowler'},
+ {n:'Legendary',art:'skull',f:'hue-rotate(190deg) saturate(1.2)',t1:'#3ef0ff',t2:'#c04bff',name:'Astral Warlord'},
+ {n:'Mythic',art:'skull',f:'hue-rotate(260deg) saturate(1.5)',t1:'#ff4fd8',t2:'#ff3355',name:'Blood Warlord'},
+ {n:'God Tier',art:'skull',f:'none',t1:'#ffc531',t2:'#ff5a00',name:'Horned Overlord'}];
+const DAILY_ROUNDS=5;
+let acct=null, wcProvider=null, sel=null;
+const $=s=>document.querySelector(s);
+const key=()=> 'fomo:'+(acct?acct.toLowerCase():'guest');
+function load(){try{return JSON.parse(localStorage.getItem(key()))||{}}catch(e){return{}}}
+function save(d){localStorage.setItem(key(),JSON.stringify(d))}
+function state(){const d=load();d.cards=d.cards||[0,0,0,0,0,0,0,0];const today=new Date().toISOString().slice(0,10);if(d.day!==today){d.day=today;d.played=0}return d}
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2600)}
+function stars(n){return n+'★'}
+function nftHTML(tier,count,extra=''){const T=TIERS[tier];return `<div class="nft ${extra}" data-t="${tier}" style="--t1:${T.t1};--t2:${T.t2}"><img src="img/${T.art}.jpg" alt="${T.name}" style="filter:${T.f}">${count!=null?`<span class="ct">×${count}</span>`:''}<div class="lb"><b>${stars(tier)}</b> ${T.n.toUpperCase()}</div></div>`}
+function short(a){return a.slice(0,6)+'…'+a.slice(-4)}
+
+// ---- wallet
+function renderWallet(){const b=$('#walletBox');
+ if(acct){b.innerHTML=`<div class="panel wallet"><span>🟢 <span class="addr">${short(acct)}</span> · Base Sepolia</span><button class="btn sm ghost" style="width:auto;padding:8px 12px" id="dc">Disconnect</button></div>`;$('#dc').onclick=disconnect}
+ else{b.innerHTML=`<button class="btn" id="cw">Connect Wallet</button><p class="muted center" style="margin-top:8px">Optional. Play as guest, or connect to keep your collection on your wallet address. FOMO never asks for your seed phrase.</p>`;$('#cw').onclick=openConnect}}
+function openConnect(){modal(`<h2>Connect Wallet</h2>
+ <button class="btn" id="m-inj" style="margin-bottom:10px">Browser Wallet</button>
+ <button class="btn" id="m-wc" style="margin-bottom:10px">WalletConnect</button>
+ <button class="btn ghost sm" id="m-x">Cancel</button>
+ <p class="muted center" style="margin-top:10px">Read-only connect. FOMO only reads your address and never signs or sends anything for you.</p>`);
+ $('#m-inj').onclick=connectInjected;$('#m-wc').onclick=connectWC;$('#m-x').onclick=closeModal}
+async function switchChain(p){try{await p.request({method:'wallet_switchEthereumChain',params:[{chainId:BASE_SEPOLIA.chainId}]})}catch(e){if(e&&(e.code===4902||(e.data&&e.data.originalError&&e.data.originalError.code===4902))){try{await p.request({method:'wallet_addEthereumChain',params:[BASE_SEPOLIA]})}catch(_){}}}}
+async function connectInjected(){const p=window.ethereum;
+ if(!p){closeModal();const u=location.href.replace(/^https?:\/\//,'');modal(`<h2>No browser wallet found</h2><p class="muted" style="margin-bottom:12px">Open FOMO inside your wallet app, or use WalletConnect.</p><a class="btn" style="text-align:center;text-decoration:none;margin-bottom:10px" href="https://metamask.app.link/dapp/${u}">Open in MetaMask</a><a class="btn" style="text-align:center;text-decoration:none;margin-bottom:10px" href="https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(location.href)}">Open in Coinbase Wallet</a><button class="btn ghost sm" onclick="closeModal()">Close</button>`);return}
+ try{const a=await p.request({method:'eth_requestAccounts'});await switchChain(p);setAcct(a[0]);p.on&&p.on('accountsChanged',x=>setAcct(x[0]||null));closeModal()}catch(e){toast('Connection cancelled')}}
+async function connectWC(){closeModal();toast('Loading WalletConnect…');
+ try{const {EthereumProvider}=await import('https://esm.sh/@walletconnect/ethereum-provider@2.17.0');
+  wcProvider=await EthereumProvider.init({projectId:WC_PROJECT_ID,chains:[84532],optionalChains:[84532],showQrModal:true,rpcMap:{84532:'https://sepolia.base.org'},metadata:{name:'FOMO Web5 NFT Arena',description:'Free-to-play testnet NFT arena',url:location.origin+location.pathname,icons:[location.origin+location.pathname.replace(/[^/]*$/,'')+'img/skull.jpg']}});
+  await wcProvider.connect();const a=wcProvider.accounts;setAcct(a&&a[0]);wcProvider.on('disconnect',()=>setAcct(null));
+ }catch(e){console.error(e);toast('WalletConnect cancelled or unavailable')}}
+async function disconnect(){if(wcProvider){try{await wcProvider.disconnect()}catch(e){}wcProvider=null}setAcct(null)}
+function setAcct(a){acct=a||null;if(acct){const g=JSON.parse(localStorage.getItem('fomo:guest')||'null');const d=load();if(g&&g.cards&&!d.cards){save(g);localStorage.removeItem('fomo:guest');toast('Guest cards moved to your wallet profile')}}renderAll()}
+
+// ---- views
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));sel=null;renderAll();scrollTo(0,0)});
+function renderAll(){const d=state();save(d);renderWallet();
+ $('#heroCards').innerHTML=nftHTML(1)+nftHTML(3)+nftHTML(7);
+ $('#tierStrip').innerHTML=[1,2,3,4,5,6,7].map(t=>`<div><b>${t}★</b>${TIERS[t].n}</div>`).join('');
+ const left=DAILY_ROUNDS-d.played;$('#roundsLeft').textContent=`${left} of ${DAILY_ROUNDS} free rounds left today`;$('#joinBtn').disabled=left<=0;
+ const total=d.cards.reduce((a,b)=>a+b,0);const top=[7,6,5,4,3,2,1].find(t=>d.cards[t]>0);
+ $('#collMeta').textContent=total?`${total} cards · highest ${top}★ ${TIERS[top].n} · ${acct?'saved to '+short(acct):'guest (connect a wallet to keep it)'}`:'No cards yet. Join a round to earn your first drops.';
+ $('#collGrid').innerHTML=[1,2,3,4,5,6,7].map(t=>nftHTML(t,d.cards[t],d.cards[t]?'':'locked')).join('');
+ $('#evoGrid').innerHTML=[1,2,3,4,5,6].map(t=>nftHTML(t,d.cards[t],(d.cards[t]?'':'locked')+(sel===t?' sel':''))).join('');
+ document.querySelectorAll('#evoGrid .nft').forEach(n=>n.onclick=()=>{sel=+n.dataset.t;renderAll()});
+ const ok=sel&&d.cards[sel]>=3;$('#evoBtn').disabled=!ok;
+ $('#evoInfo').innerHTML=sel?(ok?`3× ${sel}★ ${TIERS[sel].n} → 1× ${sel+1}★ ${TIERS[sel+1].n}`:`Need 3× ${sel}★ (you have ${d.cards[sel]})`):'Pick a tier to fuse.';
+ $('#shopList').innerHTML=[[1,'0.01'],[3,'0.03'],[7,'0.07']].map(([t,p])=>`<div class="shopitem">${nftHTML(t)}<div class="info"><b>${TIERS[t].name}</b><br><span class="pill">${t}★ ${TIERS[t].n}</span><div class="price">${p} ETH <span class="pill">Base Sepolia</span></div></div><button class="btn sm" disabled style="width:auto;padding:8px 10px">Mint · Soon</button></div>`).join('');
+}
+$('#evoBtn').onclick=()=>{const d=state();if(!sel||d.cards[sel]<3)return;d.cards[sel]-=3;d.cards[sel+1]++;save(d);const t=sel+1;sel=null;renderAll();
+ modal(`<h2 class="center">Evolved!</h2><div style="width:60%;margin:10px auto">${nftHTML(t)}</div><p class="center"><b>${t}★ ${TIERS[t].name}</b></p>${t===7?'<p class="center" style="color:var(--g);font-weight:900;margin-top:6px">GOD TIER UNLOCKED</p>':''}<button class="btn sm" style="margin-top:12px" onclick="closeModal()">Nice</button>`)};
+function modal(h){$('#modalBody').innerHTML=h;$('#modal').classList.add('on')}
+function closeModal(){$('#modal').classList.remove('on')}
+
+// ---- round game
+$('#joinBtn').onclick=startRound;
+function startRound(){const d=state();if(d.played>=DAILY_ROUNDS)return;
+ const g=$('#game');g.querySelectorAll('.orb,.fx').forEach(e=>e.remove());g.classList.add('on');let score=0,time=20,alive=true;$('#gs').textContent=0;$('#gt').textContent=time;
+ const spawn=()=>{if(!alive)return;const o=document.createElement('div');const r=Math.random();o.className='orb'+(r<.12?' gold':r<.3?' fud':'');
+  o.style.left=(10+Math.random()*80)+'%';o.style.top=(18+Math.random()*72)+'%';
+  const hit=e=>{e.preventDefault();if(!o.isConnected)return;const v=o.classList.contains('gold')?3:o.classList.contains('fud')?-2:1;score=Math.max(0,score+v);$('#gs').textContent=score;
+   const f=document.createElement('div');f.className='fx';f.textContent=(v>0?'+':'')+v;f.style.left=o.style.left;f.style.top=o.style.top;f.style.color=v>0?'#3ef0ff':'#ff3355';g.appendChild(f);setTimeout(()=>f.remove(),600);o.remove()};
+  o.addEventListener('pointerdown',hit);g.appendChild(o);setTimeout(()=>o.remove(),900+Math.random()*500);
+  setTimeout(spawn,Math.max(280,650-(20-time)*18))};
+ spawn();
+ const iv=setInterval(()=>{time--;$('#gt').textContent=time;if(time<=0){clearInterval(iv);alive=false;g.classList.remove('on');finish(score)}},1000)}
+function finish(score){const d=state();d.played++;let drops=score>=30?[3,1]:score>=20?[2,1]:score>=10?[1,1]:[1];drops.forEach(t=>d.cards[t]++);d.best=Math.max(d.best||0,score);save(d);renderAll();
+ modal(`<h2 class="center">Round over · ${score} pts</h2><p class="muted center">Best today ${d.best}</p><div class="cards" style="grid-template-columns:repeat(${drops.length},1fr);max-width:${drops.length*120}px;margin:12px auto">${drops.map(t=>nftHTML(t)).join('')}</div><p class="center">You won ${drops.map(t=>t+'★ '+TIERS[t].n).join(' + ')}</p><div class="row" style="margin-top:12px"><button class="btn sm ghost" onclick="closeModal()">Close</button><button class="btn sm" onclick="closeModal();document.querySelector('[data-v=coll]').click()">Collection</button></div>`)}
+
+// ---- starfield
+(function(){const c=$('#stars'),x=c.getContext('2d');let s=[];function r(){c.width=innerWidth;c.height=innerHeight;s=Array.from({length:140},()=>({x:Math.random()*c.width,y:Math.random()*c.height,z:Math.random()*1.6+.2,h:Math.random()<.5?190:290}))}r();addEventListener('resize',r);
+ (function f(){x.clearRect(0,0,c.width,c.height);for(const p of s){p.y+=p.z*.25;if(p.y>c.height)p.y=0;x.fillStyle=`hsla(${p.h},100%,80%,${.4+p.z/3})`;x.beginPath();x.arc(p.x,p.y,p.z,0,7);x.fill()}requestAnimationFrame(f)})()})();
+$('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
+renderAll();
+</script>
+</body>
+</html>
