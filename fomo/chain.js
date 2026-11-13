@@ -12,7 +12,7 @@ const rd=()=>{const n=net();return n?new ethers.Contract(n.addr,ABI,new ethers.J
 const fmt=w=>{const s=ethers.formatEther(w);return s};
 async function ensureChain(n){try{await prov.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){await prov.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}}
 async function signerC(){const n=net();if(!prov||!acct){openConnect();toast('Connect a wallet first');throw new Error('no wallet')}await ensureChain(n);const bp=new ethers.BrowserProvider(prov);return {c:new ethers.Contract(n.addr,ABI,await bp.getSigner()),bp,n}}
-function nftLink(n,id){return n.main?`https://opensea.io/assets/base/${n.addr}/${id}`:`${n.exp}/token/${n.addr}?a=${id}`}
+function nftLink(n,id){return n.main?`https://opensea.io/assets/${n.os||'base'}/${n.addr}/${id}`:`${n.exp}/token/${n.addr}?a=${id}`}
 async function load(){const c=rd();if(!c)return;try{
   const ids=[1,2,3,4,5,6,7];const [p1,p3,p7,...rest]=await Promise.all([c.priceOf(1),c.priceOf(3),c.priceOf(7),...ids.map(i=>c.remaining(i)),c.bonusLeft(),c.bonusMax()]);
   S.prices={1:p1,3:p3,7:p7};ids.forEach((i,k)=>S.left[i]=rest[k]);S.bonusLeft=rest[7];S.bonusMax=rest[8];

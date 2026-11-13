@@ -8,7 +8,7 @@ const CABI=['function isApprovedForAll(address,address) view returns (bool)','fu
 const NAMES={101:'Aura',102:'Neon Frame',103:'Star Boost',104:'Halo of Seven'};
 const $=s=>document.querySelector(s);
 let M={rows:[],fee:250,bal:{},credit:0n,busy:false,loaded:false};
-function mnet(){const n=window.shopNet&&shopNet();const C=typeof CFG!=='undefined'?CFG:null;if(!n||!C)return null;const k=n.main?'mainnet':'testnet';const m=C[k]&&C[k].market;return m?{...n,market:m}:null}
+function mnet(){const n=window.shopNet&&shopNet();const C=typeof CFG!=='undefined'?CFG:null;if(!n||!C)return null;const k=n.key||(n.main?'mainnet':'testnet');const m=C[k]&&C[k].market;return m?{...n,market:m}:null}
 const eth=w=>ethers.formatEther(w),unit=n=>n.main?'ETH':'test ETH';
 const nm=id=>id<=7?`${id}★ ${TIERS[id].n}`:(NAMES[id]||('#'+id));
 function left(end){const s=Number(end)-Math.floor(Date.now()/1000);if(s<=0)return 'ended';const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h?`${h}h ${m}m`:`${m}m ${x}s`}
@@ -20,7 +20,7 @@ async function load(){const n=mnet();if(!n)return;const p=new ethers.JsonRpcProv
 let lastA=null;
 function render(full=true){const box=$('#mkList');if(!box)return;const n=mnet();if(n&&acct!==lastA){lastA=acct;load()}
  if(!n){$('#mkNet').textContent='SOON';box.innerHTML='<p class="muted">The market opens once the market contract is live.</p>';$('#mkSell').innerHTML='';sellKey='';return}
- $('#mkNet').textContent=n.main?'LIVE · BASE':'TESTNET';$('#mkFee').textContent=(M.fee/100)+'%';
+ $('#mkNet').textContent=n.main?n.label:'TESTNET';$('#mkFee').textContent=(M.fee/100)+'%';
  const me=(acct||'').toLowerCase();if(!full&&!M.rows.some(r=>r.end>0n))return;
  box.innerHTML=!M.loaded?'<p class="muted">Loading…</p>':(M.rows.length?M.rows.map(r=>{const auc=r.end>0n,ended=auc&&Number(r.end)<=Date.now()/1000,mine=r.seller.toLowerCase()===me;
   const cur=auc?(r.bid>0n?r.bid:r.price):r.price;const id=Number(r.id);

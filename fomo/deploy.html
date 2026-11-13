@@ -28,7 +28,7 @@ a{color:#3ef0ff}
 </div>
 <div class="p">
  <div class="s">1. Pick network</div>
- <div class="row"><button class="b sel" id="n-test">Base Sepolia (test)</button><button class="b gold" id="n-main">Base mainnet</button></div>
+ <div class="row"><button class="b sel" id="n-test">Base Sepolia (test)</button><button class="b gold" id="n-main">Base mainnet</button><button class="b gold" id="n-eth">Ethereum mainnet</button></div>
  <div class="s" id="netnote" style="margin-top:8px"></div>
  <div class="s" style="margin-top:12px">2. Connect the wallet you want as owner</div>
  <div class="row"><button class="b" id="c-inj">Browser wallet</button><button class="b" id="c-wc">WalletConnect</button></div>
@@ -40,22 +40,22 @@ a{color:#3ef0ff}
 </div>
 <script type="module">
 import {ethers} from './vendor/ethers.min.js';
-const NET={test:{id:84532,hex:'0x14a34',name:'Base Sepolia',rpc:'https://sepolia.base.org',exp:'https://sepolia.basescan.org'},main:{id:8453,hex:'0x2105',name:'Base',rpc:'https://mainnet.base.org',exp:'https://basescan.org'}};
+const NET={test:{id:84532,hex:'0x14a34',name:'Base Sepolia',rpc:'https://sepolia.base.org',exp:'https://sepolia.basescan.org'},main:{id:8453,hex:'0x2105',name:'Base',rpc:'https://mainnet.base.org',exp:'https://basescan.org'},eth:{id:1,hex:'0x1',name:'Ethereum',rpc:'https://ethereum-rpc.publicnode.com',exp:'https://etherscan.io'}};
 let net='test',raw=null,acct=null;
 const $=i=>document.getElementById(i), log=t=>$('log').textContent=t;
 const cfg=await (await fetch('config.json',{cache:'no-store'})).json();
 const art=await (await fetch('contract/FomoCards.json')).json();const mart=await (await fetch('contract/FomoMarket.json')).json();
 $('payout').textContent=cfg.payout;
-function setNet(n){net=n;$('n-test').classList.toggle('sel',n==='test');$('n-main').classList.toggle('sel',n==='main');$('netnote').textContent=n==='main'?'Real ETH. Live sales go to the payout wallet once deployed.':'Free test network. Get test ETH from a Base Sepolia faucet.'}
-$('n-test').onclick=()=>setNet('test');$('n-main').onclick=()=>setNet('main');setNet('test');
+function setNet(n){net=n;$('n-test').classList.toggle('sel',n==='test');$('n-main').classList.toggle('sel',n==='main');$('n-eth').classList.toggle('sel',n==='eth');$('netnote').textContent=n!=='test'?'Real ETH on '+NET[n].name+'. Its own edition with its own caps. Live sales go to the payout wallet once deployed.':'Free test network. Get test ETH from a Base Sepolia faucet.'}
+$('n-test').onclick=()=>setNet('test');$('n-main').onclick=()=>setNet('main');$('n-eth').onclick=()=>setNet('eth');setNet('test');
 async function useProvider(p){raw=p;const a=await p.request({method:'eth_requestAccounts'});acct=a[0];$('who').innerHTML='Connected <span class="m">'+acct+'</span>';$('go').disabled=false}
 $('c-inj').onclick=async()=>{if(!window.ethereum){location.href='https://metamask.app.link/dapp/'+location.href.replace(/^https?:\/\//,'');return}try{await useProvider(window.ethereum)}catch(e){log('Connect cancelled')}};
 $('c-wc').onclick=async()=>{try{log('Loading WalletConnect…');const {EthereumProvider}=await import('https://esm.sh/@walletconnect/ethereum-provider@2.17.0');
- const p=await EthereumProvider.init({projectId:'285acdd88b8d03791c962a3df94f70fa',chains:[8453],optionalChains:[84532,8453],showQrModal:true,rpcMap:{84532:NET.test.rpc,8453:NET.main.rpc},metadata:{name:'FOMO Deploy',description:'Deploy FOMO cards',url:location.origin,icons:[]}});
+ const p=await EthereumProvider.init({projectId:'285acdd88b8d03791c962a3df94f70fa',chains:[8453],optionalChains:[84532,8453,1],showQrModal:true,rpcMap:{84532:NET.test.rpc,8453:NET.main.rpc,1:NET.eth.rpc},metadata:{name:'FOMO Deploy',description:'Deploy FOMO cards',url:location.origin,icons:[]}});
  await p.connect();await useProvider(p);log('Ready.')}catch(e){log('WalletConnect cancelled: '+(e.message||e))}};
 async function ensureChain(){const n=NET[net];try{await raw.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){await raw.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}}
 $('go').onclick=async()=>{const n=NET[net];
- if(net==='main'&&!confirm('Deploy FOMO Cards on Base MAINNET from '+acct+'? You pay gas in real ETH.'))return;
+ if(net!=='test'&&!confirm('Deploy FOMO Cards on '+n.name+' MAINNET from '+acct+'? You pay gas in real ETH.'))return;
  try{$('go').disabled=true;log('Switching to '+n.name+'…');await ensureChain();
   const prov=new ethers.BrowserProvider(raw);const chain=(await prov.getNetwork()).chainId;if(Number(chain)!==n.id)throw new Error('Wallet is on chain '+chain+', expected '+n.id);
   const signer=await prov.getSigner();const f=new ethers.ContractFactory(art.abi,art.bytecode,signer);
@@ -64,6 +64,6 @@ $('go').onclick=async()=>{const n=NET[net];
   log('Sent. Waiting for confirmation…\n'+n.exp+'/tx/'+tx.hash);await c.waitForDeployment();const addr=await c.getAddress();
   log('Cards live at '+addr+'. Step 2 of 2: confirm the market deploy (2.5% platform fee to the payout wallet)…');
   const mf=new ethers.ContractFactory(mart.abi,mart.bytecode,signer);const mc=await mf.deploy(addr,250,cfg.payout);const mtx=mc.deploymentTransaction();await mc.waitForDeployment();const maddr=await mc.getAddress();
-  $('log').innerHTML='<b>Deployed on '+n.name+'</b><br>Cards: <span class="m">'+addr+'</span> <a target="_blank" href="'+n.exp+'/address/'+addr+'">Basescan</a><br>Market: <span class="m">'+maddr+'</span> <a target="_blank" href="'+n.exp+'/address/'+maddr+'">Basescan</a><br><br>Send both addresses to Hark to switch mints and the market on.';
+  $('log').innerHTML='<b>Deployed on '+n.name+'</b><br>Cards: <span class="m">'+addr+'</span> <a target="_blank" href="'+n.exp+'/address/'+addr+'">Explorer</a><br>Market: <span class="m">'+maddr+'</span> <a target="_blank" href="'+n.exp+'/address/'+maddr+'">Explorer</a><br><br>Send both addresses to Hark to switch mints and the market on. Next: switch to the other mainnet and tap Deploy again.';
  }catch(e){log('Deploy failed or cancelled: '+(e.shortMessage||e.message||e));$('go').disabled=false}};
 </script></body></html>
