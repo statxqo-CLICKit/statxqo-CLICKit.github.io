@@ -79,7 +79,7 @@ a{color:var(--c)}
 <body>
 <canvas id="stars"></canvas>
 <div class="wrap">
-  <div class="banner">TESTNET DEMO · FREE TO PLAY · NO REAL MONEY · NO REAL-VALUE PRIZES</div>
+  <div class="banner">FREE TO PLAY · SKILL-BASED ROUNDS · ROUND PRIZES HAVE NO CASH VALUE</div>
   <h1>FOMO</h1>
   <div class="sub">WEB5 NFT ARENA</div>
 
@@ -88,8 +88,8 @@ a{color:var(--c)}
     <div class="tag center" style="margin-bottom:4px">ENTER THE ARENA</div><div class="center muted" style="letter-spacing:.14em;margin-bottom:14px">Mint · Battle · Evolve · Dominate</div><div class="tag center" style="margin-top:0">Join. Play. Win Rare NFTs.</div>
     <div id="walletBox"></div>
     <div class="panel">
-      <label>Enter Entry Amount <span class="soon">COMING SOON · TESTNET</span></label>
-      <input disabled placeholder="Free to join during testnet" aria-label="Entry amount (disabled)">
+      <label>Entry Amount <span class="soon">FREE</span></label>
+      <input disabled placeholder="Free to join · no entry fee" aria-label="Entry amount (free)">
       <p class="muted center" style="margin-bottom:12px">Rounds are free. Your score decides your drops: skill, not luck.</p>
       <button class="btn" id="joinBtn">Join Round</button>
       <p class="muted center" style="margin-top:8px" id="roundsLeft"></p>
@@ -127,7 +127,7 @@ a{color:var(--c)}
   <!-- SHOP -->
   <section class="view" id="v-shop">
     <div class="panel">
-      <h2>Mint Shop <span class="soon">TESTNET · COMING SOON</span></h2>
+      <h2>Mint Shop <span class="soon" id="shopNet">…</span></h2>
       <p class="muted">Fixed prices. You see exactly which card and star tier you get. No blind boxes, no loot boxes.</p>
       <div id="shopList" style="margin-top:8px"></div>
     </div>
@@ -138,10 +138,11 @@ a{color:var(--c)}
     </div>
     <div class="panel">
       <h2>Creator Royalty</h2>
-      <p class="muted">Resales of FOMO cards will carry a 5% creator royalty to <span class="addr">0x20dc…59F2</span>, set in the contract once it ships.</p>
+      <p class="muted">Resales of FOMO cards carry a 5% creator royalty to <span class="addr">0x20dc…59F2</span>, set in the card contract.</p>
     </div>
-    <p class="muted center" style="font-size:11px">Nothing here takes real money. Real-money features stay off until legal review.</p>
+    <p class="muted center" id="shopNote" style="font-size:11px"></p>
   </section>
+  <footer class="muted center" style="font-size:11px;margin:18px 0 8px">FOMO cards are collectible game items. <b>Not an investment. No returns promised.</b> Free rounds, no purchase needed. 18+. <a href="terms.html">Terms</a></footer>
 </div>
 
 <nav>
@@ -166,7 +167,8 @@ const TIERS=[null,
  {n:'Mythic',art:'skull',f:'hue-rotate(260deg) saturate(1.5)',t1:'#ff4fd8',t2:'#ff3355',name:'Blood Warlord'},
  {n:'God Tier',art:'skull',f:'none',t1:'#ffc531',t2:'#ff5a00',name:'Horned Overlord'}];
 const DAILY_ROUNDS=5;
-let acct=null, wcProvider=null, sel=null;
+let acct=null, wcProvider=null, sel=null, prov=null, CFG=null;
+fetch('config.json',{cache:'no-store'}).then(r=>r.json()).then(c=>{CFG=c;renderAll()}).catch(()=>{});
 const $=s=>document.querySelector(s);
 const key=()=> 'fomo:'+(acct?acct.toLowerCase():'guest');
 function load(){try{return JSON.parse(localStorage.getItem(key()))||{}}catch(e){return{}}}
@@ -179,22 +181,22 @@ function short(a){return a.slice(0,6)+'…'+a.slice(-4)}
 
 // ---- wallet
 function renderWallet(){const b=$('#walletBox');
- if(acct){b.innerHTML=`<div class="panel wallet"><span>🟢 <span class="addr">${short(acct)}</span> · Base Sepolia</span><button class="btn sm ghost" style="width:auto;padding:8px 12px" id="dc">Disconnect</button></div>`;$('#dc').onclick=disconnect}
+ if(acct){b.innerHTML=`<div class="panel wallet"><span>🟢 <span class="addr">${short(acct)}</span> · Base</span><button class="btn sm ghost" style="width:auto;padding:8px 12px" id="dc">Disconnect</button></div>`;$('#dc').onclick=disconnect}
  else{b.innerHTML=`<button class="btn" id="cw">Connect Wallet</button><p class="muted center" style="margin-top:8px">Optional. Play as guest, or connect to keep your collection on your wallet address. FOMO never asks for your seed phrase.</p>`;$('#cw').onclick=openConnect}}
 function openConnect(){modal(`<h2>Connect Wallet</h2>
  <button class="btn" id="m-inj" style="margin-bottom:10px">Browser Wallet</button>
  <button class="btn" id="m-wc" style="margin-bottom:10px">WalletConnect</button>
  <button class="btn ghost sm" id="m-x">Cancel</button>
- <p class="muted center" style="margin-top:10px">Read-only connect. FOMO only reads your address and never signs or sends anything for you.</p>`);
+ <p class="muted center" style="margin-top:10px">FOMO reads your address. Purchases only happen when you approve them in your own wallet. FOMO never asks for your seed phrase.</p>`);
  $('#m-inj').onclick=connectInjected;$('#m-wc').onclick=connectWC;$('#m-x').onclick=closeModal}
 async function switchChain(p){try{await p.request({method:'wallet_switchEthereumChain',params:[{chainId:BASE_SEPOLIA.chainId}]})}catch(e){if(e&&(e.code===4902||(e.data&&e.data.originalError&&e.data.originalError.code===4902))){try{await p.request({method:'wallet_addEthereumChain',params:[BASE_SEPOLIA]})}catch(_){}}}}
 async function connectInjected(){const p=window.ethereum;
  if(!p){closeModal();const u=location.href.replace(/^https?:\/\//,'');modal(`<h2>No browser wallet found</h2><p class="muted" style="margin-bottom:12px">Open FOMO inside your wallet app, or use WalletConnect.</p><a class="btn" style="text-align:center;text-decoration:none;margin-bottom:10px" href="https://metamask.app.link/dapp/${u}">Open in MetaMask</a><a class="btn" style="text-align:center;text-decoration:none;margin-bottom:10px" href="https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(location.href)}">Open in Coinbase Wallet</a><button class="btn ghost sm" onclick="closeModal()">Close</button>`);return}
- try{const a=await p.request({method:'eth_requestAccounts'});await switchChain(p);setAcct(a[0]);p.on&&p.on('accountsChanged',x=>setAcct(x[0]||null));closeModal()}catch(e){toast('Connection cancelled')}}
+ try{const a=await p.request({method:'eth_requestAccounts'});prov=p;await switchChain(p);setAcct(a[0]);p.on&&p.on('accountsChanged',x=>setAcct(x[0]||null));closeModal()}catch(e){toast('Connection cancelled')}}
 async function connectWC(){closeModal();toast('Loading WalletConnect…');
  try{const {EthereumProvider}=await import('https://esm.sh/@walletconnect/ethereum-provider@2.17.0');
-  wcProvider=await EthereumProvider.init({projectId:WC_PROJECT_ID,chains:[84532],optionalChains:[84532],showQrModal:true,rpcMap:{84532:'https://sepolia.base.org'},metadata:{name:'FOMO Web5 NFT Arena',description:'Free-to-play testnet NFT arena',url:location.origin+location.pathname,icons:[location.origin+location.pathname.replace(/[^/]*$/,'')+'img/skull.jpg']}});
-  await wcProvider.connect();const a=wcProvider.accounts;setAcct(a&&a[0]);wcProvider.on('disconnect',()=>setAcct(null));
+  wcProvider=await EthereumProvider.init({projectId:WC_PROJECT_ID,chains:[8453],optionalChains:[84532,8453],showQrModal:true,rpcMap:{84532:'https://sepolia.base.org',8453:'https://mainnet.base.org'},metadata:{name:'FOMO Web5 NFT Arena',description:'Free-to-play testnet NFT arena',url:location.origin+location.pathname,icons:[location.origin+location.pathname.replace(/[^/]*$/,'')+'img/skull.jpg']}});
+  await wcProvider.connect();prov=wcProvider;const a=wcProvider.accounts;setAcct(a&&a[0]);wcProvider.on('disconnect',()=>setAcct(null));
  }catch(e){console.error(e);toast('WalletConnect cancelled or unavailable')}}
 async function disconnect(){if(wcProvider){try{await wcProvider.disconnect()}catch(e){}wcProvider=null}setAcct(null)}
 function setAcct(a){acct=a||null;if(acct){const g=JSON.parse(localStorage.getItem('fomo:guest')||'null');const d=load();if(g&&g.cards&&!d.cards){save(g);localStorage.removeItem('fomo:guest');toast('Guest cards moved to your wallet profile')}}renderAll()}
@@ -212,10 +214,20 @@ function renderAll(){const d=state();save(d);renderWallet();
  document.querySelectorAll('#evoGrid .nft').forEach(n=>n.onclick=()=>{sel=+n.dataset.t;renderAll()});
  const ok=sel&&d.cards[sel]>=3;$('#evoBtn').disabled=!ok;
  $('#evoInfo').innerHTML=sel?(ok?`3× ${sel}★ ${TIERS[sel].n} → 1× ${sel+1}★ ${TIERS[sel+1].n}`:`Need 3× ${sel}★ (you have ${d.cards[sel]})`):'Pick a tier to fuse.';
- $('#shopList').innerHTML=[[1,'0.01'],[3,'0.03'],[7,'0.07']].map(([t,p])=>`<div class="shopitem">${nftHTML(t)}<div class="info"><b>${TIERS[t].name}</b><br><span class="pill">${t}★ ${TIERS[t].n}</span><div class="price">${p} ETH <span class="pill">Base Sepolia</span></div></div><button class="btn sm" disabled style="width:auto;padding:8px 10px">Mint · Soon</button></div>`).join('');
+ const sn=shopNet();$('#shopNet').textContent=sn?sn.label:'OPENING SOON';$('#shopNote').textContent=sn?(sn.main?'Mints are real on-chain purchases on Base, signed in your wallet. Final sale.':'Test network: mints use free test ETH and have no real value.'):'The card contract is being deployed. Mints open shortly.';
+ $('#shopList').innerHTML=[[1,'0.01'],[3,'0.03'],[7,'0.07']].map(([t,p])=>`<div class="shopitem">${nftHTML(t)}<div class="info"><b>${TIERS[t].name}</b><br><span class="pill">${t}★ ${TIERS[t].n}</span><div class="price">${p} ${sn&&!sn.main?'test ETH':'ETH'}</div></div><button class="btn sm mintb" data-t="${t}" data-p="${p}" ${sn?'':'disabled'} style="width:auto;padding:8px 10px">${sn?'Mint':'Soon'}</button></div>`).join('');
+ document.querySelectorAll('.mintb').forEach(b=>b.onclick=()=>mintCard(+b.dataset.t,b.dataset.p));
 }
 $('#evoBtn').onclick=()=>{const d=state();if(!sel||d.cards[sel]<3)return;d.cards[sel]-=3;d.cards[sel+1]++;save(d);const t=sel+1;sel=null;renderAll();
  modal(`<h2 class="center">Evolved!</h2><div style="width:60%;margin:10px auto">${nftHTML(t)}</div><p class="center"><b>${t}★ ${TIERS[t].name}</b></p>${t===7?'<p class="center" style="color:var(--g);font-weight:900;margin-top:6px">GOD TIER UNLOCKED</p>':''}<button class="btn sm" style="margin-top:12px" onclick="closeModal()">Nice</button>`)};
+function shopNet(){if(!CFG)return null;if(CFG.mainnet&&CFG.mainnet.address)return{main:true,addr:CFG.mainnet.address,id:8453,hex:'0x2105',label:'LIVE · BASE',exp:'https://basescan.org',rpc:'https://mainnet.base.org',name:'Base'};if(CFG.testnet&&CFG.testnet.address)return{main:false,addr:CFG.testnet.address,id:84532,hex:'0x14a34',label:'TESTNET',exp:'https://sepolia.basescan.org',rpc:'https://sepolia.base.org',name:'Base Sepolia'};return null}
+async function mintCard(t,p){const sn=shopNet();if(!sn)return;if(!prov||!acct){openConnect();toast('Connect a wallet to mint');return}
+ try{toast('Confirm in your wallet…');try{await prov.request({method:'wallet_switchEthereumChain',params:[{chainId:sn.hex}]})}catch(e){await prov.request({method:'wallet_addEthereumChain',params:[{chainId:sn.hex,chainName:sn.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[sn.rpc],blockExplorerUrls:[sn.exp]}]})}
+  const {ethers}=await import('./vendor/ethers.min.js');const bp=new ethers.BrowserProvider(prov);const s=await bp.getSigner();
+  const c=new ethers.Contract(sn.addr,['function mint(uint256 tier,uint256 amount) payable'],s);const tx=await c.mint(t,1,{value:ethers.parseEther(p)});
+  toast('Minting…');await tx.wait();const d=state();d.cards[t]++;save(d);renderAll();
+  modal(`<h2 class="center">Minted!</h2><div style="width:60%;margin:10px auto">${nftHTML(t)}</div><p class="center">${t}★ ${TIERS[t].name}</p><p class="center"><a target="_blank" href="${sn.exp}/tx/${tx.hash}">View transaction</a></p><button class="btn sm" style="margin-top:12px" onclick="closeModal()">Nice</button>`)
+ }catch(e){toast('Mint cancelled or failed')}}
 function modal(h){$('#modalBody').innerHTML=h;$('#modal').classList.add('on')}
 function closeModal(){$('#modal').classList.remove('on')}
 

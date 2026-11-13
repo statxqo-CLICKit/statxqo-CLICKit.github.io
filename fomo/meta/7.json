@@ -1,0 +1,16 @@
+{
+ "name": "Horned Overlord \u00b7 7\u2605 God Tier",
+ "description": "FOMO Web5 NFT Arena card, 7\u2605 God Tier. Collectible game item. Not an investment; no returns promised.",
+ "image": "https://statxqo-clickit.github.io/fomo/img/skull.jpg",
+ "external_url": "https://statxqo-clickit.github.io/fomo/",
+ "attributes": [
+  {
+   "trait_type": "Stars",
+   "value": 7
+  },
+  {
+   "trait_type": "Tier",
+   "value": "God Tier"
+  }
+ ]
+}

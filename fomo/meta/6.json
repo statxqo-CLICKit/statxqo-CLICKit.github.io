@@ -1,0 +1,16 @@
+{
+ "name": "Blood Warlord \u00b7 6\u2605 Mythic",
+ "description": "FOMO Web5 NFT Arena card, 6\u2605 Mythic. Collectible game item. Not an investment; no returns promised.",
+ "image": "https://statxqo-clickit.github.io/fomo/img/skull.jpg",
+ "external_url": "https://statxqo-clickit.github.io/fomo/",
+ "attributes": [
+  {
+   "trait_type": "Stars",
+   "value": 6
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Mythic"
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FOMO · Deploy Card Contract</title><meta name="robots" content="noindex">
+<style>
+body{margin:0;font-family:system-ui,sans-serif;color:#e9e6ff;background:linear-gradient(#07021a66,#07021acc),url(img/bg.jpg) center/cover fixed,#07021a;min-height:100vh}
+.w{max-width:520px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:30px;margin:8px 0 4px;background:linear-gradient(90deg,#3ef0ff,#c04bff,#ff4fd8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p{background:rgba(20,10,50,.8);border:1px solid #3ef0ff55;border-radius:16px;padding:16px;margin:14px 0}
+.b{display:block;width:100%;padding:15px;margin:10px 0 0;border-radius:14px;border:2px solid #3ef0ff;background:#150a35;color:#fff;font-weight:800;font-size:16px;letter-spacing:.05em;cursor:pointer}
+.b.gold{border-color:#ffc531}.b[disabled]{opacity:.4}
+.m{font-family:ui-monospace,monospace;font-size:12px;word-break:break-all;color:#3ef0ff}
+.s{font-size:13px;color:#c9c3ec;line-height:1.5}
+.row{display:flex;gap:8px}.row .b{flex:1}
+.sel{outline:3px solid #fff}
+#log{white-space:pre-wrap}
+a{color:#3ef0ff}
+</style></head><body><div class="w">
+<h1>Deploy FOMO Cards</h1>
+<div class="s">One-tap deploy of the FOMO card contract. You sign from your own wallet; Hark never holds keys or signs.</div>
+<div class="p">
+ <div class="s"><b>Contract:</b> FomoCards (ERC-1155, ERC-2981)<br>
+ <b>Fixed prices:</b> 1★ Common 0.01 ETH · 3★ Rare 0.03 ETH · 7★ God Tier 0.07 ETH (buyer picks the exact tier, no blind boxes)<br>
+ <b>Evolve:</b> burn 3 of a tier → 1 of the next (gas only)<br>
+ <b>Proceeds + 5% royalty to:</b> <span class="m" id="payout"></span><br>
+ <b>Owner:</b> the wallet that deploys (can pause, change prices, payout, metadata)<br>
+ <a href="contract/FomoCards.sol" target="_blank">View source</a></div>
+</div>
+<div class="p">
+ <div class="s">1. Pick network</div>
+ <div class="row"><button class="b sel" id="n-test">Base Sepolia (test)</button><button class="b gold" id="n-main">Base mainnet</button></div>
+ <div class="s" id="netnote" style="margin-top:8px"></div>
+ <div class="s" style="margin-top:12px">2. Connect the wallet you want as owner</div>
+ <div class="row"><button class="b" id="c-inj">Browser wallet</button><button class="b" id="c-wc">WalletConnect</button></div>
+ <div class="s" id="who" style="margin-top:8px">Not connected</div>
+ <button class="b gold" id="go" disabled>3. Deploy</button>
+</div>
+<div class="p"><div class="s" id="log">Ready.</div></div>
+<div class="s">Deploy needs a little ETH for gas on the chosen network (mainnet deploy is usually well under $1 on Base). After it confirms, send the contract address to Hark to switch FOMO's mint buttons over and verify the source on Basescan.</div>
+</div>
+<script type="module">
+import {ethers} from './vendor/ethers.min.js';
+const NET={test:{id:84532,hex:'0x14a34',name:'Base Sepolia',rpc:'https://sepolia.base.org',exp:'https://sepolia.basescan.org'},main:{id:8453,hex:'0x2105',name:'Base',rpc:'https://mainnet.base.org',exp:'https://basescan.org'}};
+let net='test',raw=null,acct=null;
+const $=i=>document.getElementById(i), log=t=>$('log').textContent=t;
+const cfg=await (await fetch('config.json',{cache:'no-store'})).json();
+const art=await (await fetch('contract/FomoCards.json')).json();
+$('payout').textContent=cfg.payout;
+function setNet(n){net=n;$('n-test').classList.toggle('sel',n==='test');$('n-main').classList.toggle('sel',n==='main');$('netnote').textContent=n==='main'?'Real ETH. Live sales go to the payout wallet once deployed.':'Free test network. Get test ETH from a Base Sepolia faucet.'}
+$('n-test').onclick=()=>setNet('test');$('n-main').onclick=()=>setNet('main');setNet('test');
+async function useProvider(p){raw=p;const a=await p.request({method:'eth_requestAccounts'});acct=a[0];$('who').innerHTML='Connected <span class="m">'+acct+'</span>';$('go').disabled=false}
+$('c-inj').onclick=async()=>{if(!window.ethereum){location.href='https://metamask.app.link/dapp/'+location.href.replace(/^https?:\/\//,'');return}try{await useProvider(window.ethereum)}catch(e){log('Connect cancelled')}};
+$('c-wc').onclick=async()=>{try{log('Loading WalletConnect…');const {EthereumProvider}=await import('https://esm.sh/@walletconnect/ethereum-provider@2.17.0');
+ const p=await EthereumProvider.init({projectId:'285acdd88b8d03791c962a3df94f70fa',chains:[8453],optionalChains:[84532,8453],showQrModal:true,rpcMap:{84532:NET.test.rpc,8453:NET.main.rpc},metadata:{name:'FOMO Deploy',description:'Deploy FOMO cards',url:location.origin,icons:[]}});
+ await p.connect();await useProvider(p);log('Ready.')}catch(e){log('WalletConnect cancelled: '+(e.message||e))}};
+async function ensureChain(){const n=NET[net];try{await raw.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){await raw.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}}
+$('go').onclick=async()=>{const n=NET[net];
+ if(net==='main'&&!confirm('Deploy FOMO Cards on Base MAINNET from '+acct+'? You pay gas in real ETH.'))return;
+ try{$('go').disabled=true;log('Switching to '+n.name+'…');await ensureChain();
+  const prov=new ethers.BrowserProvider(raw);const chain=(await prov.getNetwork()).chainId;if(Number(chain)!==n.id)throw new Error('Wallet is on chain '+chain+', expected '+n.id);
+  const signer=await prov.getSigner();const f=new ethers.ContractFactory(art.abi,art.bytecode,signer);
+  log('Confirm the deploy in your wallet…');const c=await f.deploy(cfg.payout,cfg.baseURI);const tx=c.deploymentTransaction();
+  log('Sent. Waiting for confirmation…\n'+n.exp+'/tx/'+tx.hash);await c.waitForDeployment();const addr=await c.getAddress();
+  $('log').innerHTML='<b>Deployed on '+n.name+'</b><br>Contract: <span class="m">'+addr+'</span><br><a target="_blank" href="'+n.exp+'/address/'+addr+'">View on Basescan</a><br>Tx: <a target="_blank" href="'+n.exp+'/tx/'+tx.hash+'">'+tx.hash.slice(0,18)+'…</a><br><br>Send this address to Hark to switch mints on.';
+ }catch(e){log('Deploy failed or cancelled: '+(e.shortMessage||e.message||e));$('go').disabled=false}};
+</script></body></html>

@@ -1,0 +1,16 @@
+{
+ "name": "Neon Prowler \u00b7 3\u2605 Rare",
+ "description": "FOMO Web5 NFT Arena card, 3\u2605 Rare. Collectible game item. Not an investment; no returns promised.",
+ "image": "https://statxqo-clickit.github.io/fomo/img/cat.jpg",
+ "external_url": "https://statxqo-clickit.github.io/fomo/",
+ "attributes": [
+  {
+   "trait_type": "Stars",
+   "value": 3
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Rare"
+  }
+ ]
+}

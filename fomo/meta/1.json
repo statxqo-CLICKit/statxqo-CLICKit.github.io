@@ -1,0 +1,16 @@
+{
+ "name": "Iron Sentinel \u00b7 1\u2605 Common",
+ "description": "FOMO Web5 NFT Arena card, 1\u2605 Common. Collectible game item. Not an investment; no returns promised.",
+ "image": "https://statxqo-clickit.github.io/fomo/img/knight.jpg",
+ "external_url": "https://statxqo-clickit.github.io/fomo/",
+ "attributes": [
+  {
+   "trait_type": "Stars",
+   "value": 1
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Common"
+  }
+ ]
+}

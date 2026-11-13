@@ -1,0 +1,16 @@
+{
+ "name": "Void Prowler \u00b7 4\u2605 Epic",
+ "description": "FOMO Web5 NFT Arena card, 4\u2605 Epic. Collectible game item. Not an investment; no returns promised.",
+ "image": "https://statxqo-clickit.github.io/fomo/img/cat.jpg",
+ "external_url": "https://statxqo-clickit.github.io/fomo/",
+ "attributes": [
+  {
+   "trait_type": "Stars",
+   "value": 4
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Epic"
+  }
+ ]
+}
