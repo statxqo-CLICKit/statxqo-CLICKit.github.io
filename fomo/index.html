@@ -11,6 +11,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:#e9e6ff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100%}
 body{background:radial-gradient(ellipse at 20% 10%,#3a1a7a55,transparent 50%),radial-gradient(ellipse at 80% 30%,#0a4a8a55,transparent 50%),radial-gradient(ellipse at 50% 100%,#6a1a8a55,transparent 60%),var(--bg);padding-bottom:84px}
+body::before{content:'';position:fixed;inset:0;z-index:-2;background:linear-gradient(#07021a55,#07021a99),url(img/bg.jpg) center/cover no-repeat}
 #stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
 .wrap{max-width:520px;margin:0 auto;padding:16px 16px 24px}
 .banner{font-size:11px;letter-spacing:.06em;text-align:center;background:linear-gradient(90deg,#3ef0ff22,#c04bff33,#3ef0ff22);border:1px solid #3ef0ff55;border-radius:10px;padding:6px 8px;color:#bff}
@@ -48,7 +49,7 @@ nav button{flex:1;max-width:130px;background:none;border:0;color:#a9a3cc;padding
 nav button span{display:block;font-size:20px;margin-bottom:2px}
 nav button.on{color:var(--c);text-shadow:0 0 8px #3ef0ff}
 .view{display:none}.view.on{display:block}
-#game{position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 50% 40%,#2a0e5ecc,#05010fee);display:none;touch-action:manipulation;user-select:none}
+#game{position:fixed;inset:0;z-index:50;background:linear-gradient(#07021a88,#07021acc),url(img/bg.jpg) center/cover;display:none;touch-action:manipulation;user-select:none}
 #game.on{display:block}
 #hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 18px 10px;font-weight:900;font-size:20px}
 #hud .t{color:var(--g)}#hud .s{color:var(--c)}
