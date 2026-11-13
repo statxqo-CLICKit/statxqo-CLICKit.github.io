@@ -138,7 +138,8 @@ contract FomoMarket is ERC1155Holder, Ownable, Pausable, ReentrancyGuard {
     }
 
     function _pay(address to, uint256 a) internal {
-        (bool ok,) = to.call{value: a, gas: 30000}("");
+        bool ok;
+        assembly { ok := call(30000, to, a, 0, 0, 0, 0) } // no returndata copy (return-bomb safe)
         if (!ok) credit[to] += a;
     }
 }

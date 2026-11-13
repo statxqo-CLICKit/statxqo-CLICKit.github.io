@@ -31,10 +31,11 @@ contract FomoCards is ERC1155, ERC1155Supply, ERC2981, Ownable, Pausable, Reentr
     uint256 public constant MAX_TIER = 7;
     uint256 public constant MAX_PER_TX = 20;
 
-    // Fixed prices (wei). 0 = not sold directly (reach it by evolving).
-    uint256 public constant PRICE_1 = 0.01 ether;
-    uint256 public constant PRICE_3 = 0.03 ether;
-    uint256 public constant PRICE_7 = 0.07 ether;
+    // Fixed prices (wei), set once at deploy and immutable forever after. Tiers 2,4,5,6 are not
+    // sold directly (reach them by evolving). Mainnet deploy: 0.01 / 0.03 / 0.07 ETH.
+    uint256 public immutable PRICE_1;
+    uint256 public immutable PRICE_3;
+    uint256 public immutable PRICE_7;
 
     // Add-ons
     uint256 public constant ADDON_AURA = 101;   // 55%
@@ -62,17 +63,19 @@ contract FomoCards is ERC1155, ERC1155Supply, ERC2981, Ownable, Pausable, Reentr
     error BadTier(); error BadAmount(); error WrongPayment(); error NotForSale(); error TransferFailed();
     error SoldOut(); error BonusTaken(); error NoBonusLeft(); error NotCommitted(); error TooEarly(); error AlreadyRevealed();
 
-    constructor(address payable _payout, bytes memory knight, bytes memory cat, bytes memory skull)
+    constructor(address payable _payout, uint256 p1, uint256 p3, uint256 p7, bytes memory knight, bytes memory cat, bytes memory skull)
         ERC1155("") Ownable(msg.sender)
     {
+        require(_payout != address(0), "zero payout");
         payout = _payout;
+        PRICE_1 = p1; PRICE_3 = p3; PRICE_7 = p7;
         _setDefaultRoyalty(_payout, 500); // 5%
         art[0] = _store(knight); art[1] = _store(cat); art[2] = _store(skull);
         bonusMax = 500;
     }
 
     // ---------- pricing & caps (constants)
-    function priceOf(uint256 tier) public pure returns (uint256) {
+    function priceOf(uint256 tier) public view returns (uint256) {
         if (tier == 1) return PRICE_1;
         if (tier == 3) return PRICE_3;
         if (tier == 7) return PRICE_7;
@@ -142,7 +145,7 @@ contract FomoCards is ERC1155, ERC1155Supply, ERC2981, Ownable, Pausable, Reentr
     }
 
     // ---------- owner (cannot touch art, prices, caps or balances)
-    function setPayout(address payable p) external onlyOwner { payout = p; _setDefaultRoyalty(p, 500); emit PayoutSet(p); }
+    function setPayout(address payable p) external onlyOwner { require(p != address(0), "zero payout"); payout = p; _setDefaultRoyalty(p, 500); emit PayoutSet(p); }
     function setBonusMax(uint256 m) external onlyOwner { require(m >= bonusClaimed, "below claimed"); bonusMax = m; emit BonusMaxSet(m); }
     function pause() external onlyOwner { _pause(); }
     function unpause() external onlyOwner { _unpause(); }
