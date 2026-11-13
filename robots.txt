@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /fomo/deploy.html
+
+Sitemap: https://statxqo-clickit.github.io/sitemap.xml

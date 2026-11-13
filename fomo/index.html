@@ -3,8 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FOMO · Web5 NFT Arena</title>
-<meta name="description" content="FOMO Web5 NFT Arena. Join. Play. Win Rare NFTs. Free-to-play testnet demo.">
+<title>FOMO NFT Arena · Free-to-play skill card game on Base</title>
+<meta name="description" content="FOMO NFT Arena: a free-to-play skill game on Base. Play 20-second rounds, win collectible cards by skill, evolve 1★ to 7★ and trade them in a live market.">
+<link rel="canonical" href="https://statxqo-clickit.github.io/fomo/">
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://esm.sh; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; frame-src https:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta property="og:type" content="website"><meta property="og:site_name" content="FOMO NFT Arena"><meta property="og:title" content="FOMO NFT Arena · Play free, win cards by skill">
+<meta property="og:description" content="Free 20-second skill rounds on Base. Collect, battle and evolve cards from 1★ Common to 7★ God Tier.">
+<meta property="og:url" content="https://statxqo-clickit.github.io/fomo/"><meta property="og:image" content="https://statxqo-clickit.github.io/fomo/img/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="FOMO NFT Arena · Play free, win cards by skill"><meta name="twitter:description" content="Free 20-second skill rounds on Base. Collect, battle and evolve cards 1★ to 7★."><meta name="twitter:image" content="https://statxqo-clickit.github.io/fomo/img/og.jpg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "FOMO NFT Arena", "url": "https://statxqo-clickit.github.io/fomo/", "image": "https://statxqo-clickit.github.io/fomo/img/og.jpg", "description": "Free-to-play skill arena on Base. Play 20-second rounds, win collectible cards by skill, evolve them from 1-star Common to 7-star God Tier, and trade them in a live market.", "genre": ["Arcade", "Collectible card game"], "gamePlatform": ["Web browser", "Mobile web"], "applicationCategory": "Game", "operatingSystem": "Any", "isAccessibleForFree": true, "author": {"@type": "Organization", "name": "C.L.I.C.K.it"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free to play"}}</script>
 <meta name="theme-color" content="#0a0420">
 <style>
 :root{--c:#3ef0ff;--m:#c04bff;--p:#ff4fd8;--g:#ffc531;--bg:#07021a;--card:rgba(20,10,50,.72)}
@@ -45,6 +54,7 @@ input{width:100%;background:#05021099;border:1px solid #ffffff44;border-radius:8
 .foot{text-align:center;font-weight:800;letter-spacing:.06em;margin:18px 0 6px;font-size:14px}
 .foot b{color:var(--g)}
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:#07021ae8;border-top:1px solid #3ef0ff44;backdrop-filter:blur(8px);padding-bottom:env(safe-area-inset-bottom);z-index:20}
+.inp{width:100%;background:#0b0820;border:1px solid #3a2d7a;color:#fff;border-radius:10px;padding:10px;font-size:15px}
 nav button{flex:1;max-width:130px;background:none;border:0;color:#a9a3cc;padding:10px 0 12px;font-size:11px;font-weight:700;letter-spacing:.06em;cursor:pointer}
 nav button span{display:block;font-size:20px;margin-bottom:2px}
 nav button.on{color:var(--c);text-shadow:0 0 8px #3ef0ff}
@@ -144,10 +154,25 @@ a{color:var(--c)}
       <button class="btn sm" disabled style="margin-top:10px">Coming soon · not for sale yet</button>
     </div>
     <div class="panel">
+      <h2>Physical Cards <span class="soon">COMING SOON</span></h2>
+      <p class="muted">Printed FOMO playing cards that match your digital ones. Not for sale yet, no orders taken.</p>
+    </div>
+    <div class="panel">
       <h2>Creator Royalty</h2>
       <p class="muted">Resales of FOMO cards carry a 5% creator royalty to <span class="addr">0x20dc…59F2</span>, set in the card contract.</p>
     </div>
     <p class="muted center" id="shopNote" style="font-size:11px"></p>
+  </section>
+  <section class="view" id="v-market">
+    <div class="panel">
+      <h2>Live Market <span class="soon" id="mkNet">…</span></h2>
+      <p class="muted">Trade FOMO cards with other players: buy now or live auctions. Listed cards are held by the market contract, so a sale delivers the card and pays out in one transaction. Each sale: <b id="mkFee">2.5%</b> platform fee + 5% creator royalty, the rest to the seller.</p>
+      <div id="mkList" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h2>Sell a card</h2>
+      <div id="mkSell" style="display:grid;gap:6px;margin-top:6px"></div>
+    </div>
   </section>
   <footer class="muted center" style="font-size:11px;margin:18px 0 8px">FOMO cards are collectible game items. <b>Not an investment. No returns promised.</b> Free rounds, no purchase needed. 18+. <a href="terms.html">Terms</a></footer>
 </div>
@@ -157,6 +182,7 @@ a{color:var(--c)}
   <button data-v="coll"><span>🃏</span>COLLECTION</button>
   <button data-v="evolve"><span>🧬</span>EVOLVE</button>
   <button data-v="shop"><span>💎</span>SHOP</button>
+  <button data-v="market"><span>🔨</span>MARKET</button>
 </nav>
 
 <div id="game"><div id="hud"><span class="s">Score <span id="gs">0</span></span><span class="t" id="gt">20</span></div></div>
@@ -210,7 +236,7 @@ function setAcct(a){acct=a||null;if(acct){const g=JSON.parse(localStorage.getIte
 
 // ---- views
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));sel=null;renderAll();scrollTo(0,0)});
-function renderAll(){const d=state();save(d);renderWallet();window.chainUI&&window.chainUI.render();
+function renderAll(){const d=state();save(d);renderWallet();window.chainUI&&window.chainUI.render();window.marketUI&&window.marketUI.render();
  $('#heroCards').innerHTML=nftHTML(1)+nftHTML(3)+nftHTML(7);
  $('#tierStrip').innerHTML=[1,2,3,4,5,6,7].map(t=>`<div><b>${t}★</b>${TIERS[t].n}</div>`).join('');
  const left=DAILY_ROUNDS-d.played;$('#roundsLeft').textContent=`${left} of ${DAILY_ROUNDS} free rounds left today`;$('#joinBtn').disabled=left<=0;
@@ -260,5 +286,6 @@ $('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
 renderAll();
 </script>
 <script type="module" src="chain.js"></script>
+<script type="module" src="market.js"></script>
 </body>
 </html>

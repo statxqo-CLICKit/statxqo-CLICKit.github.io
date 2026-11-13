@@ -1,1 +1,1 @@
-{"payout": "0x20dc007398F2748Ffb1618D69be0D72798a259F2", "testnet": {"chainId": 84532, "address": "0x70926999705dF85A4DAc0512893a4f161cd61290"}, "mainnet": {"chainId": 8453, "address": ""}}
+{"payout": "0x20dc007398F2748Ffb1618D69be0D72798a259F2", "testnet": {"chainId": 84532, "address": "0x70926999705dF85A4DAc0512893a4f161cd61290", "market": "0x50cBDdC0dd532ab57dd0E1d749effc78d9145B74"}, "mainnet": {"chainId": 8453, "address": "", "market": ""}}
