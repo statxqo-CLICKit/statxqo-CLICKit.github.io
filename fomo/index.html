@@ -94,6 +94,13 @@ a{color:var(--c)}
       <button class="btn" id="joinBtn">Join Round</button>
       <p class="muted center" style="margin-top:8px" id="roundsLeft"></p>
     </div>
+    <div class="panel" id="bonusPanel" style="display:none">
+      <h2>Early Adopter Bonus <span class="soon">FREE</span></h2>
+      <p class="center" style="font-size:22px;font-weight:900;color:var(--g)" id="bonusCount"></p>
+      <p class="muted center">The first 500 wallets that connect and play a free round get one free random add-on. Everyone eligible gets one; only rarity is random, drawn on-chain. Odds: Aura 55% · Neon Frame 30% · Star Boost 12% · Halo of Seven 3%. No purchase needed, and buying cards doesn't change your odds.</p>
+      <button class="btn" id="bonusBtn" style="margin-top:10px" disabled>Claim free bonus</button>
+      <p class="muted center" id="bonusMsg" style="margin-top:6px"></p>
+    </div>
     <div class="cards" id="heroCards"></div>
     <div class="foot">COLLECT. EVOLVE. REACH FOR <b>7★</b> NFT POWER!</div>
     <div class="panel">
@@ -106,7 +113,7 @@ a{color:var(--c)}
   <!-- COLLECTION -->
   <section class="view" id="v-coll">
     <div class="panel">
-      <h2>Your Collection</h2>
+      <h2>On-chain Cards</h2><p class="muted" id="chainMeta">Connect a wallet to see cards you own on-chain.</p><div class="cards" id="chainGrid"></div></div><div class="panel"><h2>Demo Cards</h2><p class="muted" style="margin-bottom:6px">Won in free rounds. Game-only, no cash value, not NFTs.</p>
       <p class="muted" id="collMeta"></p>
       <div class="cards" id="collGrid"></div>
     </div>
@@ -115,9 +122,9 @@ a{color:var(--c)}
   <!-- EVOLVE -->
   <section class="view" id="v-evolve">
     <div class="panel">
-      <h2>Evolve</h2>
+      <h2>Evolve On-chain</h2><p class="muted" id="evoChainMeta">Connect a wallet holding FOMO cards to evolve them on-chain (3 → 1 next tier, gas only).</p><div id="evoChain" style="margin:8px 0"></div></div><div class="panel"><h2>Evolve Demo Cards</h2>
       <p class="muted">Fuse <b>3</b> cards of the same star tier into <b>1</b> card one tier higher. Keep climbing to 7★ God Tier.</p>
-      <p class="muted" style="margin-top:6px">Evolve fee: <b>0 tFOMO</b> (test token only) <span class="soon">TESTNET</span></p>
+      <p class="muted" style="margin-top:6px">Evolve fee: free.</p>
       <div class="cards" id="evoGrid" style="margin-top:12px"></div>
       <p class="muted center" id="evoInfo" style="margin:12px 0"></p>
       <button class="btn" id="evoBtn" disabled>Evolve</button>
@@ -128,13 +135,13 @@ a{color:var(--c)}
   <section class="view" id="v-shop">
     <div class="panel">
       <h2>Mint Shop <span class="soon" id="shopNet">…</span></h2>
-      <p class="muted">Fixed prices. You see exactly which card and star tier you get. No blind boxes, no loot boxes.</p>
+      <p class="muted">Fixed prices set in the contract. You get exactly the card and star tier you pick, delivered in the same transaction. No blind boxes, no loot boxes, no fees beyond network gas.</p>
       <div id="shopList" style="margin-top:8px"></div>
     </div>
     <div class="panel">
       <h2>Season Pass <span class="soon">COMING SOON</span></h2>
       <p class="muted">Cosmetic card frames and arena skins, extra daily rounds, and early access to new cards. Doesn't change drop odds.</p>
-      <button class="btn sm" disabled style="margin-top:10px">Get Season Pass · testnet soon</button>
+      <button class="btn sm" disabled style="margin-top:10px">Coming soon · not for sale yet</button>
     </div>
     <div class="panel">
       <h2>Creator Royalty</h2>
@@ -203,7 +210,7 @@ function setAcct(a){acct=a||null;if(acct){const g=JSON.parse(localStorage.getIte
 
 // ---- views
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));sel=null;renderAll();scrollTo(0,0)});
-function renderAll(){const d=state();save(d);renderWallet();
+function renderAll(){const d=state();save(d);renderWallet();window.chainUI&&window.chainUI.render();
  $('#heroCards').innerHTML=nftHTML(1)+nftHTML(3)+nftHTML(7);
  $('#tierStrip').innerHTML=[1,2,3,4,5,6,7].map(t=>`<div><b>${t}★</b>${TIERS[t].n}</div>`).join('');
  const left=DAILY_ROUNDS-d.played;$('#roundsLeft').textContent=`${left} of ${DAILY_ROUNDS} free rounds left today`;$('#joinBtn').disabled=left<=0;
@@ -243,7 +250,7 @@ function startRound(){const d=state();if(d.played>=DAILY_ROUNDS)return;
   setTimeout(spawn,Math.max(280,650-(20-time)*18))};
  spawn();
  const iv=setInterval(()=>{time--;$('#gt').textContent=time;if(time<=0){clearInterval(iv);alive=false;g.classList.remove('on');finish(score)}},1000)}
-function finish(score){const d=state();d.played++;let drops=score>=30?[3,1]:score>=20?[2,1]:score>=10?[1,1]:[1];drops.forEach(t=>d.cards[t]++);d.best=Math.max(d.best||0,score);save(d);renderAll();
+function finish(score){const d=state();d.played++;localStorage.setItem('fomo:played:'+(acct||'guest').toLowerCase(),'1');localStorage.setItem('fomo:played:any','1');let drops=score>=30?[3,1]:score>=20?[2,1]:score>=10?[1,1]:[1];drops.forEach(t=>d.cards[t]++);d.best=Math.max(d.best||0,score);save(d);renderAll();
  modal(`<h2 class="center">Round over · ${score} pts</h2><p class="muted center">Best today ${d.best}</p><div class="cards" style="grid-template-columns:repeat(${drops.length},1fr);max-width:${drops.length*120}px;margin:12px auto">${drops.map(t=>nftHTML(t)).join('')}</div><p class="center">You won ${drops.map(t=>t+'★ '+TIERS[t].n).join(' + ')}</p><div class="row" style="margin-top:12px"><button class="btn sm ghost" onclick="closeModal()">Close</button><button class="btn sm" onclick="closeModal();document.querySelector('[data-v=coll]').click()">Collection</button></div>`)}
 
 // ---- starfield
@@ -252,5 +259,6 @@ function finish(score){const d=state();d.played++;let drops=score>=30?[3,1]:scor
 $('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
 renderAll();
 </script>
+<script type="module" src="chain.js"></script>
 </body>
 </html>
