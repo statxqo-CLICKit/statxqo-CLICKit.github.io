@@ -311,6 +311,15 @@ main button:not(.zt):not(.core):not(.orb):not(.mic),main .btn{border:1px solid t
 main button.pri,main .btn.pri{background:linear-gradient(180deg,rgba(40,60,90,.95),rgba(16,24,40,.95)) padding-box,linear-gradient(135deg,#38f2e0,#8b6cff) border-box!important}
 main .mu,main .card .sub{color:#a3afc2}
 .up,.good{color:#3ee08a}
+
+/* consistent neon icon system */
+svg.ni{width:24px;height:24px;fill:none;stroke:#9fb0bf;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+nav a.on svg.ni{stroke:#5ff5e6;filter:drop-shadow(0 0 6px #38f2e0)}
+nav a.on{color:#5ff5e6!important;border-top:2px solid #38f2e0}
+.tools button svg.ni{stroke:#5ff5e6;width:28px;height:28px;filter:drop-shadow(0 0 4px rgba(56,242,224,.6))}
+.zt svg{filter:drop-shadow(0 0 5px rgba(56,242,224,.55))}
+#zt-entrepreneur .zn{font-size:12px;letter-spacing:-.4px}
+main h2,.floorbar b{text-shadow:0 0 10px rgba(56,242,224,.25)}
 </style>
 </head>
 <body class="locked">
@@ -888,6 +897,12 @@ var pending=null,unlocked=false;
 function go(sec,fn){pending=function(){if(fn)fn()};unlock()}
 var OI={Watchdog:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',Alerts:'<path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20a2 2 0 004 0"/>',"Clean-Up":'<path d="M14 4l6 6M12 6l6 6-7 8H6v-5z"/><path d="M4 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/>',Apps:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',Messages:'<path d="M4 5h16v11H9l-5 4z"/>',Calendar:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',Calc:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/>'};
 (function(){var pos={Watchdog:"tl",Alerts:"tr","Clean-Up":"bl",Apps:"br"};ORBS.forEach(function(o){var b=el("button","orb"+(pos[o[1]]?" "+pos[o[1]]:"")),c=el("span","oc");c.innerHTML='<svg viewBox="0 0 24 24">'+OI[o[1]]+'</svg>';b.appendChild(c);b.appendChild(el("span","ol",o[1]==="Calc"?"Calculator":o[1]));b.setAttribute("aria-label",o[1]);b.onclick=o[2];(pos[o[1]]?$("ring"):$("row3")).appendChild(b)})})();
+
+// neon outline icons everywhere (consistency with front screen)
+(function(){var home='<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/>',T={clean:OI["Clean-Up"],dCal:OI.Calendar,dCalc:OI.Calc,dMsg:OI.Messages};
+function sv(p){return '<svg viewBox="0 0 24 24" class="ni">'+p+'</svg>'}
+document.querySelectorAll('nav a[data-go] > i').forEach(function(i){var z=i.parentNode.dataset.go;var p=z?ICON[z]:home;if(p)i.innerHTML=sv(p)});
+document.querySelectorAll('.tools button[data-t] > i').forEach(function(i){var p=T[i.parentNode.dataset.t];if(p)i.innerHTML=sv(p)})})();
 document.querySelectorAll(".fnav button").forEach(function(b){b.onclick=function(){var f=b.dataset.f;if(f==="home")unlock();if(f==="chart")go(null,function(){floor("crypto")});if(f==="shield")go(null,function(){floor("tools","security")});if(f==="me")go(null,function(){floor("tools","settings")})}});
 function b64(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
 function unb64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
