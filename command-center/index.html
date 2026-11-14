@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>C.L.I.C.K.it Command Center</title>
+<meta name="description" content="C.L.I.C.K.it Command Center: one read-only dashboard for the C.L.I.C.K.it apps. Wallet watch, approval watchdog, charts and alerts.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07090d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#07090d;--card:rgba(20,28,40,.62);--line:rgba(56,242,165,.35);--vi:rgba(150,110,255,.45);--cy:#38f2e0;--gr:#38f2a5;--tx:#e8eef6;--mu:#8a97a8;--bad:#ff5d6c;--warn:#ffc35a}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(1200px 600px at 10% -10%,#0f2a33 0,transparent 60%),radial-gradient(900px 500px at 110% 20%,#21143d 0,transparent 55%),var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100%}
+main{max-width:520px;margin:0 auto;padding:14px 14px 150px}
+h1{font-size:20px;margin:6px 2px 12px;letter-spacing:.3px}h1 small{display:block;font-size:12px;color:var(--mu);font-weight:500}
+h2{font-size:15px;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin:0 0 12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 0 18px rgba(56,242,224,.08),inset 0 0 0 1px rgba(150,110,255,.12)}
+.card.v{border-color:var(--vi)}
+.row{display:flex;align-items:center;gap:10px}.sp{flex:1}
+.big{font-size:30px;font-weight:700;letter-spacing:.3px}
+.mu{color:var(--mu);font-size:13px}.ok{color:var(--gr)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--tx);border-radius:10px;padding:6px 10px;font-size:13px;white-space:nowrap}
+.chip.on{border-color:var(--cy);color:var(--cy);background:rgba(56,242,224,.08)}
+button,.btn{font:inherit;cursor:pointer;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:var(--tx);border-radius:12px;padding:9px 14px;text-decoration:none;display:inline-block;text-align:center}
+button.pri,.btn.pri{border-color:var(--cy);background:rgba(56,242,224,.12);color:var(--cy)}
+button:disabled{opacity:.5;cursor:default}
+input,select{font:inherit;color:var(--tx);background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:9px 10px;width:100%;min-width:0}
+.seg{display:inline-flex;border:1px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden}.seg button{border:0;border-radius:0;padding:6px 12px;background:transparent;color:var(--mu)}.seg button.on{background:rgba(56,242,224,.14);color:var(--cy)}
+.chart{width:100%;height:300px;border:0;border-radius:12px;background:#0b0f16;margin-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;background:rgba(56,242,224,.04);color:var(--tx);text-decoration:none;min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.tile:nth-child(even){border-color:var(--vi);background:rgba(150,110,255,.05)}
+.tile b{font-size:14px}.tile span{font-size:11px;color:var(--mu);margin-top:3px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mu);margin-right:4px;vertical-align:middle}.dot.up{background:var(--gr)}.dot.down{background:var(--bad)}
+ul.list{list-style:none;margin:8px 0 0;padding:0}ul.list li{display:flex;gap:8px;align-items:center;padding:8px 0;border-top:1px solid rgba(255,255,255,.06);font-size:13px}
+ul.list li .sp{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.tag{font-size:10px;border:1px solid currentColor;border-radius:6px;padding:1px 5px;white-space:nowrap}
+.tog{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid rgba(255,255,255,.06);font-size:13px}.tog input{width:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.stats div{background:rgba(255,255,255,.03);border-radius:10px;padding:8px 4px}.stats b{display:block;font-size:18px}
+.cleanup{position:fixed;left:50%;transform:translateX(-50%);bottom:64px;width:min(250px,70vw);height:56px;border-radius:120px 120px 18px 18px;border:1px solid var(--cy);background:linear-gradient(180deg,rgba(56,242,224,.25),rgba(150,110,255,.25));color:#fff;font-weight:600;box-shadow:0 0 26px rgba(56,242,224,.35);z-index:5}
+nav.bn{position:fixed;left:0;right:0;bottom:0;background:rgba(7,9,13,.92);border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:6;backdrop-filter:blur(10px)}
+nav.bn a{color:var(--mu);text-decoration:none;font-size:11px;text-align:center;flex:1}nav.bn a.on{color:var(--cy)}nav.bn a i{display:block;font-style:normal;font-size:18px}
+dialog{border:1px solid var(--line);border-radius:18px;background:#0c1118;color:var(--tx);width:min(480px,94vw);max-height:86vh;padding:16px}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+.step{border-top:1px solid rgba(255,255,255,.07);padding:10px 0}.step b{display:block;margin-bottom:3px}.step .row{flex-wrap:wrap;margin-top:6px}.step .btn{font-size:13px;padding:7px 10px}
+.foot{font-size:11px;color:var(--mu);text-align:center;margin-top:10px}
+.spark{width:120px;height:44px}
+
+#face{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 45%,rgba(56,242,224,.16),transparent 45%),radial-gradient(circle at 50% 60%,rgba(150,110,255,.18),transparent 60%),var(--bg);overflow:hidden}
+#face:before{content:"";position:absolute;inset:0;opacity:.22;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0L56 16v32L28 64 0 48V16zM28 64l28 16v32M28 64L0 80v32' fill='none' stroke='%2338f2e0' stroke-width='1'/%3E%3C/svg%3E");background-size:56px 97px}
+#face h1{position:relative;font-size:22px;text-align:center;margin:0 0 4px}#face .sub{position:relative;color:var(--mu);font-size:12px;margin-bottom:12px}
+.ring{position:relative;width:min(360px,92vw);height:min(360px,92vw)}
+.core{position:absolute;left:50%;top:50%;width:46%;height:46%;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--cy);background:radial-gradient(circle,rgba(56,242,224,.28),rgba(150,110,255,.18) 60%,rgba(7,9,13,.9));box-shadow:0 0 40px rgba(56,242,224,.55),0 0 90px rgba(150,110,255,.35),inset 0 0 30px rgba(56,242,224,.35);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;font-weight:700;font-size:13px;letter-spacing:.5px}
+.core svg{width:44%;height:44%;margin-bottom:2px;filter:drop-shadow(0 0 8px #38f2e0)}
+.core small{font-weight:500;color:var(--cy);font-size:11px;margin-top:2px}
+.halo{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);border:1px dashed rgba(56,242,224,.45);pointer-events:none}
+.halo.a{width:60%;height:60%;animation:spin 18s linear infinite}.halo.b{width:68%;height:68%;border-color:rgba(150,110,255,.5);border-style:dotted;animation:spin 26s linear infinite reverse}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.halo{animation:none!important}}
+.orb{position:absolute;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:1px solid var(--line);background:rgba(20,28,40,.8);color:var(--tx);padding:0;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(56,242,224,.2)}
+.orb:nth-of-type(even){border-color:var(--vi);box-shadow:0 0 14px rgba(150,110,255,.25)}
+.orb i{font-style:normal;font-size:20px;line-height:1.1}
+#lockMsg{position:relative;color:var(--mu);font-size:12px;margin-top:10px;min-height:16px;text-align:center;padding:0 16px}
+#pinBox{position:relative;display:none;gap:8px;margin-top:8px}#pinBox input{width:150px;text-align:center;letter-spacing:6px}
+body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
+.calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.calc button{padding:14px 0;font-size:18px}
+#cDisp{font-size:28px;text-align:right;padding:8px;background:rgba(0,0,0,.35);border-radius:10px;min-height:48px;overflow-x:auto;white-space:nowrap}
+</style>
+</head>
+<body class="locked">
+<section id="face" aria-label="Lock screen">
+  <h1>C.L.I.C.K.it</h1><div class="sub">Command Center</div>
+  <div class="ring" id="ring">
+    <div class="halo a"></div><div class="halo b"></div>
+    <button class="core" id="unlock" aria-label="Unlock Command Center"><svg viewBox="0 0 24 24" fill="none" stroke="#38f2e0" stroke-width="1.6"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><rect x="8.5" y="10.5" width="7" height="5.5" rx="1"/><path d="M10 10.5V9a2 2 0 014 0v1.5"/></svg>C.L.I.C.K.it<small id="coreTxt">Tap to unlock</small></button>
+  </div>
+  <div id="pinBox"><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="PIN" autocomplete="off"><button class="pri" id="pinGo">OK</button></div>
+  <div id="lockMsg"></div>
+</section>
+<main>
+<h1>C.L.I.C.K.it Command Center<small>Read-only · v1 preview · nothing here can move funds</small></h1>
+
+<section id="dash">
+<div class="card">
+  <div class="row"><div class="sp"><div class="mu">Tracked wallet balance</div><div class="big" id="total">—</div><div class="mu" id="totalSub">Add a public address to start</div></div><svg class="spark" id="spark" viewBox="0 0 120 44"></svg></div>
+</div>
+
+<div class="card v" id="wallets">
+  <div class="row"><h2 class="sp">Wallets</h2><button id="refresh">Refresh</button></div>
+  <div class="chips" id="chainChips"></div>
+  <ul class="list" id="walletList"></ul>
+  <form id="addW" class="row" style="margin-top:8px"><input id="addr" placeholder="Public address 0x…" autocomplete="off" spellcheck="false"><input id="label" placeholder="Label" style="max-width:96px"><button class="pri">Add</button></form>
+  <div class="mu" style="margin-top:6px">Public addresses only, saved on this device. Never enter a seed phrase or private key anywhere.</div>
+</div>
+
+<div class="card">
+  <div class="row"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38f2a5" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+  <div class="sp"><b>Watchdog</b><div class="mu" id="wdStatus">Approval scan (RX7 engine) · not run yet</div></div><button class="pri" id="scan">Scan</button></div>
+  <ul class="list" id="apprList"></ul>
+</div>
+
+<div class="card v" id="markets">
+  <div class="row"><div class="sp"><h2 style="margin:0">Market Pulse</h2><div class="mu">Live charts</div></div><div class="seg"><button data-m="dex" class="on">DEX</button><button data-m="cex">CEX</button></div></div>
+  <div class="row" style="margin-top:8px"><select id="pair"></select></div>
+  <iframe class="chart" id="chart" title="Live chart" loading="lazy" referrerpolicy="no-referrer"></iframe>
+</div>
+
+<div class="card" id="alerts">
+  <div class="row"><h2 class="sp">Alerts</h2><span class="mu" id="notifState"></span></div>
+  <div class="mu">Alerts notify you only. Nothing auto-sells in v1.</div>
+  <form id="addA" class="row" style="margin-top:8px"><select id="aSym" style="max-width:90px"></select><select id="aDir" style="max-width:120px"><option value="below">Stop ≤</option><option value="above">Up ≥</option></select><input id="aVal" type="number" step="any" placeholder="USD" style="max-width:90px"><button class="pri">Set</button></form>
+  <ul class="list" id="alertList"></ul>
+  <div class="mu" id="pxLine" style="margin-top:6px"></div>
+</div>
+
+<div class="card v" id="apps">
+  <h2>Ecosystem</h2>
+  <div class="tiles" id="tiles"></div>
+  <div style="margin-top:10px"><b style="font-size:13px">Auto-functions</b>
+    <div id="autos"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="row"><h2 class="sp">Store · Knockout Artist</h2><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Open store</a></div>
+  <div class="stats"><div><b>—</b><span class="mu">Visits</span></div><div><b>—</b><span class="mu">Sales</span></div><div><b>—</b><span class="mu">Messages</span></div></div>
+  <div class="mu" style="margin-top:8px">Live counts connect through a private server relay (coming soon), so the store key never touches this page.</div>
+</div>
+
+<div class="card v" id="settings">
+  <h2>Settings</h2>
+  <div class="tog"><span class="sp">Background monitor (rescan every 5 min while open)</span><input type="checkbox" id="mon" checked></div>
+  <div class="tog"><span class="sp">Browser notifications</span><button id="notif">Enable</button></div>
+  <div class="tog"><span class="sp">Install on home screen</span><button id="inst" disabled>Install</button></div>
+  <div class="tog"><span class="sp">Lock now</span><button onclick="location.reload()">Lock</button></div>
+  <div class="tog"><span class="sp">Reset device lock (passkey/PIN)</span><button id="resetLock">Reset</button></div>
+  <div class="tog"><span class="sp">Clear wallets and alerts on this device</span><button id="wipe">Clear</button></div>
+</div>
+<div class="foot">C.L.I.C.K.it · read-only tools · Stan signs every on-chain action in his own wallet</div>
+</section>
+</main>
+
+<button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
+<nav class="bn">
+  <a href="#dash" class="on"><i>▦</i>Dashboard</a><a href="#markets"><i>📈</i>Markets</a><a href="#wallets"><i>◔</i>Wallets</a><a href="#apps"><i>⧉</i>Apps</a><a href="#settings"><i>⚙</i>Settings</a>
+</nav>
+
+<dialog id="clean">
+  <div class="row"><h2 class="sp" style="margin:0">Device Clean-Up</h2><button id="cleanX">Close</button></div>
+  <div class="mu" style="margin-top:4px">Galaxy S25+ guide. Each button opens the right screen; you confirm every change there. If one doesn't open, use the path shown.</div>
+  <div class="step"><b>1 · Group apps into folders</b><span class="mu">Long-press an app, drag it onto another to make a folder. Suggested folders: Crypto, Money, Social, Shopping, Media, Tools, Google, Samsung. Then Settings › Home screen › turn on "Lock home screen layout".</span>
+    <div class="row"><a class="btn" href="intent:#Intent;action=android.settings.HOME_SETTINGS;S.browser_fallback_url=https%3A%2F%2Fwww.samsung.com%2Fus%2Fsupport%2Fanswer%2FANS00062621%2F;end">Home screen settings</a></div></div>
+  <div class="step"><b>2 · Remove unused apps</b><span class="mu">Settings › Apps › sort by last used. Uninstall what you don't open.</span>
+    <div class="row"><a class="btn" href="intent:#Intent;action=android.intent.action.MANAGE_UNUSED_APPS;end">Unused apps</a><a class="btn" href="intent:#Intent;action=android.settings.MANAGE_APPLICATIONS_SETTINGS;end">All apps</a></div></div>
+  <div class="step"><b>3 · Photos</b><span class="mu">Gallery › Albums › ⋮ › "Create album" by topic; Gallery › ⋮ › Settings › "Clean out" finds duplicates and blurry shots.</span>
+    <div class="row"><a class="btn" href="intent:#Intent;package=com.sec.android.gallery3d;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end">Open Gallery</a></div></div>
+  <div class="step"><b>4 · Files and storage</b><span class="mu">My Files › Analyze storage (large and duplicate files). Files by Google › Clean finds junk, duplicates, old downloads.</span>
+    <div class="row"><a class="btn" href="intent:#Intent;package=com.sec.android.app.myfiles;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end">My Files</a><a class="btn" href="intent:#Intent;package=com.google.android.apps.nbu.files;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.google.android.apps.nbu.files;end">Files by Google</a><a class="btn" href="intent:#Intent;action=android.settings.INTERNAL_STORAGE_SETTINGS;end">Storage</a></div></div>
+  <div class="step"><b>5 · Cap incoming data</b><span class="mu">Turn on Data Saver; set a mobile data limit; block background data per app (Apps › app › Mobile data).</span>
+    <div class="row"><a class="btn" href="intent:#Intent;action=android.settings.DATA_USAGE_SETTINGS;end">Data usage</a><a class="btn" href="intent:#Intent;action=android.settings.WIRELESS_SETTINGS;end">Connections</a></div></div>
+  <div class="step"><b>6 · Cap notifications</b><span class="mu">Settings › Notifications › App notifications: switch off the noisy ones. Use Do not disturb for quiet hours.</span>
+    <div class="row"><a class="btn" href="intent:#Intent;action=android.settings.ALL_APPS_NOTIFICATION_SETTINGS;end">App notifications</a><a class="btn" href="intent:#Intent;action=android.settings.ZEN_MODE_SETTINGS;end">Do not disturb</a></div></div>
+  <div class="step"><b>7 · Security sweep</b><span class="mu">Watchdog 4.0 (offline app scanner, C.L.I.C.K.it) is coming to Google Play. Until then: Settings › Security and privacy › App security.</span>
+    <div class="row"><a class="btn" href="intent:#Intent;action=android.settings.SECURITY_SETTINGS;end">Security</a></div></div>
+  <div class="mu" style="margin-top:8px">Coming in the native Android app: one-tap folder grouping by category, a photo and file organizer (by date and type, duplicates, large files, confirm before any delete), and a per-app data firewall. No root.</div>
+</dialog>
+
+<dialog id="dCalc"><div class="row"><h2 class="sp" style="margin:0">Calculator</h2><button data-close>Close</button></div><div id="cDisp">0</div><div class="calc" id="cKeys"></div></dialog>
+<dialog id="dMsg"><div class="row"><h2 class="sp" style="margin:0">Messages</h2><button data-close>Close</button></div>
+ <div class="step"><b>Store and app messages</b><span class="mu">Knockout store messages and app inboxes land here once the private relay is connected (coming soon). Until then, open them at the source.</span><div class="row"><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Knockout store</a></div></div>
+ <div class="step"><b>Phone</b><div class="row"><a class="btn pri" href="sms:">Open Messages</a></div></div></dialog>
+<dialog id="dCal"><div class="row"><h2 class="sp" style="margin:0">Calendar</h2><button data-close>Close</button></div>
+ <div class="row" style="margin-top:8px;flex-wrap:wrap"><a class="btn pri" href="intent:#Intent;package=com.samsung.android.calendar;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fcalendar.google.com;end">Samsung Calendar</a><a class="btn" href="https://calendar.google.com" target="_blank" rel="noopener">Google Calendar</a></div>
+ <div class="step"><b>Quick agenda (this device)</b><form id="agF" class="row"><input id="agD" type="datetime-local" style="max-width:190px"><input id="agT" placeholder="What"><button class="pri">Add</button></form><ul class="list" id="agL"></ul></div></dialog>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+var NETS={eth:{name:"Ethereum",ex:"https://eth.blockscout.com",rpc:"https://ethereum-rpc.publicnode.com",id:1},base:{name:"Base",ex:"https://base.blockscout.com",rpc:"https://mainnet.base.org",id:8453}};
+var APPROVAL="0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",APPROVAL_ALL="0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31";
+var LS={get:function(k,d){try{return JSON.parse(localStorage.getItem("cc_"+k))||d}catch(e){return d}},set:function(k,v){localStorage.setItem("cc_"+k,JSON.stringify(v))}};
+var W=LS.get("wallets",[]),A=LS.get("alerts",[]),BAL={},APPR={},chainSel="all";
+function isAddr(a){return /^0x[0-9a-fA-F]{40}$/.test(a)}
+function short(a){return a.slice(0,6)+"…"+a.slice(-4)}
+function usd(n){return n==null?"—":"$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function getJSON(u,body){var c=new AbortController(),t=setTimeout(function(){c.abort()},20000);var o={headers:{Accept:"application/json"},signal:c.signal};if(body){o.method="POST";o.headers["Content-Type"]="application/json";o.body=JSON.stringify(body)}return fetch(u,o).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})}
+function rpc(n,m,p){return getJSON(NETS[n].rpc,{jsonrpc:"2.0",id:1,method:m,params:p}).then(function(d){if(d.error)throw new Error(d.error.message);return d.result})}
+
+// import wallets from URL fragment (#w=0xabc:Label,0xdef:Label) — fragment never reaches a server
+(function(){var m=location.hash.match(/[#&]w=([^&]+)/);if(!m)return;decodeURIComponent(m[1]).split(",").forEach(function(p){var s=p.split(":"),a=s[0].trim();if(isAddr(a)&&!W.some(function(x){return x.a.toLowerCase()===a.toLowerCase()}))W.push({a:a,l:(s[1]||"").slice(0,24)})});LS.set("wallets",W);history.replaceState(null,"",location.pathname)})();
+
+// ---------- balances ----------
+function balanceOf(a,n){var r=NETS[n].ex+"/api/v2/addresses/"+a;
+  return Promise.all([getJSON(r).catch(function(){return null}),getJSON(r+"/token-balances").catch(function(){return []})]).then(function(x){
+    var d=x[0]||{},tot=0,ok=!!x[0];var rate=parseFloat(d.exchange_rate)||0,nat=(parseFloat(d.coin_balance)||0)/1e18;tot+=nat*rate;
+    (x[1]||[]).forEach(function(t){var k=t.token||{};if(k.type!=="ERC-20"||!k.exchange_rate)return;var mc=parseFloat(k.circulating_market_cap||0),h=parseInt(k.holders_count||k.holders||0,10);if(!(mc>1e6||h>5000))return;var v=parseFloat(t.value)/Math.pow(10,parseInt(k.decimals||"18",10))*parseFloat(k.exchange_rate);if(isFinite(v)&&v<1e9)tot+=v});
+    return {usd:tot,ok:ok,nat:nat};
+  })}
+function loadBalances(){if(!W.length){render();return}
+  $("totalSub").textContent="Reading balances…";
+  return Promise.all(W.map(function(w){return Promise.all(Object.keys(NETS).map(function(n){return balanceOf(w.a,n).then(function(b){if(b.ok)BAL[w.a+"|"+n]=b;else delete BAL[w.a+"|"+n]})}))})).then(function(){
+    if(!Object.keys(BAL).length){render();$("totalSub").textContent="Couldn't reach the chain explorers; retrying in 5 min.";return}var h=LS.get("hist",[]),t=total("all");h.push([Date.now(),t]);h=h.slice(-48);LS.set("hist",h);render()})}
+function total(ch){var s=0;W.forEach(function(w){Object.keys(NETS).forEach(function(n){if(ch!=="all"&&ch!==n)return;var b=BAL[w.a+"|"+n];if(b)s+=b.usd})});return s}
+function render(){
+  var any=Object.keys(BAL).length;$("total").textContent=W.length&&any?usd(total(chainSel)):"—";
+  $("totalSub").textContent=W.length?(W.length+" wallet"+(W.length>1?"s":"")+" · Ethereum + Base · listed tokens only"):"Add a public address to start";
+  var cc=$("chainChips");cc.textContent="";[["all","All"],["eth","ETH"],["base","Base"]].forEach(function(c){var b=el("button","chip"+(chainSel===c[0]?" on":""),c[1]+": "+(any?usd(total(c[0])):"—"));b.onclick=function(){chainSel=c[0];render()};cc.appendChild(b)});
+  var ul=$("walletList");ul.textContent="";W.forEach(function(w,i){var li=el("li");var s=0;Object.keys(NETS).forEach(function(n){var b=BAL[w.a+"|"+n];if(b)s+=b.usd});
+    var name=el("span","sp");name.appendChild(el("b",null,(w.l||"Wallet")+" "));name.appendChild(el("span","mono mu",short(w.a)));li.appendChild(name);
+    li.appendChild(el("span",null,any?usd(s):"—"));var x=el("button",null,"✕");x.style.padding="4px 8px";x.setAttribute("aria-label","Remove");x.onclick=function(){W.splice(i,1);LS.set("wallets",W);render()};li.appendChild(x);ul.appendChild(li)});
+  spark();
+}
+function spark(){var h=LS.get("hist",[]),s=$("spark");s.innerHTML="";if(h.length<2)return;var v=h.map(function(p){return p[1]}),mn=Math.min.apply(0,v),mx=Math.max.apply(0,v),r=mx-mn||1;
+  var pts=v.map(function(y,i){return (i/(v.length-1)*118+1).toFixed(1)+","+(42-(y-mn)/r*38).toFixed(1)}).join(" ");
+  s.innerHTML='<polyline fill="none" stroke="#38f2a5" stroke-width="2" points="'+pts+'"/>'}
+$("addW").onsubmit=function(e){e.preventDefault();var a=$("addr").value.trim();if(!isAddr(a)){alert("That isn't a public 0x address. Never paste a seed phrase or private key.");return}
+  if(!W.some(function(x){return x.a.toLowerCase()===a.toLowerCase()}))W.push({a:a,l:$("label").value.trim().slice(0,24)});LS.set("wallets",W);$("addr").value="";$("label").value="";loadBalances()};
+$("refresh").onclick=loadBalances;
+
+// ---------- watchdog (RX7 VAPOR approval engine, read-only) ----------
+function approvalsFor(addr,n){var N=NETS[n],owner="0x"+addr.slice(2).toLowerCase().padStart(64,"0");
+  function logs(t){return getJSON(N.ex+"/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&topic0="+t+"&topic1="+owner+"&topic0_1_opr=and").then(function(d){if(d&&Array.isArray(d.result))return d.result;return []})}
+  return Promise.all([logs(APPROVAL),logs(APPROVAL_ALL).catch(function(){return []})]).then(function(res){var L={};
+    function key(l){return parseInt(l.blockNumber,16)*1e5+parseInt(l.logIndex||"0x0",16)}
+    res[0].concat(res[1]).forEach(function(l){if(!l.topics||!l.topics[2])return;var all=l.topics[0].toLowerCase()===APPROVAL_ALL;var k=l.address.toLowerCase()+"|"+l.topics[2].toLowerCase()+"|"+all;if(!L[k]||key(l)>key(L[k].l))L[k]={l:l,all:all}});
+    return Object.keys(L).map(function(k){var o=L[k],raw=(o.l.data||"0x").replace(/^0x/,"")||"0";return {owner:addr,net:n,token:o.l.address,spender:"0x"+o.l.topics[2].slice(-40),nft:o.all,raw:raw,active:/[1-9a-f]/i.test(raw)}}).filter(function(a){return a.active});
+  }).then(function(list){return Promise.all(list.map(function(a){var own=addr.slice(2).toLowerCase().padStart(64,"0"),sp=a.spender.slice(2).toLowerCase().padStart(64,"0");
+    return rpc(n,"eth_call",[{to:a.token,data:(a.nft?"0xe985e9c5":"0xdd62ed3e")+own+sp},"latest"]).then(function(r){var h=String(r||"0x").replace(/^0x/,"");if(h){a.active=/[1-9a-f]/i.test(h);if(!a.nft)a.raw=h.replace(/^0+/,"")||"0"}},function(){})
+      .then(function(){if(!a.active)return;return getJSON(N.ex+"/api/v2/addresses/"+a.spender).then(function(d){a.name=(d&&d.name)||"";a.verified=!!(d&&d.is_verified)},function(){})})
+  })).then(function(){return list.filter(function(a){return a.active})})})}
+function unlimited(a){return a.nft||String(a.raw).length>=60}
+function runScan(quiet){if(!W.length){$("wdStatus").textContent="Add a wallet first";return Promise.resolve()}
+  $("wdStatus").textContent="Scanning "+W.length+" wallet"+(W.length>1?"s":"")+"…";$("scan").disabled=true;
+  var prev=LS.get("seenAppr",null),jobs=[],fail=0;
+  W.forEach(function(w){Object.keys(NETS).forEach(function(n){jobs.push(approvalsFor(w.a,n).catch(function(){fail++;return []}))})});
+  return Promise.all(jobs).then(function(r){var all=[].concat.apply([],r);all.forEach(function(a){a.risky=unlimited(a)&&!a.verified});
+    var keys=all.map(function(a){return a.net+a.owner+a.token+a.spender}).map(function(k){return k.toLowerCase()});
+    if(prev){var fresh=all.filter(function(a,i){return prev.indexOf(keys[i])<0});if(fresh.length)notify("Watchdog: new approval","A wallet has "+fresh.length+" new token approval"+(fresh.length>1?"s":"")+". Review it in Command Center.")}
+    LS.set("seenAppr",keys);
+    var risky=all.filter(function(a){return a.risky}).length;
+    $("wdStatus").innerHTML="";var s=el("span",risky?"bad":"ok",risky?risky+" risky of "+all.length+" active approvals":(all.length?all.length+" active approvals · none flagged":"No active approvals · all clear"));$("wdStatus").appendChild(s);
+    if(fail)$("wdStatus").appendChild(el("span","warn"," · "+fail+" check"+(fail>1?"s":"")+" failed"));
+    $("wdStatus").appendChild(el("span","mu"," · "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})));
+    var ul=$("apprList");ul.textContent="";all.sort(function(a,b){return (b.risky?1:0)-(a.risky?1:0)}).slice(0,25).forEach(function(a){var li=el("li");
+      li.appendChild(el("span","tag "+(a.risky?"bad":"ok"),a.risky?"RISK":"OK"));var t=el("span","sp");t.appendChild(el("span",null,(a.name||short(a.spender))+" "));t.appendChild(el("span","mu",(unlimited(a)?"unlimited":"limited")+" · "+NETS[a.net].name+" · "+short(a.owner)));li.appendChild(t);
+      var r=el("a","btn","Review");r.href="https://revoke.cash/address/"+a.owner+"?chainId="+NETS[a.net].id;r.target="_blank";r.rel="noopener";r.style.padding="5px 9px";r.style.fontSize="12px";li.appendChild(r);ul.appendChild(li)});
+  }).finally(function(){$("scan").disabled=false})}
+$("scan").onclick=function(){runScan(false)};
+
+// ---------- charts ----------
+var PAIRS={dex:[["ETH / USDC · Base (Uniswap)","https://dexscreener.com/base/0xd0b53D9277642d899DF5C87A3966A349A798F224?embed=1&theme=dark&info=0&trades=0"],["ETH / USDC · Ethereum (Uniswap)","https://dexscreener.com/ethereum/0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640?embed=1&theme=dark&info=0&trades=0"]],
+  cex:[["BTC-USD · Coinbase","COINBASE:BTCUSD"],["ETH-USD · Coinbase","COINBASE:ETHUSD"],["SOL-USD · Coinbase","COINBASE:SOLUSD"],["XLM-USD · Coinbase","COINBASE:XLMUSD"]]};
+var mode="dex";
+function tv(sym){return "https://s.tradingview.com/widgetembed/?symbol="+encodeURIComponent(sym)+"&interval=60&theme=dark&style=1&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0b0f16&locale=en"}
+function fillPairs(){var s=$("pair");s.textContent="";PAIRS[mode].forEach(function(p,i){var o=el("option",null,p[0]);o.value=i;s.appendChild(o)});showChart()}
+function showChart(){var p=PAIRS[mode][$("pair").value||0];$("chart").src=mode==="dex"?p[1]:tv(p[1])}
+document.querySelectorAll(".seg button").forEach(function(b){b.onclick=function(){mode=b.dataset.m;document.querySelectorAll(".seg button").forEach(function(x){x.classList.toggle("on",x===b)});fillPairs()}});
+$("pair").onchange=showChart;
+
+// ---------- alerts ----------
+var IDS={BTC:"bitcoin",ETH:"ethereum",SOL:"solana",XLM:"stellar"},PX={};
+Object.keys(IDS).forEach(function(k){var o=el("option",null,k);$("aSym").appendChild(o)});
+function renderAlerts(){var ul=$("alertList");ul.textContent="";if(!A.length)ul.appendChild(el("li","mu","No alerts yet."));
+  A.forEach(function(a,i){var li=el("li");li.appendChild(el("span","tag "+(a.dir==="below"?"bad":"ok"),a.dir==="below"?"STOP":"UP"));li.appendChild(el("span","sp",a.sym+(a.dir==="below"?" at or below ":" at or above ")+usd(a.v)+(a.hit?" · triggered":"")));
+    var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){A.splice(i,1);LS.set("alerts",A);renderAlerts()};li.appendChild(x);ul.appendChild(li)})}
+$("addA").onsubmit=function(e){e.preventDefault();var v=parseFloat($("aVal").value);if(!(v>0))return;A.push({sym:$("aSym").value,dir:$("aDir").value,v:v,hit:false});LS.set("alerts",A);$("aVal").value="";renderAlerts();checkPrices();askNotif()};
+function checkPrices(){return getJSON("https://api.coingecko.com/api/v3/simple/price?ids="+Object.values(IDS).join(",")+"&vs_currencies=usd").then(function(d){
+  Object.keys(IDS).forEach(function(k){if(d[IDS[k]])PX[k]=d[IDS[k]].usd});
+  $("pxLine").textContent=Object.keys(PX).map(function(k){return k+" "+usd(PX[k])}).join(" · ")+" · CoinGecko";
+  var ch=false;A.forEach(function(a){var p=PX[a.sym];if(p==null)return;var hit=a.dir==="below"?p<=a.v:p>=a.v;if(hit&&!a.hit){notify("Alert: "+a.sym,a.sym+" is "+usd(p)+" ("+(a.dir==="below"?"at or below ":"at or above ")+usd(a.v)+")");}if(a.hit!==hit){a.hit=hit;ch=true}});
+  if(ch){LS.set("alerts",A);renderAlerts()}}).catch(function(){$("pxLine").textContent="Couldn't reach the price feed; retrying."})}
+
+// ---------- notifications ----------
+function notifState(){$("notifState").textContent=!("Notification" in window)?"":Notification.permission==="granted"?"notifications on":"notifications off";$("notif").textContent=window.Notification&&Notification.permission==="granted"?"On":"Enable"}
+function askNotif(){if(window.Notification&&Notification.permission==="default")Notification.requestPermission().then(notifState)}
+$("notif").onclick=askNotif;
+function notify(t,b){try{if(window.Notification&&Notification.permission==="granted"){if(navigator.serviceWorker&&navigator.serviceWorker.controller)navigator.serviceWorker.ready.then(function(r){r.showNotification(t,{body:b,icon:"icon-192.png"})});else new Notification(t,{body:b,icon:"icon-192.png"})}}catch(e){}}
+
+// ---------- ecosystem ----------
+var APPS=[{n:"FOMO",d:"NFT Arena",u:"https://statxqo-clickit.github.io/fomo/"},{n:"POSH",d:"Escrow · testnet",u:"",note:"Page link pending"},{n:"Dusty",d:"Dust recycler",u:"https://statxqo-clickit.github.io/dusty/"},{n:"RX7",d:"VAPOR · wallet safety",u:"https://statxqo-clickit.github.io/rx7-vapor/"},{n:"Knockout",d:"Artist store",u:"https://knockout-artist-llc-flk-shop.fourthwall.com"},{n:"Watchdog",d:"Android · coming soon",u:""}];
+function tiles(){var g=$("tiles");g.textContent="";APPS.forEach(function(a){var t=el(a.u?"a":"div","tile");if(a.u){t.href=a.u;t.target="_blank";t.rel="noopener"}
+  var b=el("b");var dt=el("span","dot");b.appendChild(dt);b.appendChild(document.createTextNode(a.n));t.appendChild(b);t.appendChild(el("span",null,a.note||a.d));g.appendChild(t);
+  if(a.u){fetch(a.u,{mode:"no-cors",cache:"no-store"}).then(function(){dt.classList.add("up")},function(){dt.classList.add("down")})}});
+  var au=$("autos");au.textContent="";["FOMO","POSH","Dusty","RX7","Knockout"].forEach(function(n){var r=el("div","tog");r.appendChild(el("span","sp",n+" auto-functions"));r.appendChild(el("span","tag mu","coming soon"));var c=el("input");c.type="checkbox";c.disabled=true;c.setAttribute("aria-label",n+" auto-functions, coming soon");r.appendChild(c);au.appendChild(r)})}
+
+// ---------- clean-up ----------
+$("cleanBtn").onclick=function(){$("clean").showModal()};$("cleanX").onclick=function(){$("clean").close()};
+
+// ---------- nav, install, wipe ----------
+document.querySelectorAll("nav.bn a").forEach(function(a){a.onclick=function(){document.querySelectorAll("nav.bn a").forEach(function(x){x.classList.toggle("on",x===a)})}});
+var dp;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;$("inst").disabled=false});
+$("inst").onclick=function(){if(dp){dp.prompt();dp=null;$("inst").disabled=true}};
+$("resetLock").onclick=function(){if(confirm("Remove the device lock? You will set a new one next time.")){["cred","pin","tries","tryT"].forEach(function(k){localStorage.removeItem("cc_"+k)});location.reload()}};
+$("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
+
+
+// ---------- lock screen: device passkey (WebAuthn) or local PIN ----------
+var ORBS=[["🛡","Watchdog",function(){go("dash",function(){runScan(false)})}],["🔔","Alerts",function(){go("alerts")}],["🧹","Clean-Up",function(){go(null,function(){$("clean").showModal()})}],["⧉","Apps",function(){go("apps")}],["💬","Messages",function(){go(null,function(){$("dMsg").showModal()})}],["📅","Calendar",function(){go(null,function(){$("dCal").showModal()})}],["🧮","Calc",function(){go(null,function(){$("dCalc").showModal()})}]];
+var pending=null,unlocked=false;
+function go(sec,fn){pending=function(){if(sec){var t=$(sec);if(t)t.scrollIntoView()}if(fn)fn()};unlock()}
+(function(){var r=$("ring");ORBS.forEach(function(o,i){var a=-Math.PI/2+i*2*Math.PI/ORBS.length,b=el("button","orb");b.style.left=(50+42*Math.cos(a))+"%";b.style.top=(50+42*Math.sin(a))+"%";b.appendChild(el("i",null,o[0]));b.appendChild(document.createTextNode(o[1]));b.setAttribute("aria-label",o[1]);b.onclick=o[2];r.appendChild(b)})})();
+function b64(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function unb64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
+function opened(){unlocked=true;document.body.classList.remove("locked");$("face").style.display="none";if(pending){var p=pending;pending=null;setTimeout(p,50)}}
+function msg(t){$("lockMsg").textContent=t}
+function hasPK(){return !!(window.PublicKeyCredential&&navigator.credentials)}
+function unlock(){if(unlocked){opened();return}
+  var cred=LS.get("cred",null),pin=LS.get("pin",null);
+  if(cred&&hasPK()){navigator.credentials.get({publicKey:{challenge:rnd(32),allowCredentials:[{type:"public-key",id:unb64(cred)}],userVerification:"required",timeout:60000}}).then(function(a){if(a&&a.response&&new Uint8Array(a.response.authenticatorData)[32]&4)opened();else msg("Fingerprint/face not verified.")},function(){msg("Unlock cancelled."+(pin?" Use your PIN.":""));if(pin)showPin()});return}
+  if(pin){showPin();return}
+  // first run: set up
+  if(hasPK()&&PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable){PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(function(ok){if(!ok){setupPin();return}
+    msg("Set up your fingerprint or face lock…");
+    navigator.credentials.create({publicKey:{challenge:rnd(32),rp:{name:"C.L.I.C.K.it Command Center"},user:{id:rnd(16),name:"owner",displayName:"Command Center owner"},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required",residentKey:"discouraged"},timeout:60000,attestation:"none"}}).then(function(c){LS.set("cred",b64(c.rawId));msg("Device lock set.");opened()},function(){msg("Passkey not set. Choose a PIN instead.");setupPin()})},setupPin)}else setupPin()}
+function sha(t){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(h){return b64(h)})}
+var pinMode="enter";
+function showPin(){pinMode="enter";$("pinBox").style.display="flex";$("pin").value="";$("pin").focus();$("coreTxt").textContent="Enter PIN"}
+function setupPin(){pinMode="set";$("pinBox").style.display="flex";$("pin").value="";$("pin").focus();msg("Choose a 4–8 digit PIN for this device.");$("coreTxt").textContent="Set PIN"}
+$("pinGo").onclick=function(){var v=$("pin").value;if(!/^\d{4,8}$/.test(v)){msg("PIN must be 4–8 digits.");return}
+  if(pinMode==="set"){var salt=b64(rnd(16));sha(salt+v).then(function(h){LS.set("pin",{s:salt,h:h});$("pinBox").style.display="none";opened()});return}
+  var p=LS.get("pin",null);if(!p)return;var tries=LS.get("tries",0);if(tries>=5&&Date.now()-LS.get("tryT",0)<60000){msg("Too many tries. Wait a minute.");return}
+  sha(p.s+v).then(function(h){if(h===p.h){LS.set("tries",0);$("pinBox").style.display="none";opened()}else{LS.set("tries",tries+1);LS.set("tryT",Date.now());msg("Wrong PIN.")}})};
+$("pin").addEventListener("keydown",function(e){if(e.key==="Enter")$("pinGo").click()});
+$("unlock").onclick=function(){pending=null;unlock()};
+document.querySelectorAll("[data-close]").forEach(function(b){b.onclick=function(){b.closest("dialog").close()}});
+// calculator
+(function(){var k=["C","(",")","÷","7","8","9","×","4","5","6","−","1","2","3","+","0",".","⌫","="],d=$("cDisp"),e="";
+  function show(){d.textContent=e||"0"}
+  k.forEach(function(x){var b=el("button",x==="="?"pri":"",x);b.onclick=function(){if(x==="C")e="";else if(x==="⌫")e=e.slice(0,-1);else if(x==="="){var q=e.replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-");if(/^[\d+\-*/().\s]+$/.test(q)){try{var r=Function('"use strict";return ('+q+')')();e=isFinite(r)?String(+r.toPrecision(12)):"Error"}catch(_){e="Error"}}}else{if(e==="Error")e="";e+=x}show()};$("cKeys").appendChild(b)})})();
+// agenda
+var AG=LS.get("agenda",[]);function renderAg(){var ul=$("agL");ul.textContent="";AG.sort(function(a,b){return a.d<b.d?-1:1});if(!AG.length)ul.appendChild(el("li","mu","Nothing yet."));AG.forEach(function(a,i){var li=el("li");li.appendChild(el("span","mono mu",a.d.replace("T"," ")));li.appendChild(el("span","sp",a.t));var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){AG.splice(i,1);LS.set("agenda",AG);renderAg()};li.appendChild(x);ul.appendChild(li)})}
+$("agF").onsubmit=function(e){e.preventDefault();if(!$("agD").value||!$("agT").value.trim())return;AG.push({d:$("agD").value,t:$("agT").value.trim().slice(0,80)});LS.set("agenda",AG);$("agT").value="";renderAg()};renderAg();
+
+// ---------- monitor loop ----------
+var timer;function loop(){clearInterval(timer);if($("mon").checked)timer=setInterval(function(){checkPrices();loadBalances();runScan(true)},300000)}
+$("mon").onchange=loop;
+setInterval(checkPrices,60000);
+
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
+notifState();tiles();fillPairs();renderAlerts();render();checkPrices();loadBalances();loop();
+})();
+</script>
+</body>
+</html>
