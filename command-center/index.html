@@ -260,17 +260,46 @@ body.big .zt .zn{font-size:14px}
 #ob .zl label{display:flex;gap:8px;align-items:center;min-height:44px;padding:4px 8px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
 #ob .zl input{width:22px;height:22px;flex:none;margin:0}#ob .zl span{text-align:left}
 #ob .st{font-size:13px;color:#38f2e0;letter-spacing:1px}
+
+#face{justify-content:flex-start;padding-top:max(28px,6vh)}
+#face:before{-webkit-mask-image:linear-gradient(180deg,#000 0,transparent 30%,transparent 62%,#000 100%);mask-image:linear-gradient(180deg,#000 0,transparent 30%,transparent 62%,#000 100%);opacity:.18}
+.ccpill{position:relative;color:#5ff5e6;font-size:17px;font-weight:600;padding:8px 22px;border-radius:12px;background:linear-gradient(180deg,rgba(56,242,224,.14),rgba(56,242,224,.03));border-bottom:2px solid #38f2e0;box-shadow:0 6px 18px -6px rgba(56,242,224,.7);text-shadow:0 0 10px rgba(56,242,224,.6);margin-bottom:6px}
+.stage{position:relative;width:min(380px,96vw);height:min(470px,118vw);margin:0 auto}
+.stage .arcs{position:absolute;left:50%;top:50%;width:76%;transform:translate(-50%,-50%);filter:drop-shadow(0 0 6px rgba(56,242,224,.6)) drop-shadow(0 0 12px rgba(139,108,255,.5))}
+.arcs .sp1{transform-origin:100px 100px;animation:spin 16s linear infinite}.arcs .sp2{transform-origin:100px 100px;animation:spin 24s linear infinite reverse}
+.stage .core{width:50%;height:auto;aspect-ratio:1;font-size:20px;background:radial-gradient(circle at 50% 30%,#1c2a33,#0b1016 70%);border:3px solid #38f2e0;box-shadow:0 0 22px rgba(56,242,224,.7),0 0 50px rgba(139,108,255,.35),inset 0 0 22px rgba(56,242,224,.25);text-shadow:0 0 10px rgba(56,242,224,.5)}
+.core .shb{width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(rgba(255,255,255,.08),transparent 70%);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.core .shb svg{width:72%;height:72%;margin:0}
+.stage .tap{position:absolute;left:0;right:0;top:83%;text-align:center;color:#e8eef4;font-size:15px}
+.orb{position:absolute;width:auto;height:auto;margin:0;border:none;background:none;box-shadow:none!important;gap:6px;min-width:64px}
+.orb .oc{width:48px;height:48px;border-radius:50%;border:1px solid rgba(56,242,224,.55);background:rgba(10,24,30,.85);box-shadow:0 0 12px rgba(56,242,224,.35);display:flex;align-items:center;justify-content:center}
+.orb svg,.fnav svg{width:24px;height:24px;fill:none;stroke:#5ff5e6;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.orb .ol{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#b9c6d2}
+.orb.tl{left:4%;top:7%}.orb.tr{right:4%;top:7%}.orb.bl{left:4%;top:72%}.orb.br{right:4%;top:72%}
+.row3{display:flex;justify-content:center;gap:34px;margin-top:-4px;position:relative}
+.row3 .orb{position:relative}
+.fnav{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.08);background:rgba(8,11,15,.9)}
+.fnav button{background:none;border:none;width:56px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;opacity:.7}
+.fnav button.on{opacity:1;border-top:2px solid #38f2e0;filter:drop-shadow(0 0 6px #38f2e0)}
+.fnav svg{stroke:#9fb0bf}.fnav .on svg{stroke:#5ff5e6}
+#face #pinBox{position:relative;margin-top:8px}#face #lockMsg{position:relative;margin-bottom:80px}
 </style>
 </head>
 <body class="locked">
 <section id="face" aria-label="Lock screen">
-  <h1>C.L.I.C.K.it</h1><div class="sub">Command Center</div>
-  <div class="ring" id="ring">
-    <div class="halo a"></div><div class="halo b"></div>
-    <button class="core" id="unlock" aria-label="Unlock Command Center"><svg viewBox="0 0 24 24" fill="none" stroke="#38f2e0" stroke-width="1.6"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><rect x="8.5" y="10.5" width="7" height="5.5" rx="1"/><path d="M10 10.5V9a2 2 0 014 0v1.5"/></svg>C.L.I.C.K.it<small id="coreTxt">Tap to unlock</small></button>
+  <div class="ccpill">Command Center</div>
+  <div class="stage" id="ring">
+    <svg class="arcs" viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="gc" x1="0" x2="1"><stop offset="0" stop-color="#38f2e0"/><stop offset="1" stop-color="#8b6cff"/></linearGradient></defs>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="url(#gc)" stroke-width="2.5" stroke-dasharray="330 30 150 80" stroke-linecap="round" class="sp1"/>
+      <circle cx="100" cy="100" r="86" fill="none" stroke="#8b6cff" stroke-width="3" stroke-dasharray="220 50 180 90" stroke-linecap="round" opacity=".85" class="sp2"/>
+      <circle cx="100" cy="100" r="78" fill="none" stroke="#38f2e0" stroke-width="1.2" opacity=".5"/></svg>
+    <button class="core" id="unlock" aria-label="Unlock Command Center"><span class="shb"><svg viewBox="0 0 24 24" fill="none" stroke="#38f2e0" stroke-width="1.6"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><rect x="8.5" y="10.5" width="7" height="5.5" rx="1"/><path d="M10 10.5V9a2 2 0 014 0v1.5"/></svg></span>C.L.I.C.K.it</button>
+    <div class="tap" id="coreTxt">Tap to unlock</div>
   </div>
+  <div class="row3" id="row3"></div>
   <div id="pinBox"><input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="PIN" autocomplete="off"><button class="pri" id="pinGo">OK</button></div>
   <div id="lockMsg"></div>
+  <nav class="fnav" aria-label="Quick"><button data-f="home" class="on" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg></button><button data-f="chart" aria-label="Crypto"><svg viewBox="0 0 24 24"><path d="M6 20V12M12 20V5M18 20v-9"/></svg></button><button data-f="shield" aria-label="Security"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></button><button data-f="me" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button></nav>
 </section>
 <main>
 <h1>C.L.I.C.K.it Command Center<small>Read-only · v1 preview · nothing here can move funds</small></h1>
@@ -829,7 +858,9 @@ Q.forEach(function(t){if(t.s==="working"||t.s==="queued"){t.s="blocked";t.r="Int
 var ORBS=[["🛡","Watchdog",function(){go(null,function(){floor("crypto","watchdog");runScan(false)})}],["🔔","Alerts",function(){go(null,function(){floor("crypto","alerts")})}],["🧹","Clean-Up",function(){go(null,function(){$("clean").showModal()})}],["⧉","Apps",function(){go(null,function(){floor("crypto","apps")})}],["💬","Messages",function(){go(null,function(){$("dMsg").showModal()})}],["📅","Calendar",function(){go(null,function(){$("dCal").showModal()})}],["🧮","Calc",function(){go(null,function(){$("dCalc").showModal()})}]];
 var pending=null,unlocked=false;
 function go(sec,fn){pending=function(){if(fn)fn()};unlock()}
-(function(){var r=$("ring");ORBS.forEach(function(o,i){var a=-Math.PI/2+i*2*Math.PI/ORBS.length,b=el("button","orb");b.style.left=(50+42*Math.cos(a))+"%";b.style.top=(50+42*Math.sin(a))+"%";b.appendChild(el("i",null,o[0]));b.appendChild(document.createTextNode(o[1]));b.setAttribute("aria-label",o[1]);b.onclick=o[2];r.appendChild(b)})})();
+var OI={Watchdog:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',Alerts:'<path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 20a2 2 0 004 0"/>',"Clean-Up":'<path d="M14 4l6 6M12 6l6 6-7 8H6v-5z"/><path d="M4 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/>',Apps:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',Messages:'<path d="M4 5h16v11H9l-5 4z"/>',Calendar:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',Calc:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/>'};
+(function(){var pos={Watchdog:"tl",Alerts:"tr","Clean-Up":"bl",Apps:"br"};ORBS.forEach(function(o){var b=el("button","orb"+(pos[o[1]]?" "+pos[o[1]]:"")),c=el("span","oc");c.innerHTML='<svg viewBox="0 0 24 24">'+OI[o[1]]+'</svg>';b.appendChild(c);b.appendChild(el("span","ol",o[1]==="Calc"?"Calculator":o[1]));b.setAttribute("aria-label",o[1]);b.onclick=o[2];(pos[o[1]]?$("ring"):$("row3")).appendChild(b)})})();
+document.querySelectorAll(".fnav button").forEach(function(b){b.onclick=function(){var f=b.dataset.f;if(f==="home")unlock();if(f==="chart")go(null,function(){floor("crypto")});if(f==="shield")go(null,function(){floor("tools","security")});if(f==="me")go(null,function(){floor("tools","settings")})}});
 function b64(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
 function unb64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
 function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
