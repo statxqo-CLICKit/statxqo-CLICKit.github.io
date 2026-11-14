@@ -283,6 +283,14 @@ body.big .zt .zn{font-size:14px}
 .fnav button.on{opacity:1;border-top:2px solid #38f2e0;filter:drop-shadow(0 0 6px #38f2e0)}
 .fnav svg{stroke:#9fb0bf}.fnav .on svg{stroke:#5ff5e6}
 #face #pinBox{position:relative;margin-top:8px}#face #lockMsg{position:relative;margin-bottom:80px}
+
+/* sleek glow-outline buttons in rooms */
+main button:not(.zt):not(.core):not(.orb):not(.mic),main .btn,dialog button,#ob button{background:rgba(10,18,24,.55)!important;border:1px solid rgba(56,242,224,.6)!important;color:#dffcf9!important;border-radius:12px;box-shadow:0 0 10px rgba(56,242,224,.28),inset 0 0 8px rgba(56,242,224,.08);transition:box-shadow .2s,border-color .2s}
+main button:not(.zt):not(.core):not(.orb):not(.mic):hover,main button:not(.zt):not(.core):not(.orb):not(.mic):focus-visible,main .btn:hover,dialog button:hover{box-shadow:0 0 16px rgba(56,242,224,.55),inset 0 0 10px rgba(56,242,224,.15);border-color:#38f2e0!important}
+main button.pri,main .btn.pri,dialog button.pri,#ob button.pri{border-color:#8b6cff!important;box-shadow:0 0 12px rgba(139,108,255,.45),0 0 4px rgba(56,242,224,.4),inset 0 0 10px rgba(139,108,255,.15);color:#fff!important}
+main button:disabled{opacity:.45;box-shadow:none}
+main button,main .btn{white-space:nowrap}
+body.light main button:not(.zt):not(.core):not(.orb):not(.mic),body.light main .btn{background:#fff!important;color:#0b3b38!important}
 </style>
 </head>
 <body class="locked">
