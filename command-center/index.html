@@ -43,7 +43,7 @@ ul.list li .sp{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.stats div{background:rgba(255,255,255,.03);border-radius:10px;padding:8px 4px}.stats b{display:block;font-size:18px}
 .cleanup{position:fixed;left:50%;transform:translateX(-50%);bottom:64px;width:min(250px,70vw);height:56px;border-radius:120px 120px 18px 18px;border:1px solid var(--cy);background:linear-gradient(180deg,rgba(56,242,224,.25),rgba(150,110,255,.25));color:#fff;font-weight:600;box-shadow:0 0 26px rgba(56,242,224,.35);z-index:5}
 nav.bn{position:fixed;left:0;right:0;bottom:0;background:rgba(7,9,13,.92);border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:6;backdrop-filter:blur(10px)}
-nav.bn a{color:var(--mu);text-decoration:none;font-size:11px;text-align:center;flex:1}nav.bn a.on{color:var(--cy)}nav.bn a i{display:block;font-style:normal;font-size:18px}
+nav.bn{overflow-x:auto;justify-content:flex-start;scrollbar-width:none}nav.bn::-webkit-scrollbar{display:none}nav.bn a{color:var(--mu);text-decoration:none;font-size:11px;text-align:center;flex:0 0 19%;min-width:60px}nav.bn a.on{color:var(--cy)}nav.bn a i{display:block;font-style:normal;font-size:18px}
 dialog{border:1px solid var(--line);border-radius:18px;background:#0c1118;color:var(--tx);width:min(480px,94vw);max-height:86vh;padding:16px}
 dialog::backdrop{background:rgba(0,0,0,.7)}
 .step{border-top:1px solid rgba(255,255,255,.07);padding:10px 0}.step b{display:block;margin-bottom:3px}.step .row{flex-wrap:wrap;margin-top:6px}.step .btn{font-size:13px;padding:7px 10px}
@@ -82,6 +82,50 @@ body.onfloor .floorbar{display:flex}body.onfloor #lobby{display:none}
 .brand{font-size:11px;letter-spacing:1px;color:var(--mu);margin:10px 0 4px;text-transform:uppercase}
 .soc{display:flex;gap:8px;flex-wrap:wrap}.soc a{flex:1 1 44%;font-size:13px}
 .tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tools button{padding:16px 6px}.tools i{display:block;font-style:normal;font-size:22px}
+
+.asst{border-color:#38f2e0}
+.asst form{display:flex;gap:6px;margin-top:8px}.asst form input{flex:1}
+.mic{width:44px;padding:0;font-size:18px}.mic.rec{border-color:var(--bad);color:var(--bad);box-shadow:0 0 12px var(--bad)}
+.bots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.bot{border:1px solid var(--c);border-radius:12px;padding:8px;background:rgba(255,255,255,.03);font-size:12px;min-height:74px}
+.bot b{color:var(--c);font-size:12px;letter-spacing:.8px}.bot .st{float:right;font-size:10px}.bot p{margin:4px 0 0;color:var(--mu);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bot.z-shop{--c:#ff4d6d}.bot.z-crypto{--c:#38f2e0}.bot.z-social{--c:#a97bff}.bot.z-tools{--c:#38f2a5}
+.bot.busy{box-shadow:0 0 14px color-mix(in srgb,var(--c) 45%,transparent)}
+ul.q li{flex-wrap:wrap}ul.q .rep{flex-basis:100%;color:var(--mu);font-size:12px;padding-left:2px}
+.chipz{font-size:10px;border-radius:6px;padding:1px 6px;border:1px solid currentColor}
+.s-queued{color:var(--mu)}.s-working{color:var(--cy)}.s-done{color:var(--gr)}.s-approval{color:var(--warn)}.s-blocked{color:var(--bad)}
+
+.store.s1{--c:#38f2e0}.store.s2{--c:#b07bff}.store.s3{--c:#ff5fd2}.store.s4{--c:#ffa040}
+.store{min-height:170px;align-items:center;text-align:center;padding-top:10px}
+.store .sign{font-size:14px;border:1.5px solid var(--c);border-radius:8px;padding:3px 10px;margin-top:6px;background:rgba(0,0,0,.35)}
+.store .robot{width:58px;height:62px;margin:8px 0 4px;color:var(--c);filter:drop-shadow(0 0 8px var(--c))}
+.store .stc{font-size:11px;border-radius:20px;padding:2px 9px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);color:var(--tx);white-space:nowrap}
+.store .stc:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gr);margin-right:5px;vertical-align:middle}
+.store.busy .stc:before{background:var(--cy);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.store .last{font-size:11px;color:var(--mu);margin-top:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.atrium{position:relative;text-align:center;margin:-2px 0 6px;height:0}
+.brandhead{text-align:center;margin:4px 0 12px}.brandhead b{font-size:24px;letter-spacing:1px;background:linear-gradient(90deg,#38f2e0,#b07bff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(56,242,224,.25)}.brandhead div{color:var(--cy);font-weight:600;font-size:14px}
+#askBar{position:fixed;left:0;right:0;bottom:62px;z-index:6;padding:0 14px 6px;display:none}
+body:not(.onfloor):not(.locked) #askBar{display:block}
+body:not(.onfloor) .cleanup{display:none}
+#askBar form{max-width:520px;margin:0 auto;display:flex;gap:8px;align-items:center}
+#askBar input{border-radius:24px;border:1.5px solid var(--cy);background:rgba(7,9,13,.85);padding:12px 16px;box-shadow:0 0 16px rgba(56,242,224,.25)}
+#askBar .mic{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--cy);background:rgba(7,9,13,.85);color:var(--cy)}
+#askBar .go{border-radius:24px;padding:12px 14px}
+.aorb{width:64px;height:64px;margin:0 auto 6px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#bdfcff,#38f2e0 35%,#6a4bd8 80%);box-shadow:0 0 30px rgba(56,242,224,.6),0 0 60px rgba(150,110,255,.4);position:relative}
+.aorb:before,.aorb:after{content:"";position:absolute;top:26px;width:9px;height:12px;border-radius:5px;background:#07202a}.aorb:before{left:19px}.aorb:after{right:19px}
+body:not(.onfloor) main{padding-bottom:210px}
+
+.store.s5{--c:#ff8fb1}.store.s6{--c:#38f2a5}.store.s7{--c:#ffe14d}
+.lvl{font-size:11px;letter-spacing:2px;color:var(--mu);margin:4px 2px 6px;display:flex;align-items:center;gap:8px}.lvl:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(56,242,224,.5),transparent)}
+.mall.one{grid-template-columns:1fr}.mall.one .store{min-height:150px}
+.ev{display:flex;gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.06);font-size:13px}.ev .sp{min-width:0}.ev.mine{background:rgba(255,225,77,.07);border-radius:8px}
+.tvmini{width:100%;height:110px;border:0;border-radius:10px;background:#0b0f16;margin-top:6px}
+
+body:not(.onfloor) main>h1{display:none}
+.store{min-height:0;padding:8px 8px 10px}.store .robot{width:44px;height:46px;margin:6px 0 4px}.store .sign{font-size:12px;padding:2px 8px}
+#askBar .mic{flex:0 0 48px}#askBar .go{flex:0 0 auto;height:48px}#askBar input{height:48px}
 </style>
 </head>
 <body class="locked">
@@ -99,12 +143,31 @@ body.onfloor .floorbar{display:flex}body.onfloor #lobby{display:none}
 
 <section id="dash">
 <div id="lobby">
- <div class="mu" style="margin:0 2px 8px">Pick a floor</div>
+ <div class="brandhead"><b>C.L.I.C.K.it</b><div>Command Center</div></div>
+ <div class="lvl">LEVEL 1 · SHOP</div>
  <div class="mall">
-  <button class="store s1" data-go="shop"><span class="sign">SHOPPING</span><span class="ic">🛍</span><b>Knockout Artist</b><span class="mu">Store · visits · sales · messages</span></button>
-  <button class="store s2" data-go="crypto"><span class="sign">CRYPTO</span><span class="ic">⛓</span><b id="lobbyBal">Wallets</b><span class="mu">FOMO · POSH · Dusty · RX7 · Watchdog</span></button>
-  <button class="store s3" data-go="social"><span class="sign">SOCIAL</span><span class="ic">📣</span><b>Channels</b><span class="mu">X · TikTok · Instagram · Discord · Facebook</span></button>
-  <button class="store s4" data-go="tools"><span class="sign">TOOLS</span><span class="ic">🧰</span><b>Utilities</b><span class="mu">Clean-Up · Calendar · Calc · Messages</span></button>
+  <button class="store s1" data-go="shop" id="st-shop"><span class="sign">SHOPPING</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+  <button class="store s5" data-go="beauty" id="st-beauty"><span class="sign">BEAUTY</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+ </div>
+ <div class="lvl">LEVEL 2 · MARKETS</div>
+ <div class="mall">
+  <button class="store s2" data-go="crypto" id="st-crypto"><span class="sign">CRYPTO</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+  <button class="store s6" data-go="stocks" id="st-stocks"><span class="sign">STOCKS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+ </div>
+ <div class="lvl">LEVEL 3 · PLAY</div>
+ <div class="mall">
+  <button class="store s3" data-go="social" id="st-social"><span class="sign">SOCIAL</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+  <button class="store s7" data-go="sports" id="st-sports"><span class="sign">SPORTS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+ </div>
+ <div class="lvl">LEVEL 4 · SERVICE</div>
+ <div class="mall one">
+  <button class="store s4" data-go="tools" id="st-tools"><span class="sign">TOOLS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
+ </div>
+ <div class="card asst" id="assistant">
+  <div class="aorb" aria-hidden="true"></div>
+  <div style="text-align:center"><b>CLICK Assistant</b><div class="mu">Type or speak a task; it goes to the right floor's bot. Read-only in v1.</div></div>
+  <ul class="list q" id="queue"></ul>
+  <div class="mu" style="margin-top:6px;font-size:11px">No bot spends, trades, signs, moves funds, posts or messages. Those wait for your approval tap and are coming soon.</div>
  </div>
 </div>
 <div class="floorbar"><button id="toLobby">← Mall</button><b id="floorName"></b></div>
@@ -154,6 +217,24 @@ body.onfloor .floorbar{display:flex}body.onfloor #lobby{display:none}
   <div class="mu" style="margin-top:8px">Live counts connect through a private server relay (coming soon), so the store key never touches this page.</div>
 </div>
 
+<div class="card v" id="stocksCard" data-zone="stocks">
+  <div class="row"><h2 class="sp" style="margin:0">Stocks watchlist</h2><span class="mu" style="font-size:11px">view only</span></div>
+  <form id="stkF" class="row" style="margin-top:8px"><input id="stkI" placeholder="Ticker, e.g. NASDAQ:AAPL or SPY" autocomplete="off"><button class="pri">Add</button></form>
+  <div id="stkList"></div>
+  <div class="mu" style="margin-top:8px">Stock price alerts arrive with the private data relay (coming soon). No trading or brokerage sign-ins here.</div>
+</div>
+<div class="card" id="sportsCard" data-zone="sports">
+  <div class="row"><h2 class="sp" style="margin:0">Scores and schedules</h2><button id="spRef">Refresh</button></div>
+  <div class="chips" id="lgChips" style="margin-top:8px"></div>
+  <form id="tmF" class="row" style="margin-top:8px"><input id="tmI" placeholder="Follow a team or fighter" autocomplete="off"><button class="pri">Follow</button></form>
+  <div class="chips" id="tmChips" style="margin-top:6px"></div>
+  <div id="evList" style="margin-top:6px"></div>
+  <div class="mu" style="margin-top:6px;font-size:11px">Scores from ESPN's public feed.</div>
+</div>
+<div class="card v" id="beautyCard" data-zone="beauty">
+  <h2>Beauty</h2><div class="mu">Shops and apps. Browsing only; nothing is bought here.</div>
+  <div class="soc" style="margin-top:8px"><a class="btn" href="https://www.sephora.com" target="_blank" rel="noopener">Sephora</a><a class="btn" href="https://www.ulta.com" target="_blank" rel="noopener">Ulta Beauty</a><a class="btn" href="https://www.amazon.com/beauty" target="_blank" rel="noopener">Amazon Beauty</a><a class="btn" href="https://www.target.com/c/beauty/-/N-55r1x" target="_blank" rel="noopener">Target Beauty</a></div>
+</div>
 <div class="card v" id="social" data-zone="social">
   <h2>Channels</h2><div class="mu">Each brand stays on its own accounts. Message counts need a private sign-in relay (coming soon); tap to open.</div>
   <div class="brand">POSH Escrow</div><div class="soc"><a class="btn" href="https://x.com/poshescrow" target="_blank" rel="noopener">X @poshescrow</a><a class="btn" href="https://www.tiktok.com/@poshescrow" target="_blank" rel="noopener">TikTok</a><a class="btn" href="https://discord.gg/7DbFqrymk" target="_blank" rel="noopener">Discord</a></div>
@@ -178,9 +259,10 @@ body.onfloor .floorbar{display:flex}body.onfloor #lobby{display:none}
 </section>
 </main>
 
+<div id="askBar"><form id="askF"><input id="askI" placeholder="Ask your assistant…" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Speak">🎙</button><button class="pri go">Go</button></form></div>
 <button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
 <nav class="bn">
-  <a href="#" data-go="" class="on"><i>▦</i>Mall</a><a href="#" data-go="shop"><i>🛍</i>Shopping</a><a href="#" data-go="crypto"><i>⛓</i>Crypto</a><a href="#" data-go="social"><i>📣</i>Social</a><a href="#" data-go="tools"><i>🧰</i>Tools</a>
+  <a href="#" data-go="" class="on"><i>▦</i>Mall</a><a href="#" data-go="shop"><i>🛍</i>Shop</a><a href="#" data-go="crypto"><i>⛓</i>Crypto</a><a href="#" data-go="stocks"><i>📈</i>Stocks</a><a href="#" data-go="sports"><i>🏆</i>Sports</a><a href="#" data-go="social"><i>📣</i>Social</a><a href="#" data-go="beauty"><i>💄</i>Beauty</a><a href="#" data-go="tools"><i>🧰</i>Tools</a>
 </nav>
 
 <dialog id="clean">
@@ -241,7 +323,7 @@ function loadBalances(){if(!W.length){render();return}
     if(!Object.keys(BAL).length){render();$("totalSub").textContent="Couldn't reach the chain explorers; retrying in 5 min.";return}var h=LS.get("hist",[]),t=total("all");h.push([Date.now(),t]);h=h.slice(-48);LS.set("hist",h);render()})}
 function total(ch){var s=0;W.forEach(function(w){Object.keys(NETS).forEach(function(n){if(ch!=="all"&&ch!==n)return;var b=BAL[w.a+"|"+n];if(b)s+=b.usd})});return s}
 function render(){
-  var any=Object.keys(BAL).length;$("lobbyBal").textContent=W.length&&any?usd(total("all")):"Wallets";$("total").textContent=W.length&&any?usd(total(chainSel)):"—";
+  var any=Object.keys(BAL).length;$("total").textContent=W.length&&any?usd(total(chainSel)):"—";
   $("totalSub").textContent=W.length?(W.length+" wallet"+(W.length>1?"s":"")+" · Ethereum + Base · listed tokens only"):"Add a public address to start";
   var cc=$("chainChips");cc.textContent="";[["all","All"],["eth","ETH"],["base","Base"]].forEach(function(c){var b=el("button","chip"+(chainSel===c[0]?" on":""),c[1]+": "+(any?usd(total(c[0])):"—"));b.onclick=function(){chainSel=c[0];render()};cc.appendChild(b)});
   var ul=$("walletList");ul.textContent="";W.forEach(function(w,i){var li=el("li");var s=0;Object.keys(NETS).forEach(function(n){var b=BAL[w.a+"|"+n];if(b)s+=b.usd});
@@ -330,18 +412,97 @@ $("cleanBtn").onclick=function(){$("clean").showModal()};$("cleanX").onclick=fun
 var dp;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;$("inst").disabled=false});
 $("inst").onclick=function(){if(dp){dp.prompt();dp=null;$("inst").disabled=true}};
 $("resetLock").onclick=function(){if(confirm("Remove the device lock? You will set a new one next time.")){["cred","pin","tries","tryT"].forEach(function(k){localStorage.removeItem("cc_"+k)});location.reload()}};
-$("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
+$("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr","queue","stocks","sports","agenda"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
 
 
 
 // ---------- mall floors ----------
-var FLOORS={shop:"SHOPPING · Knockout Artist",crypto:"CRYPTO",social:"SOCIAL",tools:"TOOLS"};
+var FLOORS={shop:"SHOPPING · Knockout Artist",beauty:"BEAUTY",crypto:"CRYPTO",stocks:"STOCKS",social:"SOCIAL",sports:"SPORTS",tools:"TOOLS"};
 function floor(z,target){document.body.classList.toggle("onfloor",!!z);document.querySelectorAll("[data-zone]").forEach(function(c){c.classList.toggle("show",c.dataset.zone===z)});
   $("floorName").textContent=z?FLOORS[z]:"";document.querySelectorAll("nav.bn a").forEach(function(a){a.classList.toggle("on",a.dataset.go===(z||""))});
   if(target&&$(target))$(target).scrollIntoView();else window.scrollTo(0,0)}
 document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();floor(b.dataset.go)})});
 $("toLobby").onclick=function(){floor("")};
 document.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){$(b.dataset.t).showModal()}});
+
+
+
+// ---------- stocks (view-only watchlist via TradingView widgets) ----------
+var STK=LS.get("stocks",["SPY","QQQ","AAPL"]);
+function addStock(t){t=String(t).toUpperCase().replace(/[^A-Z0-9:.\-]/g,"").slice(0,20);if(t&&STK.indexOf(t)<0){STK.push(t);LS.set("stocks",STK);renderStocks()}}
+function renderStocks(){var d=$("stkList");d.textContent="";STK.forEach(function(t,i){var r=el("div","row");r.style.marginTop="10px";r.appendChild(el("b","sp",t));var o=el("button",null,"Chart");o.style.padding="4px 8px";o.onclick=function(){f.style.height=f.style.height==="360px"?"110px":"360px";f.src=f.style.height==="360px"?tv(t):mini(t)};var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){STK.splice(i,1);LS.set("stocks",STK);renderStocks()};r.appendChild(o);r.appendChild(x);d.appendChild(r);
+  var f=el("iframe","tvmini");f.loading="lazy";f.title=t+" chart";f.src=mini(t);d.appendChild(f)})}
+function mini(t){return "https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=en#"+encodeURIComponent(JSON.stringify({symbol:t,width:"100%",height:110,dateRange:"1D",colorTheme:"dark",isTransparent:true,autosize:true}))}
+$("stkF").onsubmit=function(e){e.preventDefault();addStock($("stkI").value);$("stkI").value=""};
+// ---------- sports (ESPN public scoreboard) ----------
+var LEAGUES=[{k:"ufc",n:"UFC",p:"mma/ufc"},{k:"nfl",n:"NFL",p:"football/nfl"},{k:"nba",n:"NBA",p:"basketball/nba"},{k:"mlb",n:"MLB",p:"baseball/mlb"},{k:"nhl",n:"NHL",p:"hockey/nhl"},{k:"college football",n:"NCAAF",p:"football/college-football"}];
+var SP=LS.get("sports",{lg:0,teams:[]});
+function isMine(e){return SP.teams.some(function(t){return e.name.toLowerCase().indexOf(t.toLowerCase())>=0})}
+function loadSports(){var lg=LEAGUES[SP.lg]||LEAGUES[0];renderLg();$("evList").textContent="Loading "+lg.n+"…";
+  return getJSON("https://site.api.espn.com/apis/site/v2/sports/"+lg.p+"/scoreboard").then(function(d){var evs=[];(d.events||[]).forEach(function(ev){
+      if(lg.k==="ufc"&&ev.competitions&&ev.competitions.length){ev.competitions.slice(-6).reverse().forEach(function(c){var nm=(c.competitors||[]).map(function(x){return x.athlete?x.athlete.displayName:""}).join(" vs ");evs.push({name:nm||ev.name,when:(c.status&&c.status.type&&c.status.type.shortDetail)||new Date(ev.date).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}),ev:ev.name})})}
+      else{var c=(ev.competitions||[{}])[0],sc=(c.competitors||[]).map(function(x){return (x.team?x.team.abbreviation:"")+" "+(x.score||"")}).join(" · ");evs.push({name:ev.name,when:((ev.status&&ev.status.type&&ev.status.type.shortDetail)||"")+(sc&&/\d/.test(sc)?" · "+sc:"")})}});
+    var L=$("evList");L.textContent="";if(!evs.length)L.appendChild(el("div","mu","No "+lg.n+" events listed right now."));
+    evs.sort(function(a,b){return (isMine(b)?1:0)-(isMine(a)?1:0)}).slice(0,15).forEach(function(e){var r=el("div","ev"+(isMine(e)?" mine":""));var a=el("span","sp");a.appendChild(el("b",null,e.name));if(e.ev)a.appendChild(el("div","mu",e.ev));r.appendChild(a);r.appendChild(el("span","mu",e.when));L.appendChild(r)});return evs},
+    function(){$("evList").textContent="Couldn't reach the scores feed; try Refresh.";return []})}
+function renderLg(){var c=$("lgChips");c.textContent="";LEAGUES.forEach(function(l,i){var b=el("button","chip"+(i===SP.lg?" on":""),l.n);b.onclick=function(){SP.lg=i;LS.set("sports",SP);loadSports()};c.appendChild(b)});
+  var t=$("tmChips");t.textContent="";SP.teams.forEach(function(n,i){var b=el("button","chip on",n+" ✕");b.onclick=function(){SP.teams.splice(i,1);LS.set("sports",SP);loadSports()};t.appendChild(b)})}
+$("tmF").onsubmit=function(e){e.preventDefault();var v=$("tmI").value.trim().slice(0,40);if(v&&SP.teams.indexOf(v)<0){SP.teams.push(v);LS.set("sports",SP)}$("tmI").value="";loadSports()};
+$("spRef").onclick=loadSports;
+renderStocks();renderLg();
+document.querySelectorAll('[data-go="sports"]').forEach(function(b){b.addEventListener("click",function(){loadSports()})});
+
+// ---------- CLICK Assistant: manager + department bots (read-only v1) ----------
+var BOTS={shop:{n:"SHOPPING BOT",st:"idle",chip:"Online",last:"Knockout store"},crypto:{n:"CRYPTO BOT",st:"idle",chip:"Active",last:"Wallets · Watchdog · alerts"},social:{n:"SOCIAL BOT",st:"idle",chip:"Links ready",last:"Brand channels"},tools:{n:"TOOLS BOT",st:"idle",chip:"Ready",last:"Clean-Up · calendar · calc"},beauty:{n:"BEAUTY BOT",st:"idle",chip:"Online",last:"Beauty shops and apps"},stocks:{n:"STOCKS BOT",st:"idle",chip:"Watching",last:"Watchlist and charts"},sports:{n:"SPORTS BOT",st:"idle",chip:"Live",last:"Scores and schedules"}};
+var Q=LS.get("queue",[]);
+var GATED=/\b(buy|sell|swap|trade|send|transfer|pay|sign|post|tweet|publish|dm|reply|message\s+\w+|approve|revoke|withdraw|deposit|mint|bridge|stake|order|refund|delete)\b/i;
+var KW={crypto:/wallet|balance|scan|watchdog|approval|price|chart|alert|stop|eth|btc|sol|xlm|fomo|posh|dusty|rx7|token|gas|crypto/i,
+  shop:/store|shop|knockout|sale|visit|order|product|merch|customer/i,
+  social:/x\b|twitter|tiktok|instagram|insta|discord|facebook|social|inbox|dm|follower|post|tweet/i,
+  beauty:/beauty|makeup|skincare|skin|hair|nail|sephora|ulta|fragrance|perfume|lipstick/i,
+  stocks:/stock|ticker|nasdaq|nyse|spy|qqq|aapl|tsla|nvda|msft|amzn|share price|market cap|dow|s&p/i,
+  sports:/score|game|match|fight|ufc|mma|nfl|nba|mlb|nhl|team|schedule|boxing|football|basketball|baseball|hockey/i,
+  tools:/clean|storage|photo|file|folder|app|calendar|agenda|remind|calc|\d\s*[-+*\/x×÷]\s*\d|messages|sms|notification|data/i};
+function route(t){if(/^[\d\s.+\-*\/()x×÷=?]+$/.test(t.replace(/^(what('|i)?s|calc(ulate)?)\s*/i,"")))return "tools";if(KW.stocks.test(t)&&!/\b(eth|btc|sol|xlm|wallet|crypto)\b/.test(t))return "stocks";var best="tools",sc=0;Object.keys(KW).forEach(function(z){var m=t.match(new RegExp(KW[z].source,"gi"));var n=m?m.length:0;if(n>sc){sc=n;best=z}});return best}
+function renderBots(){Object.keys(BOTS).forEach(function(z){var b=BOTS[z],c=$("st-"+z);if(!c)return;c.classList.toggle("busy",b.st==="working");c.querySelector(".stc").textContent=b.st==="working"?"Working":(b.chip||"Online");c.querySelector(".last").textContent=b.last})}
+function renderQ(){var ul=$("queue");ul.textContent="";Q.slice(-6).reverse().forEach(function(t){var li=el("li");li.appendChild(el("span","chipz s-"+t.s,t.s==="approval"?"needs approval":t.s));li.appendChild(el("span","sp",t.text));li.appendChild(el("span","mu",BOTS[t.z].n.split(" ")[0].toLowerCase()));
+  if(t.s==="approval"){var a=el("button",null,"Approve");a.disabled=true;a.title="Action bots coming soon";a.style.padding="4px 8px";a.style.fontSize="12px";li.appendChild(a)}
+  if(t.r){var r=el("span","rep",t.r);li.appendChild(r)}
+  if(t.link){var l=el("a","btn",t.linkLabel||"Open");l.href=t.link;l.target="_blank";l.rel="noopener";l.style.padding="4px 8px";l.style.fontSize="12px";li.appendChild(l)}
+  ul.appendChild(li)})}
+function save(){LS.set("queue",Q.slice(-30))}
+var SOC={x:"https://x.com/messages",twitter:"https://x.com/messages",tiktok:"https://www.tiktok.com/messages",instagram:"https://www.instagram.com/direct/inbox/",insta:"https://www.instagram.com/direct/inbox/",discord:"https://discord.com/channels/@me",facebook:"https://www.facebook.com/knockoutartistapparel"};
+function work(t){var x=t.text.toLowerCase();
+  if(GATED.test(x)&&!/\b(scan|price|balance|chart)\b/.test(x))return Promise.resolve({s:"approval",r:"This would act for you, so it waits for your approval tap. Action bots are coming soon; nothing was done."});
+  if(t.z==="crypto"){
+    if(/scan|watchdog|approval|safe|risk/.test(x))return Promise.resolve(runScan(true)).then(function(){return {s:"done",r:$("wdStatus").textContent}});
+    var sym=(x.match(/\b(btc|eth|sol|xlm)\b/)||[])[1];
+    if(/alert|stop/.test(x)&&sym){var v=parseFloat((x.match(/\$?([\d,]+(\.\d+)?)/)||[])[1]||"".replace(/,/g,""));v=parseFloat(String((x.match(/\$?([\d,]+(?:\.\d+)?)/)||[])[1]||"").replace(/,/g,""));if(v>0){var dir=/above|over|rise|up|≥|>/.test(x)?"above":"below";A.push({sym:sym.toUpperCase(),dir:dir,v:v,hit:false});LS.set("alerts",A);renderAlerts();askNotif();return Promise.resolve({s:"done",r:"Alert set: "+sym.toUpperCase()+(dir==="below"?" at or below ":" at or above ")+usd(v)+". Notify only."})}}
+    if(/price|cost|worth/.test(x)||sym)return checkPrices().then(function(){var k=sym?sym.toUpperCase():null;return {s:"done",r:k&&PX[k]!=null?k+" is "+usd(PX[k])+" (CoinGecko)":$("pxLine").textContent}});
+    if(/chart/.test(x)){floor("crypto","markets");return Promise.resolve({s:"done",r:"Opened Market Pulse."})}
+    return Promise.resolve(loadBalances()).then(function(){return {s:"done",r:W.length?"Tracked balance "+$("total").textContent+" across "+W.length+" wallet"+(W.length>1?"s":"")+".":"Add a public wallet address first."}})}
+
+  if(t.z==="beauty"){floor("beauty");return Promise.resolve({s:"done",r:"Opened the Beauty floor: Sephora, Ulta, Amazon, Target."})}
+  if(t.z==="stocks"){var tk=(t.text.match(/\b[A-Z]{1,5}\b/g)||[]).filter(function(w){return !/^(I|A|ETH|BTC)$/.test(w)})[0];if(/alert/.test(x))return Promise.resolve({s:"done",r:"Stock price alerts arrive with the private data relay (coming soon)."});
+    if(tk){addStock(tk);floor("stocks");return Promise.resolve({s:"done",r:tk+" is on your watchlist with a live chart."})}floor("stocks");return Promise.resolve({s:"done",r:"Opened your watchlist."})}
+  if(t.z==="sports"){var lg=LEAGUES.filter(function(l){return x.indexOf(l.k)>=0})[0]||LEAGUES[SP.lg]||LEAGUES[0];SP.lg=LEAGUES.indexOf(lg);LS.set("sports",SP);return loadSports().then(function(evs){var mine=evs.filter(isMine);var e=(mine[0]||evs[0]);return {s:"done",r:e?lg.n+": "+e.name+" · "+e.when:"No "+lg.n+" events listed right now."}})}
+  if(t.z==="shop")return Promise.resolve({s:"done",r:"Live visits, sales and messages arrive when the private store relay is connected (coming soon).",link:"https://knockout-artist-llc-flk-shop.fourthwall.com",linkLabel:"Store"});
+  if(t.z==="social"){var k=Object.keys(SOC).filter(function(n){return new RegExp("\\b"+n+"\\b").test(x)})[0];return Promise.resolve({s:"done",r:k?"Opening "+k+". Read-only counts are coming soon.":"Pick a channel on the Social floor. Counts are coming soon.",link:k?SOC[k]:null,linkLabel:k||null})}
+  // tools
+  var expr=x.replace(/^(what('|i)?s|calc(ulate)?)\s*/,"").replace(/[=?]/g,"").replace(/x/g,"*").replace(/×/g,"*").replace(/÷/g,"/");
+  if(/^[\d\s.+\-*\/()]+$/.test(expr)&&/\d/.test(expr)){try{var r=Function('"use strict";return ('+expr+')')();return Promise.resolve({s:"done",r:expr.trim()+" = "+(+r.toPrecision(12))})}catch(e){}}
+  if(/clean|storage|photo|file|folder|unused|data|notification/.test(x)){$("clean").showModal();return Promise.resolve({s:"done",r:"Opened the Clean-Up guide."})}
+  if(/calendar|agenda|remind/.test(x)){$("dCal").showModal();return Promise.resolve({s:"done",r:"Opened Calendar. Add it to the quick agenda or your phone calendar."})}
+  if(/message|sms|text/.test(x)){$("dMsg").showModal();return Promise.resolve({s:"done",r:"Opened Messages."})}
+  return Promise.resolve({s:"done",r:"Not sure yet. Try: scan my wallets, ETH price, BTC stop 60000, open TikTok, clean up storage, 12*8."})}
+function ask(text){text=text.trim().slice(0,200);if(!text)return;var t={id:Date.now(),text:text,z:route(text.toLowerCase()),s:"queued"};Q.push(t);save();renderQ();
+  var b=BOTS[t.z];b.st="working";b.last="Working: "+text;t.s="working";renderBots();renderQ();
+  work(t).then(function(res){t.s=res.s;t.r=res.r;t.link=res.link;t.linkLabel=res.linkLabel},function(){t.s="blocked";t.r="Couldn't finish; source unreachable. Try again."}).then(function(){b.st="idle";b.last=(t.s==="approval"?"Waiting on your approval":t.r)||"";save();renderBots();renderQ()})}
+$("askF").onsubmit=function(e){e.preventDefault();ask($("askI").value);$("askI").value=""};
+(function(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition,m=$("mic");if(!SR){m.style.display="none";return}var r=new SR();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;
+  r.onresult=function(e){var t=e.results[0][0].transcript;$("askI").value=t;ask(t);$("askI").value=""};r.onend=function(){m.classList.remove("rec")};r.onerror=function(){m.classList.remove("rec")};
+  m.onclick=function(){if(m.classList.contains("rec")){r.stop();return}m.classList.add("rec");try{r.start()}catch(e){m.classList.remove("rec")}}})();
+Q.forEach(function(t){if(t.s==="working"||t.s==="queued"){t.s="blocked";t.r="Interrupted; ask again."}});renderBots();renderQ();
 
 // ---------- lock screen: device passkey (WebAuthn) or local PIN ----------
 var ORBS=[["🛡","Watchdog",function(){go(null,function(){floor("crypto","watchdog");runScan(false)})}],["🔔","Alerts",function(){go(null,function(){floor("crypto","alerts")})}],["🧹","Clean-Up",function(){go(null,function(){$("clean").showModal()})}],["⧉","Apps",function(){go(null,function(){floor("crypto","apps")})}],["💬","Messages",function(){go(null,function(){$("dMsg").showModal()})}],["📅","Calendar",function(){go(null,function(){$("dCal").showModal()})}],["🧮","Calc",function(){go(null,function(){$("dCalc").showModal()})}]];
