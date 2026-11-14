@@ -52,10 +52,10 @@ const MEM=cfg.split.accounts,PCT=cfg.split.percents;
 $('payout').textContent=cfg.payout+' (50/50 split: '+MEM.join(' + ')+')';
 let imgs=null;async function art3(){if(!imgs)imgs=await Promise.all(['knight','cat','skull'].map(async n=>{const r=await fetch('contract/'+n+'-onchain.jpg');if(!r.ok)throw new Error('Art file '+n+' missing ('+r.status+')');return new Uint8Array(await r.arrayBuffer())}));return imgs}
 const ro=n=>new ethers.JsonRpcProvider(NET[n].rpc,NET[n].id,{staticNetwork:true});
-const lim=g=>{const l=g*12n/10n;if(l>TXCAP){if(g>TXCAP)throw new Error('Deploy needs '+g+' gas, over the per-transaction cap');return TXCAP}return l};
+const lim=g=>{const l=g*105n/100n;if(l>TXCAP){if(g>TXCAP)throw new Error('Deploy needs '+g+' gas, over the per-transaction cap');return TXCAP}return l};
 // Everything here is read-only through a public RPC: no wallet, no signing.
 async function buildPlan(n,from){const N=NET[n],p=ro(n);const [blk,fd,bal]=await Promise.all([p.getBlock('latest'),p.getFeeData(),p.getBalance(from)]);
- let prio=fd.maxPriorityFeePerGas??1000000n;if(prio<1000000n)prio=1000000n;const maxFee=blk.baseFeePerGas*13n/10n+prio;
+ let prio=fd.maxPriorityFeePerGas??1000000n;if(prio<1000000n)prio=1000000n;const maxFee=blk.baseFeePerGas*115n/100n+prio;
  let pay=from,split=null,needSplit=false,gS=0n;
  if(n!=='test'){const sm=new ethers.Contract(SM,SMABI,p);if((await p.getCode(SM))==='0x')throw new Error('0xSplits SplitMain not found on '+N.name);
   split=await sm.predictImmutableSplitAddress(MEM,PCT,0);if(split.toLowerCase()!==cfg.payout.toLowerCase())throw new Error('Split address mismatch: chain says '+split+', config says '+cfg.payout);
@@ -65,7 +65,7 @@ async function buildPlan(n,from){const N=NET[n],p=ro(n);const [blk,fd,bal]=await
  const mtx0=await new ethers.ContractFactory(mart.abi,mart.bytecode).getDeployTransaction(from,250,pay);
  const gM=lim(await p.estimateGas({data:mtx0.data,from}));
  let l1=0n;if(N.op){try{const o=new ethers.Contract('0x420000000000000000000000000000000000000F',['function getL1Fee(bytes) view returns (uint256)'],p);l1=await o.getL1Fee(ethers.Transaction.from({type:2,chainId:N.id,nonce:0,gasLimit:gC,maxFeePerGas:maxFee,maxPriorityFeePerGas:prio,data:ctx.data}).unsignedSerialized)*2n}catch(e){}}
- const need=(gS+gC+gM)*maxFee+l1, est=(gS+gC+gM)*(blk.baseFeePerGas+prio)*10n/12n+l1/2n;
+ const need=(gS+gC+gM)*maxFee+l1, est=(gS+gC+gM)*(blk.baseFeePerGas+prio)*100n/105n+l1/2n;
  return {n,from,pay,split,needSplit,gS,gC,gM,maxFee,prio,ctx,need,est,bal,short:bal<need?need-bal:0n}}
 function showPlan(P){const N=NET[P.n];let t=N.name+': '+(P.needSplit?'3':'2')+' wallet confirmations ('+(P.needSplit?'split, ':'')+'cards, market).\nEstimated gas cost ≈ '+fe(P.est)+' ETH. Wallet must hold ≈ '+fe(P.need)+' ETH (gas limit × max fee).\nDeployer '+P.from+' has '+fe(P.bal)+' ETH on '+N.name+'.';
  if(P.split)t+='\nPayout/royalty/fee → split '+P.split+(P.needSplit?' (created in step 1)':' (already exists)');
