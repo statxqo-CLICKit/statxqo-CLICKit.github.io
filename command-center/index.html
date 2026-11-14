@@ -148,7 +148,7 @@ body{font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",Robot
 #inboxN{position:absolute;top:4px;right:4px;font-size:10px;color:#07090d;background:var(--cy);border-radius:8px;padding:0 4px;line-height:14px}#inboxN:empty{display:none}
 body.priv #privBtn svg{stroke:var(--cy)}
 .tabs{display:flex;justify-content:center;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
-.tabs button{border:0;background:transparent;border-radius:0;padding:8px 2px;color:var(--mu);font-size:15px;border-bottom:2px solid transparent}.tabs button.on{color:var(--cy);border-bottom-color:var(--cy)}.tabs span{color:var(--mu)}
+main .tabs button:not(.zt):not(.core):not(.orb):not(.mic){border:0;background:transparent;border-radius:0;padding:8px 2px;color:var(--mu);font-size:15px;border-bottom:2px solid transparent}.tabs button.on{color:var(--cy);border-bottom-color:var(--cy)}.tabs span{color:var(--mu)}
 #zoneHead .tabs{margin-bottom:0}
 .grid12{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
 .zt{position:relative;aspect-ratio:1/1;border-radius:16px;border:1px solid transparent;background:linear-gradient(rgba(28,32,38,.92),rgba(20,23,28,.92)) padding-box,linear-gradient(135deg,rgba(56,242,224,.75),rgba(160,130,255,.75)) border-box;box-shadow:0 0 14px rgba(56,242,224,.12),inset 0 1px 0 rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#e6ebf1;font-size:13px;padding:6px}
@@ -320,6 +320,34 @@ nav a.on{color:#5ff5e6!important;border-top:2px solid #38f2e0}
 .zt svg{filter:drop-shadow(0 0 5px rgba(56,242,224,.55))}
 #zt-entrepreneur .zn{font-size:12px;letter-spacing:-.4px}
 main h2,.floorbar b{text-shadow:0 0 10px rgba(56,242,224,.25)}
+
+/* alignment + sleek pass (Stan 07:10) */
+#grid{display:flex!important;flex-wrap:wrap;justify-content:center;gap:16px 10px}
+#grid>*:not(.zt){flex:0 0 100%}
+#grid .zt{flex:0 0 calc((100% - 20px)/3);max-width:calc((100% - 20px)/3)}
+.tabs{display:flex!important;gap:0!important;padding:4px;border-radius:14px;background:rgba(6,10,18,.7);border:1px solid rgba(120,150,190,.25);width:100%;max-width:340px;margin:0 auto}
+main .tabs button:not(.zt):not(.core):not(.orb):not(.mic){flex:1 1 0;min-height:40px!important;border-radius:10px!important;font-size:14px!important;padding:0 8px!important;background:transparent!important;border:1px solid transparent!important;box-shadow:none!important;color:#a3afc2!important;transform:none!important}
+main .tabs button:not(.zt):not(.core):not(.orb):not(.mic).on{background:linear-gradient(180deg,rgba(40,60,90,.95),rgba(16,24,40,.95)) padding-box,linear-gradient(135deg,#38f2e0,#8b6cff) border-box!important;color:#fff!important;box-shadow:0 0 10px rgba(56,242,224,.35)!important}
+.seg{display:flex;gap:0;padding:3px;border-radius:12px;background:rgba(6,10,18,.7);border:1px solid rgba(120,150,190,.25);flex:none}
+main .seg button:not(.zt):not(.core):not(.orb):not(.mic){min-height:36px!important;padding:0 14px!important;border-radius:9px!important;background:transparent!important;border:1px solid transparent!important;box-shadow:none!important;color:#a3afc2!important}
+main .seg button:not(.zt):not(.core):not(.orb):not(.mic).on{background:linear-gradient(180deg,rgba(40,60,90,.95),rgba(16,24,40,.95)) padding-box,linear-gradient(135deg,#38f2e0,#8b6cff) border-box!important;color:#fff!important}
+main button:not(.zt):not(.core):not(.orb):not(.mic),main .btn{min-height:44px;font-size:15px;line-height:1.1;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+main input,main select{min-height:44px;box-sizing:border-box}
+main .row{align-items:center;gap:8px}
+main .row>input{flex:1 1 0;min-width:0}
+.chip{min-height:36px!important;display:inline-flex;align-items:center}
+main .card{padding:16px!important;margin-bottom:14px!important}
+main .card h2{font-size:17px;margin:0 0 10px}
+nav{display:flex!important}
+nav a{flex:1 1 0;min-width:0;text-align:center;font-size:11px;padding-top:6px}
+nav a i{display:block;height:26px}
+#zt-entrepreneur .zn{font-size:12px;letter-spacing:-.4px}
+
+#zTabs[style*="none"]{display:none!important}
+.floorbar .botst{max-width:none;flex:none}.floorbar b{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+main .tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+main .tools button:not(.zt):not(.core):not(.orb):not(.mic){flex-direction:column;min-height:84px;font-size:14px;gap:6px;white-space:normal;text-align:center}
+main .tools button i{font-style:normal;height:28px}
 </style>
 </head>
 <body class="locked">
@@ -345,7 +373,7 @@ main h2,.floorbar b{text-shadow:0 0 10px rgba(56,242,224,.25)}
 <div id="lobby">
  <div class="sky"></div><header class="lh"><div><div class="lh1">C.L.I.C.K.it</div><div class="lh2">Command Center</div></div>
   <div class="lhi"><button id="secBtn" aria-label="Security Center"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></button><button id="privBtn" aria-label="Privacy mode"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button><button id="bigBtn" aria-label="Large text and simple mode"><svg viewBox="0 0 24 24"><path d="M3 18l4.5-12L12 18M4.6 14h5.8M14 18l3-8 3 8M15 15.5h4"/></svg></button><button id="inboxBtn" aria-label="Inbox"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 004 0"/></svg><span id="inboxN"></span></button></div></header>
- <div class="glass"><div class="tabs pill" id="modeTabs"><button data-mode="opp" class="on">Opportunities</button><span>|</span><button data-mode="use">Use Cases</button></div>
+ <div class="glass"><div class="tabs pill" id="modeTabs"><button data-mode="opp" class="on">Opportunities</button><button data-mode="use">Use Cases</button></div>
  <div class="grid12" id="grid"></div></div>
  <div class="card brief" id="briefing"><div class="row"><h2 class="sp" style="margin:0">Daily briefing</h2><span class="mu" id="briefDate"></span></div><ul class="list" id="briefList"></ul></div>
  <div class="card" id="assistant"><div class="row"><h2 class="sp" style="margin:0">Assistant tasks</h2><button id="tourBtn" style="padding:4px 10px;font-size:12px">Tour</button></div>
@@ -353,7 +381,7 @@ main h2,.floorbar b{text-shadow:0 0 10px rgba(56,242,224,.25)}
   <div class="mu" style="margin-top:6px;font-size:11px">Bots watch and report. Anything that spends, trades, signs, posts or messages waits for your approval tap (coming soon).</div></div>
 </div>
 <div class="floorbar"><button id="toLobby" aria-label="Back">←</button><b id="floorName"></b><span class="sp"></span><span class="botst" id="botSt"></span><button id="helpBtn" aria-label="What does this do?">?</button></div>
-<div class="card" id="zoneHead"><div class="tabs" id="zTabs"><button data-t="opp">Opportunities</button><span>|</span><button data-t="use">Use Cases</button></div><div class="mu" id="zNote" style="font-size:12px;margin:6px 0 0"></div><ul class="list" id="zList"></ul></div>
+<div class="card" id="zoneHead"><div class="tabs" id="zTabs"><button data-t="opp">Opportunities</button><button data-t="use">Use Cases</button></div><div class="mu" id="zNote" style="font-size:12px;margin:6px 0 0"></div><ul class="list" id="zList"></ul></div>
 <div class="card" data-zone="crypto">
   <div class="row"><div class="sp"><div class="mu">Tracked wallet balance</div><div class="big" id="total">—</div><div class="mu" id="totalSub">Add a public address to start</div></div><svg class="spark" id="spark" viewBox="0 0 120 44"></svg></div>
 </div>
@@ -490,7 +518,7 @@ main h2,.floorbar b{text-shadow:0 0 10px rgba(56,242,224,.25)}
 <div id="askBar"><div id="toast" role="status" aria-live="polite"></div><form id="askF"><span class="orb2" aria-hidden="true"></span><input id="askI" placeholder="Ask your assistant…" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Speak"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button></form></div>
 <button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
 <nav class="bn">
-  <a href="#" data-go="" class="on"><i>▦</i>Home</a><a href="#" data-go="crypto"><i>₿</i>Crypto</a><a href="#" data-go="stocks"><i>📈</i>Stocks</a><a href="#" data-go="boardroom"><i>💼</i>Boardroom</a><a href="#" data-go="project"><i>📋</i>Projects</a><a href="#" data-go="shop"><i>🛒</i>Shop</a><a href="#" data-go="social"><i>👥</i>Social</a><a href="#" data-go="sports"><i>🏆</i>Sports</a><a href="#" data-go="tools"><i>🛠</i>Tools</a>
+  <a href="#" data-go="" class="on"><i>▦</i>Home</a><a href="#" data-go="crypto"><i>₿</i>Crypto</a><a href="#" data-go="stocks"><i>📈</i>Stocks</a><a href="#" data-go="boardroom"><i>💼</i>Work</a><a href="#" data-go="tools"><i>🛠</i>Tools</a>
 </nav>
 
 <dialog id="clean">
@@ -785,7 +813,7 @@ var NUM=0;function renderGrid(){NUM=0;var g=$("grid");g.textContent="";LEVELS.fo
 function setMode(m){MODE=m;LS.set("mode",m);document.querySelectorAll("#modeTabs button").forEach(function(b){b.classList.toggle("on",b.dataset.mode===m)})}
 document.querySelectorAll("#modeTabs button").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode)}});
 function zoneHead(z){var Z=ZONES[z];if(!Z)return;var has={opp:Z.opp&&Z.opp.length,use:Z.use&&Z.use.length};if(!has[ZT])ZT=has.opp?"opp":"use";
-  document.querySelectorAll("#zTabs button").forEach(function(b){b.style.display=has[b.dataset.t]?"":"none";b.classList.toggle("on",b.dataset.t===ZT)});$("zTabs").querySelector("span").style.display=has.opp&&has.use?"":"none";
+  document.querySelectorAll("#zTabs button").forEach(function(b){b.style.display=has[b.dataset.t]?"":"none";b.classList.toggle("on",b.dataset.t===ZT)});$("zTabs").style.display=has.opp&&has.use?"":"none";
   $("zNote").textContent=Z.note||"";var ul=$("zList");ul.textContent="";(Z[ZT]||[]).forEach(function(i){var li=el("li");if(i.u){var a=el("a","sp",i.t);a.href=i.u;a.target="_blank";a.rel="noopener";li.appendChild(a);li.appendChild(el("span","mu","↗"))}else li.appendChild(el("span","sp",i.t));ul.appendChild(li)})}
 document.querySelectorAll("#zTabs button").forEach(function(b){b.onclick=function(){ZT=b.dataset.t;zoneHead(CUR)}});
 $("secBtn").onclick=function(){floor("tools","security")};
