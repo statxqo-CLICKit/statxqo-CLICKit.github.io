@@ -299,6 +299,18 @@ main button.pri,main .btn.pri,dialog button.pri,#ob button.pri{border-color:#8b6
 .zt{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.4)),rgba(4,6,9,.6)!important;box-shadow:0 0 10px rgba(56,242,224,.25),0 5px 0 rgba(0,0,0,.6),0 10px 18px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.18)!important;border:1px solid rgba(56,242,224,.45)!important}
 .zt:active{transform:translateY(3px)}
 main .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.25)),rgba(6,8,11,.7)}
+
+/* Reference theme (Stan 07:03): navy glass + cyan-to-violet glow outlines */
+body:not(.light){background:radial-gradient(120% 60% at 50% 0,#0f1a2a 0,#070b12 60%,#05070b 100%) fixed}
+main .card{position:relative;border:1px solid transparent!important;border-radius:18px;background:linear-gradient(180deg,rgba(18,28,44,.92),rgba(10,15,26,.95)) padding-box,linear-gradient(135deg,#38f2e0,#5b8cff 50%,#8b6cff) border-box!important;box-shadow:0 0 14px rgba(56,242,224,.22),0 0 22px rgba(139,108,255,.18),0 10px 24px rgba(0,0,0,.45)}
+main .card h2{color:#f2f6fb;font-weight:600}
+.chip{border:1px solid rgba(120,150,190,.45)!important;background:rgba(14,22,36,.8)!important;color:#cfd8e3;border-radius:9px}
+.chip.on,.chip[aria-pressed="true"]{border-color:#38f2e0!important;color:#7ffcf0;box-shadow:0 0 10px rgba(56,242,224,.35);background:rgba(56,242,224,.08)!important}
+.zt{border:1px solid transparent!important;background:linear-gradient(180deg,rgba(20,30,48,.95),rgba(9,14,24,.98)) padding-box,linear-gradient(135deg,#38f2e0,#8b6cff) border-box!important;box-shadow:0 0 12px rgba(56,242,224,.25),0 0 18px rgba(139,108,255,.18),0 6px 0 rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12)!important}
+main button:not(.zt):not(.core):not(.orb):not(.mic),main .btn{border:1px solid transparent!important;background:linear-gradient(180deg,rgba(40,52,72,.9),rgba(16,22,34,.95)) padding-box,linear-gradient(135deg,rgba(56,242,224,.8),rgba(139,108,255,.8)) border-box!important}
+main button.pri,main .btn.pri{background:linear-gradient(180deg,rgba(40,60,90,.95),rgba(16,24,40,.95)) padding-box,linear-gradient(135deg,#38f2e0,#8b6cff) border-box!important}
+main .mu,main .card .sub{color:#a3afc2}
+.up,.good{color:#3ee08a}
 </style>
 </head>
 <body class="locked">
