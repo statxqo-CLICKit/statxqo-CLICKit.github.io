@@ -1,1 +1,30 @@
-{"payout": "0x2c15cC5398E1Fecc338b9583402829C1560b11C1", "testnet": {"chainId": 84532, "address": "0x9c4874587dDE85f0D76DAea2fb5feE22f7998Dec", "market": "0xA2332F89b0208eA6A42F5EC7012b0412e90789D3"}, "mainnet": {"chainId": 8453, "address": "", "market": ""}, "ethereum": {"chainId": 1, "address": "", "market": ""}}
+{
+ "payout": "0xb5F56553535FDE5D914F5c932ecd749Ec88f8653",
+ "testnet": {
+  "chainId": 84532,
+  "address": "0x9c4874587dDE85f0D76DAea2fb5feE22f7998Dec",
+  "market": "0xA2332F89b0208eA6A42F5EC7012b0412e90789D3"
+ },
+ "mainnet": {
+  "chainId": 8453,
+  "address": "",
+  "market": ""
+ },
+ "ethereum": {
+  "chainId": 1,
+  "address": "",
+  "market": ""
+ },
+ "split": {
+  "type": "0xSplits v1 immutable",
+  "splitMain": "0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE",
+  "accounts": [
+   "0x2c15cC5398E1Fecc338b9583402829C1560b11C1",
+   "0x4eCDF3cA4BDc6Ee3257267384cf3915B49a585F2"
+  ],
+  "percents": [
+   500000,
+   500000
+  ]
+ }
+}

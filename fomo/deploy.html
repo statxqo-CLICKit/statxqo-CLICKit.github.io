@@ -33,37 +33,75 @@ a{color:#3ef0ff}
  <div class="s" style="margin-top:12px">2. Connect the wallet you want as owner</div>
  <div class="row"><button class="b" id="c-inj">Browser wallet</button><button class="b" id="c-wc">WalletConnect</button></div>
  <div class="s" id="who" style="margin-top:8px">Not connected</div>
+ <button class="b" id="dry" disabled>Check (dry run, sends nothing)</button>
  <button class="b gold" id="go" disabled>3. Deploy</button>
 </div>
 <div class="p"><div class="s" id="log">Ready.</div></div>
-<div class="s">Deploy needs a little ETH for gas on the chosen network (about 10.5M gas; on Base that's usually well under $1). After it confirms, send the contract address to Hark to switch FOMO's mint buttons over and verify the source on Basescan.</div>
+<div class="s">Deploy needs ETH for gas on the chosen network (about 12.5M gas total). The Check button shows the exact amount your wallet must hold before you sign anything. After it confirms, send the contract address to Hark to switch FOMO's mint buttons over and verify the source on Basescan.</div>
 </div>
 <script type="module">
 import {ethers} from './vendor/ethers.min.js';
-const NET={test:{id:84532,hex:'0x14a34',name:'Base Sepolia',rpc:'https://sepolia.base.org',exp:'https://sepolia.basescan.org'},main:{id:8453,hex:'0x2105',name:'Base',rpc:'https://mainnet.base.org',exp:'https://basescan.org'},eth:{id:1,hex:'0x1',name:'Ethereum',rpc:'https://ethereum-rpc.publicnode.com',exp:'https://etherscan.io'}};
-let net='test',raw=null,acct=null;
-const $=i=>document.getElementById(i), log=t=>$('log').textContent=t;
+const NET={test:{id:84532,hex:'0x14a34',name:'Base Sepolia',rpc:'https://sepolia.base.org',exp:'https://sepolia.basescan.org',op:true},main:{id:8453,hex:'0x2105',name:'Base',rpc:'https://mainnet.base.org',exp:'https://basescan.org',op:true},eth:{id:1,hex:'0x1',name:'Ethereum',rpc:'https://ethereum-rpc.publicnode.com',exp:'https://etherscan.io'}};
+const SM='0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',SMABI=['function createSplit(address[],uint32[],uint32,address) returns (address)','function predictImmutableSplitAddress(address[],uint32[],uint32) view returns (address)'];
+const TXCAP=16000000n; // EIP-7825 per-tx gas cap is 16,777,216
+let net='test',raw=null,acct=null,plan=null,armed=false;
+const $=i=>document.getElementById(i), log=t=>$('log').textContent=t, sleep=ms=>new Promise(r=>setTimeout(r,ms)), fe=v=>Number(ethers.formatEther(v)).toFixed(6);
 const cfg=await (await fetch('config.json',{cache:'no-store'})).json();
 const art=await (await fetch('contract/FomoCards.json')).json();const mart=await (await fetch('contract/FomoMarket.json')).json();
-$('payout').textContent=cfg.payout;
-function setNet(n){net=n;$('n-test').classList.toggle('sel',n==='test');$('n-main').classList.toggle('sel',n==='main');$('n-eth').classList.toggle('sel',n==='eth');$('netnote').textContent=n!=='test'?'Real ETH on '+NET[n].name+'. Its own edition with its own caps. Live sales go to the payout wallet once deployed.':'Free test network. Get test ETH from a Base Sepolia faucet.'}
-$('n-test').onclick=()=>setNet('test');$('n-main').onclick=()=>setNet('main');$('n-eth').onclick=()=>setNet('eth');setNet('test');
-async function useProvider(p){raw=p;const a=await p.request({method:'eth_requestAccounts'});acct=a[0];$('who').innerHTML='Connected <span class="m">'+acct+'</span>';$('go').disabled=false}
+const MEM=cfg.split.accounts,PCT=cfg.split.percents;
+$('payout').textContent=cfg.payout+' (50/50 split: '+MEM.join(' + ')+')';
+let imgs=null;async function art3(){if(!imgs)imgs=await Promise.all(['knight','cat','skull'].map(async n=>{const r=await fetch('contract/'+n+'-onchain.jpg');if(!r.ok)throw new Error('Art file '+n+' missing ('+r.status+')');return new Uint8Array(await r.arrayBuffer())}));return imgs}
+const ro=n=>new ethers.JsonRpcProvider(NET[n].rpc,NET[n].id,{staticNetwork:true});
+const lim=g=>{const l=g*12n/10n;if(l>TXCAP){if(g>TXCAP)throw new Error('Deploy needs '+g+' gas, over the per-transaction cap');return TXCAP}return l};
+// Everything here is read-only through a public RPC: no wallet, no signing.
+async function buildPlan(n,from){const N=NET[n],p=ro(n);const [blk,fd,bal]=await Promise.all([p.getBlock('latest'),p.getFeeData(),p.getBalance(from)]);
+ let prio=fd.maxPriorityFeePerGas??1000000n;if(prio<1000000n)prio=1000000n;const maxFee=blk.baseFeePerGas*13n/10n+prio;
+ let pay=from,split=null,needSplit=false,gS=0n;
+ if(n!=='test'){const sm=new ethers.Contract(SM,SMABI,p);if((await p.getCode(SM))==='0x')throw new Error('0xSplits SplitMain not found on '+N.name);
+  split=await sm.predictImmutableSplitAddress(MEM,PCT,0);if(split.toLowerCase()!==cfg.payout.toLowerCase())throw new Error('Split address mismatch: chain says '+split+', config says '+cfg.payout);
+  needSplit=(await p.getCode(split))==='0x';pay=split;if(needSplit)gS=lim(await sm.createSplit.estimateGas(MEM,PCT,0,ethers.ZeroAddress,{from}))}
+ const ctx=await new ethers.ContractFactory(art.abi,art.bytecode).getDeployTransaction(pay,ethers.parseEther('0.01'),ethers.parseEther('0.03'),ethers.parseEther('0.07'),...await art3());
+ const gC=lim(await p.estimateGas({data:ctx.data,from}));
+ const mtx0=await new ethers.ContractFactory(mart.abi,mart.bytecode).getDeployTransaction(from,250,pay);
+ const gM=lim(await p.estimateGas({data:mtx0.data,from}));
+ let l1=0n;if(N.op){try{const o=new ethers.Contract('0x420000000000000000000000000000000000000F',['function getL1Fee(bytes) view returns (uint256)'],p);l1=await o.getL1Fee(ethers.Transaction.from({type:2,chainId:N.id,nonce:0,gasLimit:gC,maxFeePerGas:maxFee,maxPriorityFeePerGas:prio,data:ctx.data}).unsignedSerialized)*2n}catch(e){}}
+ const need=(gS+gC+gM)*maxFee+l1, est=(gS+gC+gM)*(blk.baseFeePerGas+prio)*10n/12n+l1/2n;
+ return {n,from,pay,split,needSplit,gS,gC,gM,maxFee,prio,ctx,need,est,bal,short:bal<need?need-bal:0n}}
+function showPlan(P){const N=NET[P.n];let t=N.name+': '+(P.needSplit?'3':'2')+' wallet confirmations ('+(P.needSplit?'split, ':'')+'cards, market).\nEstimated gas cost ≈ '+fe(P.est)+' ETH. Wallet must hold ≈ '+fe(P.need)+' ETH (gas limit × max fee).\nDeployer '+P.from+' has '+fe(P.bal)+' ETH on '+N.name+'.';
+ if(P.split)t+='\nPayout/royalty/fee → split '+P.split+(P.needSplit?' (created in step 1)':' (already exists)');
+ if(P.short>0n)t+='\n\n⚠ NOT ENOUGH ETH. Send at least '+fe(P.short*11n/10n)+' more ETH on '+N.name+' to '+P.from+', then tap Check again.';else t+='\n\n✓ Ready. Dry run passed: nothing was sent.';log(t)}
+function setNet(n){net=n;plan=null;disarm();$('n-test').classList.toggle('sel',n==='test');$('n-main').classList.toggle('sel',n==='main');$('n-eth').classList.toggle('sel',n==='eth');$('netnote').textContent=n!=='test'?'Real ETH on '+NET[n].name+'. Its own edition with its own caps. Sales, royalty and market fee go to the 50/50 split.':'Free test network. Get test ETH from a Base Sepolia faucet.';if(acct)check()}
+function disarm(){armed=false;$('go').textContent='3. Deploy'}
+$('n-test').onclick=()=>setNet('test');$('n-main').onclick=()=>setNet('main');$('n-eth').onclick=()=>setNet('eth');
+async function useProvider(p){raw=p;const a=await p.request({method:'eth_requestAccounts'});acct=ethers.getAddress(a[0]);$('who').innerHTML='Connected <span class="m">'+acct+'</span>';$('go').disabled=false;$('dry').disabled=false;check()}
 $('c-inj').onclick=async()=>{if(!window.ethereum){location.href='https://metamask.app.link/dapp/'+location.href.replace(/^https?:\/\//,'');return}try{await useProvider(window.ethereum)}catch(e){log('Connect cancelled')}};
 $('c-wc').onclick=async()=>{try{log('Loading WalletConnect…');const {EthereumProvider}=await import('https://esm.sh/@walletconnect/ethereum-provider@2.17.0');
- const p=await EthereumProvider.init({projectId:'285acdd88b8d03791c962a3df94f70fa',chains:[8453],optionalChains:[84532,8453,1],showQrModal:true,rpcMap:{84532:NET.test.rpc,8453:NET.main.rpc,1:NET.eth.rpc},metadata:{name:'FOMO Deploy',description:'Deploy FOMO cards',url:location.origin,icons:[]}});
- await p.connect();await useProvider(p);log('Ready.')}catch(e){log('WalletConnect cancelled: '+(e.message||e))}};
-async function ensureChain(){const n=NET[net];try{await raw.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){await raw.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}}
-$('go').onclick=async()=>{const n=NET[net];
- if(net!=='test'&&!confirm('Deploy FOMO Cards on '+n.name+' MAINNET from '+acct+'? You pay gas in real ETH.'))return;
- try{$('go').disabled=true;log('Switching to '+n.name+'…');await ensureChain();
-  const prov=new ethers.BrowserProvider(raw);const chain=(await prov.getNetwork()).chainId;if(Number(chain)!==n.id)throw new Error('Wallet is on chain '+chain+', expected '+n.id);
-  const signer=await prov.getSigner();const f=new ethers.ContractFactory(art.abi,art.bytecode,signer);
-  log('Confirm the deploy in your wallet…');const art3=await Promise.all(['knight','cat','skull'].map(async n=>new Uint8Array(await (await fetch('contract/'+n+'-onchain.jpg')).arrayBuffer())));
-  const c=await f.deploy(cfg.payout,ethers.parseEther('0.01'),ethers.parseEther('0.03'),ethers.parseEther('0.07'),...art3);const tx=c.deploymentTransaction();
-  log('Sent. Waiting for confirmation…\n'+n.exp+'/tx/'+tx.hash);await c.waitForDeployment();const addr=await c.getAddress();
-  log('Cards live at '+addr+'. Step 2 of 2: confirm the market deploy (2.5% platform fee to the payout wallet)…');
-  const mf=new ethers.ContractFactory(mart.abi,mart.bytecode,signer);const mc=await mf.deploy(addr,250,cfg.payout);const mtx=mc.deploymentTransaction();await mc.waitForDeployment();const maddr=await mc.getAddress();
-  $('log').innerHTML='<b>Deployed on '+n.name+'</b><br>Cards: <span class="m">'+addr+'</span> <a target="_blank" href="'+n.exp+'/address/'+addr+'">Explorer</a><br>Market: <span class="m">'+maddr+'</span> <a target="_blank" href="'+n.exp+'/address/'+maddr+'">Explorer</a><br><br>Send both addresses to Hark to switch mints and the market on. Next: switch to the other mainnet and tap Deploy again.';
- }catch(e){log('Deploy failed or cancelled: '+(e.shortMessage||e.message||e));$('go').disabled=false}};
+ const p=await EthereumProvider.init({projectId:'285acdd88b8d03791c962a3df94f70fa',optionalChains:[8453,1,84532],showQrModal:true,rpcMap:{84532:NET.test.rpc,8453:NET.main.rpc,1:NET.eth.rpc},metadata:{name:'FOMO Deploy',description:'Deploy FOMO cards',url:location.origin,icons:[]}});
+ await p.connect();await useProvider(p)}catch(e){log('WalletConnect cancelled: '+(e.message||e))}};
+const chainNow=async()=>parseInt(await raw.request({method:'eth_chainId'}),16);
+async function ensureChain(){const N=NET[net];if(await chainNow()===N.id)return;
+ try{await raw.request({method:'wallet_switchEthereumChain',params:[{chainId:N.hex}]})}
+ catch(e){const c=e.code??e.data?.originalError?.code;if(c===4001||/reject|denied/i.test(e.message||''))throw new Error('Network switch cancelled in wallet');
+  if(net==='eth')throw new Error('Wallet could not switch to Ethereum: '+(e.message||e));
+  await raw.request({method:'wallet_addEthereumChain',params:[{chainId:N.hex,chainName:N.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[N.rpc],blockExplorerUrls:[N.exp]}]})}
+ for(let i=0;i<60;i++){if(await chainNow()===N.id)return;await sleep(250)}
+ throw new Error('Wallet is still not on '+N.name+'. Switch to '+N.name+' inside the wallet app, then tap again.')}
+async function check(){if(!acct)return null;log('Checking '+NET[net].name+' (no transaction)…');try{plan=await buildPlan(net,acct);showPlan(plan);return plan}catch(e){log('Check failed: '+(e.shortMessage||e.message||e));plan=null;return null}}
+$('dry').onclick=async()=>{try{$('dry').disabled=true;log('Dry run: switching wallet to '+NET[net].name+'…');await ensureChain();await check()}catch(e){log('Dry run stopped: '+(e.shortMessage||e.message||e))}finally{$('dry').disabled=false}};
+function why(e){const m=(e.shortMessage||e.message||String(e));if(e.code==='ACTION_REJECTED'||/user rejected|denied/i.test(m))return 'Cancelled in wallet.';if(e.code==='INSUFFICIENT_FUNDS'||/insufficient funds/i.test(m))return 'Not enough ETH for gas on '+NET[net].name+'. '+(plan?'Needs ≈ '+fe(plan.need)+' ETH, wallet has '+fe(plan.bal)+'.':'');return m}
+async function send(signer,data,gasLimit,P,label,to){log(label+': confirm in your wallet…');const tx=await signer.sendTransaction({...(to?{to}:{}),data,gasLimit,maxFeePerGas:P.maxFee,maxPriorityFeePerGas:P.prio});
+ log(label+': sent, waiting…\n'+NET[P.n].exp+'/tx/'+tx.hash);const r=await tx.wait();if(!r||r.status!==1)throw new Error(label+' reverted: '+NET[P.n].exp+'/tx/'+tx.hash);return r}
+$('go').onclick=async()=>{const N=NET[net];
+ try{$('go').disabled=true;await ensureChain();const P=await check();if(!P)return;if(P.short>0n)return;
+  if(net!=='test'&&!armed){armed=true;$('go').textContent='Tap again to deploy on '+N.name.toUpperCase()+' MAINNET (≈ '+fe(P.est)+' ETH gas)';return}
+  disarm();const prov=new ethers.BrowserProvider(raw,'any');const signer=await prov.getSigner(acct);
+  if(P.needSplit){const sm=new ethers.Contract(SM,SMABI);const data=sm.interface.encodeFunctionData('createSplit',[MEM,PCT,0,ethers.ZeroAddress]);await send(signer,data,P.gS,P,'Step 1 of 3, 50/50 split',SM);
+   if((await ro(net).getCode(P.split))==='0x')throw new Error('Split not at expected address '+P.split)}
+  const rc=await send(signer,P.ctx.data,P.gC,P,(P.needSplit?'Step 2 of 3':'Step 1 of 2')+', cards');const addr=rc.contractAddress;
+  const mdata=(await new ethers.ContractFactory(mart.abi,mart.bytecode).getDeployTransaction(addr,250,P.pay)).data;
+  const rm=await send(signer,mdata,P.gM,P,(P.needSplit?'Step 3 of 3':'Step 2 of 2')+', market (2.5% fee to '+(net==='test'?'you':'the split')+')');const maddr=rm.contractAddress;
+  $('log').innerHTML='<b>Deployed on '+N.name+'</b><br>Cards: <span class="m">'+addr+'</span> <a target="_blank" href="'+N.exp+'/address/'+addr+'">Explorer</a><br>Market: <span class="m">'+maddr+'</span> <a target="_blank" href="'+N.exp+'/address/'+maddr+'">Explorer</a><br><br>Send both addresses to Hark to switch mints and the market on. Next: switch to the other mainnet and tap Deploy again.';
+ }catch(e){log('Deploy failed: '+why(e))}finally{$('go').disabled=!acct}};
+window.__fomo={buildPlan,ensureChain,check,get plan(){return plan}};
+setNet('test');
 </script></body></html>
