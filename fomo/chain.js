@@ -10,8 +10,11 @@ let S={prices:{},left:{},bonusLeft:null,bonusMax:500,bal:{},target:0n,addon:0n,r
 const net=()=>window.shopNet&&shopNet();
 const rd=()=>{const n=net();return n?new ethers.Contract(n.addr,ABI,new ethers.JsonRpcProvider(n.rpc,n.id,{staticNetwork:true})):null};
 const fmt=w=>{const s=ethers.formatEther(w);return s};
-async function ensureChain(n){try{await prov.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){await prov.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}}
-async function signerC(){const n=net();if(!prov||!acct){openConnect();toast('Connect a wallet first');throw new Error('no wallet')}await ensureChain(n);const bp=new ethers.BrowserProvider(prov);return {c:new ethers.Contract(n.addr,ABI,await bp.getSigner()),bp,n}}
+async function ensureChain(n){const cur=async()=>parseInt(await prov.request({method:'eth_chainId'}),16);if(await cur()===n.id)return;
+ try{await prov.request({method:'wallet_switchEthereumChain',params:[{chainId:n.hex}]})}catch(e){if(e.code===4001)throw e;if(n.id===1)throw e;await prov.request({method:'wallet_addEthereumChain',params:[{chainId:n.hex,chainName:n.name,nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},rpcUrls:[n.rpc],blockExplorerUrls:[n.exp]}]})}
+ for(let i=0;i<60;i++){if(await cur()===n.id)return;await new Promise(r=>setTimeout(r,250))}toast('Switch your wallet to '+n.name+', then try again');throw new Error('wrong chain')}
+window.fomoEnsureChain=ensureChain;
+async function signerC(){const n=net();if(!prov||!acct){openConnect();toast('Connect a wallet first');throw new Error('no wallet')}await ensureChain(n);const bp=new ethers.BrowserProvider(prov,'any');return {c:new ethers.Contract(n.addr,ABI,await bp.getSigner()),bp,n}}
 function nftLink(n,id){return n.main?`https://opensea.io/assets/${n.os||'base'}/${n.addr}/${id}`:`${n.exp}/token/${n.addr}?a=${id}`}
 async function load(){const c=rd();if(!c)return;try{
   const ids=[1,2,3,4,5,6,7];const [p1,p3,p7,...rest]=await Promise.all([c.priceOf(1),c.priceOf(3),c.priceOf(7),...ids.map(i=>c.remaining(i)),c.bonusLeft(),c.bonusMax()]);
