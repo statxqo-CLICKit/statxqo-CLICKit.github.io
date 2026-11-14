@@ -22,5 +22,17 @@
         "0B:7B:72:85:F6:30:55:6F:7F:ED:AE:A9:36:21:45:BE:11:5D:5F:9E:C3:6B:20:20:EA:D9:82:DF:82:BA:E1:E4"
       ]
     }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.statxqo_clickit.commandcenter",
+      "sha256_cert_fingerprints": [
+        "35:68:8B:E6:CB:32:FE:DF:81:B7:FA:85:40:A5:76:78:58:D0:96:2D:C1:CE:B1:A0:B6:95:24:A4:2C:1F:E2:4F"
+      ]
+    }
   }
 ]
