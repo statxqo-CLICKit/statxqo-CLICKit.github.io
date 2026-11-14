@@ -372,6 +372,15 @@ main #roomApps .raApp .x{min-height:0!important;width:24px!important;height:24px
 #sortList label{display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px;border-top:1px solid rgba(255,255,255,.07)}
 #sortList input{width:22px;height:22px;min-height:0}
 #sortList h3{margin:12px 0 2px;font-size:13px;color:#8fe9df;letter-spacing:.5px;text-transform:uppercase}
+
+.sosb{width:100%;min-height:64px!important;font-size:20px!important;font-weight:800;background:linear-gradient(180deg,#d6303f,#8d1621) padding-box,linear-gradient(135deg,#ff8a95,#ff3b4e) border-box!important;border:1px solid transparent!important;color:#fff!important}
+.hope{display:grid;gap:10px;margin-top:10px}.hope .btn,.hope button{width:100%;justify-content:flex-start;text-align:left;padding:0 14px}
+.hh{font-size:14px;color:#9ff3ea;margin:16px 0 0}
+.lzl{display:block;font-size:13px;color:#a3afc2;margin:10px 0 4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#medView dl{margin:0}#medView dt{font-size:13px;color:#a3afc2;margin-top:10px}#medView dd{margin:2px 0 0;font-size:20px;font-weight:700}
+.small{font-size:13px}
+main a.btn.sosb,main .btn.sosb{background:linear-gradient(180deg,#d6303f,#8d1621) padding-box,linear-gradient(135deg,#ff8a95,#ff3b4e) border-box!important;color:#fff!important;font-size:20px!important;font-weight:800!important;min-height:64px!important;justify-content:center!important}
 </style>
 </head>
 <body class="locked">
@@ -481,6 +490,71 @@ main #roomApps .raApp .x{min-height:0!important;width:24px!important;height:24px
   <div class="brand">Knockout Artist</div><div class="soc"><a class="btn" href="https://www.facebook.com/knockoutartistapparel" target="_blank" rel="noopener">Facebook</a><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Store</a></div>
   <div class="brand">Inboxes</div><div class="soc"><a class="btn" href="https://x.com/messages" target="_blank" rel="noopener">X messages</a><a class="btn" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener">Instagram DMs</a><a class="btn" href="https://www.tiktok.com/messages" target="_blank" rel="noopener">TikTok inbox</a><a class="btn" href="https://discord.com/channels/@me" target="_blank" rel="noopener">Discord DMs</a></div>
 </div>
+
+<div class="card" id="medCard" data-zone="medical">
+<a class="btn sosb" href="tel:911">Call 911</a>
+<div class="mu small" style="margin:8px 0 12px">Not a medical device. In an emergency, always call 911.</div>
+<div class="row"><button id="medShow" class="wide">Show my Medical ID</button></div>
+<div class="row" style="margin-top:10px"><button id="medText" class="wide">Text my location to my contact</button></div>
+<details style="margin-top:14px"><summary style="min-height:44px;display:flex;align-items:center;font-weight:600">Edit my Medical ID</summary>
+<div id="medForm"></div><button id="medSave" class="wide" style="margin-top:10px">Save Medical ID</button><div class="mu small" id="medMsg"></div></details>
+<div class="mu small" style="margin-top:10px">Tip: on Galaxy, also turn on Settings › Safety and emergency › Emergency SOS, so 5 side-button presses call for help.</div>
+</div>
+<div class="card" id="lostCard" data-zone="lost">
+<h2>Safe zone</h2><div class="mu small">A caregiver sets a safe area. You'll get an alarm here if you go outside it while this screen is open.</div>
+<svg id="lzMap" viewBox="0 0 200 200" style="width:100%;max-width:300px;display:block;margin:12px auto"></svg>
+<div id="lzStat" style="text-align:center;font-size:17px;font-weight:700;margin-bottom:8px">No zone set</div>
+<label class="lzl">Zone name</label><input id="lzName" placeholder="Camp, trailhead, home">
+<label class="lzl">Size: <b id="lzRv">500 m</b></label><input id="lzR" type="range" min="100" max="10000" step="100" value="500" style="min-height:44px">
+<div class="row" style="margin-top:10px"><button id="lzSet">Set zone here</button><button id="lzGo">Start watching</button></div>
+<div class="row" style="margin-top:10px"><button id="lzText" class="wide">Text my location to caregiver</button></div>
+<div class="mu small" style="margin-top:10px">Keeps your recent trail on this phone only. Background alerts to a caregiver when the screen is off need the native Android app (coming soon).</div>
+</div>
+<div class="card" id="hbCard" data-zone="heartbeat">
+<h2>Heart rate</h2><div class="mu small">Connect a Bluetooth heart-rate strap or watch that shares heart rate. Not a medical device.</div>
+<div id="hbBpm" style="font-size:44px;font-weight:800;text-align:center;margin:12px 0;color:#9ff3ea">-- bpm</div>
+<div class="row"><button id="hbCon">Connect monitor</button></div>
+<div class="row" style="margin-top:8px"><div><label class="lzl">Alert below</label><input id="hbLo" type="number" value="45" inputmode="numeric"></div><div><label class="lzl">Alert above</label><input id="hbHi" type="number" value="140" inputmode="numeric"></div></div>
+<h2 style="margin-top:16px">"I'm OK" check-in</h2><div class="mu small">If you don't tap I'm OK in time, an alarm sounds and you can text your contact.</div>
+<div class="row" style="margin-top:8px"><select id="ckEvery"><option value="30">Every 30 min</option><option value="60" selected>Every hour</option><option value="120">Every 2 hours</option><option value="240">Every 4 hours</option></select><button id="ckStart">Start</button></div>
+<div id="ckStat" class="mu" style="margin-top:8px">Check-ins off</div>
+<button id="ckOk" class="wide" style="margin-top:10px;display:none">I'm OK</button>
+</div>
+<div class="card" id="legalCard" data-zone="legal">
+<h2>Legal AI</h2><div class="mu small">Legal information, not legal advice. Not a law firm.</div>
+<div class="grid2" style="margin-top:12px">
+<a class="btn" href="../legal-ai/#log" target="_blank" rel="noopener">Accident log</a><a class="btn" href="../legal-ai/#forms" target="_blank" rel="noopener">Forms by state</a>
+<a class="btn" href="../legal-ai/#ask" target="_blank" rel="noopener">Ask a question</a><a class="btn" href="../legal-ai/#help" target="_blank" rel="noopener">Find a lawyer</a></div>
+<a class="btn wide" style="margin-top:10px" href="../legal-ai/" target="_blank" rel="noopener">Open Legal AI</a>
+</div>
+<div class="card" id="hopeCard" data-zone="hope">
+<h2>You're not alone</h2><div class="mu small">Free, private, 24/7. No account needed.</div>
+<div class="hope">
+<a class="btn sosb" href="tel:988">Call 988 · suicide &amp; crisis</a>
+<a class="btn" href="sms:988">Text 988</a>
+<a class="btn" href="sms:741741?body=HOME">Text HOME to 741741</a>
+<a class="btn" href="https://988lifeline.org/chat/" target="_blank" rel="noopener">Chat with 988</a>
+</div>
+<h3 class="hh">Drug or alcohol help</h3><div class="hope">
+<a class="btn" href="tel:18006624357">SAMHSA helpline 1-800-662-HELP</a>
+<a class="btn" href="https://findtreatment.gov/" target="_blank" rel="noopener">Find treatment near you</a></div>
+<h3 class="hh">Food, water, shelter, clothing</h3><div class="hope">
+<a class="btn" href="tel:211">Call 211 for local help</a>
+<a class="btn" href="https://www.211.org/" target="_blank" rel="noopener">211.org</a>
+<a class="btn" href="https://www.findhelp.org/" target="_blank" rel="noopener">FindHelp: search by ZIP</a>
+<a class="btn" href="https://www.hungerfreeamerica.org/en-us/usda-national-hunger-hotline" target="_blank" rel="noopener">National Hunger Hotline</a>
+<a class="btn" href="https://www.fns.usda.gov/snap/state-directory" target="_blank" rel="noopener">SNAP food help by state</a>
+<a class="btn" href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener">Free or low-cost clinic</a>
+<button id="hopeNear">Show help near me on a map</button></div>
+<h3 class="hh">Report privately</h3><div class="hope">
+<a class="btn" href="https://www.thehotline.org/" target="_blank" rel="noopener">Domestic violence: text START to 88788</a>
+<a class="btn" href="tel:18883737888">Human trafficking 1-888-373-7888</a>
+<a class="btn" href="https://www.childhelphotline.org/" target="_blank" rel="noopener">Child abuse: Childhelp hotline</a>
+<a class="btn" href="https://tips.fbi.gov/" target="_blank" rel="noopener">FBI tips (online, can be anonymous)</a>
+<a class="btn" href="https://www.veteranscrisisline.net/" target="_blank" rel="noopener">Veterans: call 988, press 1</a></div>
+<div class="mu small" style="margin-top:10px">Nothing you tap here is saved or shared. Use Privacy blur (eye icon) if someone's nearby.</div>
+</div>
+<dialog id="dMed"><div class="row"><h2 class="sp" style="margin:0">Medical ID</h2><button data-close>Close</button></div><div id="medView"></div></dialog>
 <div class="card" id="toolsCard" data-zone="tools">
   <h2>Tools</h2>
   <div class="tools"><button data-t="clean"><i>🧹</i>Device Clean-Up</button><button data-t="dCal"><i>📅</i>Calendar</button><button data-t="dCalc"><i>🧮</i>Calculator</button><button data-t="dMsg"><i>💬</i>Messages</button></div>
@@ -537,6 +611,7 @@ main #roomApps .raApp .x{min-height:0!important;width:24px!important;height:24px
 </div>
 <div class="foot" data-zone="crypto">C.L.I.C.K.it · read-only tools · Stan signs every on-chain action in his own wallet</div>
 </section>
+<div class="clk-sponsor" style="text-align:center;margin:28px auto 8px;padding:14px 16px;max-width:460px;border-radius:16px;border:1px solid rgba(56,242,224,.45);background:rgba(10,14,22,.6);color:#e8f6f5;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 0 14px rgba(56,242,224,.15)"><div style="font-weight:700;letter-spacing:.3px">Sponsored by Team C.L.I.C.K.it</div><div style="color:#a9b8c8;font-style:italic;margin-top:4px">"Our future depends on you, we appreciate the support."</div></div>
 </main>
 
 <div id="ob" role="dialog" aria-modal="true" aria-labelledby="obT"><div class="box"><div class="st" id="obS">STEP 1 OF 3</div><h3 id="obT"></h3><p id="obP"></p><div id="obB"></div><div class="row" style="margin-top:14px"><button id="obSkip">Skip</button><button class="pri sp" id="obNext">Next</button></div></div></div>
@@ -837,6 +912,17 @@ var ZONES={
  lessons:{n:"Lessons",note:"Free ways to learn. Ask the assistant what to learn next.",use:[L("Pick one short lesson a day"),L("Save lessons you like to Builders Room links")],opp:[L("Khan Academy","https://www.khanacademy.org"),L("freeCodeCamp","https://www.freecodecamp.org"),L("YouTube Learning","https://www.youtube.com/@learning")]},
  tools:{n:"Tools",use:[L("Device Clean-Up guide"),L("Security Center: link and address checks, 2FA"),L("Calendar, calculator, messages"),L("Inbox and settings")],opp:[]}
 };
+ZONES.medical={n:"Medical Emergency",tl:"Medical",note:"Not a medical device. In an emergency, call 911.",use:[L("One-tap 911"),L("Medical ID for responders"),L("Text your location to a contact")],opp:[L("Red Cross first aid steps","https://www.redcross.org/take-a-class/first-aid/performing-first-aid/first-aid-steps")]};
+ZONES.lost={n:"Lost Zone",tl:"Lost Zone",note:"Safe areas for hikers, campers and people with care needs.",use:[L("Caregiver sets a safe zone"),L("Alarm if you leave it"),L("Text your location")],opp:[L("NPS: hike smart","https://www.nps.gov/articles/hiking-safety.htm")]};
+ZONES.heartbeat={n:"Heartbeat",note:"Not a medical device.",use:[L("Live heart rate from a Bluetooth monitor"),L("High and low alerts"),L("I'm OK check-ins")]};
+ZONES.legal={n:"Legal AI",note:"Legal information, not legal advice.",use:[L("Accident and incident field log"),L("Official forms by state"),L("Plain-English answers"),L("Find a lawyer or legal aid")],opp:[L("Open Legal AI","../legal-ai/")]};
+ZONES.hope={n:"Hope",note:"Free, private help, 24/7.",use:[L("Crisis help: call or text 988"),L("Drug and alcohol help"),L("Food, water, shelter, clothing"),L("Report abuse privately")],opp:[L("211: local help","https://www.211.org/"),L("FindHelp by ZIP","https://www.findhelp.org/")]};
+ICON.medical='<path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/><path d="M12 9v5M9.5 11.5h5"/>';
+ICON.lost='<circle cx="12" cy="12" r="9" stroke-dasharray="2.5 2"/><path d="M12 7a3 3 0 00-3 3c0 2.2 3 5 3 5s3-2.8 3-5a3 3 0 00-3-3z"/>';
+ICON.heartbeat='<path d="M3 12h4l2-4 3 8 2-5 1.5 1H21"/>';
+ICON.legal='<path d="M12 3v18M7 21h10M5 7h14M7 7l-3 6a3 3 0 006 0zM17 7l-3 6a3 3 0 006 0z"/>';
+ICON.hope='<path d="M12 3c2 3 5 5 5 9a5 5 0 01-10 0c0-4 3-6 5-9z"/><path d="M12 13v4"/>';
+LEVELS.push(["Level 6 · Safety","medical lost heartbeat hope legal"]);
 var MODE=LS.get("mode","opp"),ZT=MODE;
 var NUM=0;function renderGrid(){NUM=0;var g=$("grid");g.textContent="";LEVELS.forEach(function(lv){g.appendChild(el("div","lvl2",lv[0]));var zon=LS.get("zonesOn",null),zs=lv[1].split(" ").filter(function(z){return !zon||zon.indexOf(z)>=0});if(!zs.length){g.removeChild(g.lastChild);return}zs.forEach(function(z){var b=el("button","zt");b.id="zt-"+z;b.dataset.go=z;b.appendChild(el("span","plate",String(++NUM).padStart(2,"0")));b.appendChild(el("span","kh"));b.appendChild(el("span","d"));
   b.appendChild(el("span","zn",ZONES[z].tl||ZONES[z].n));b.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24">'+ICON[z]+'</svg>');b.setAttribute("aria-label",ZONES[z].n);b.addEventListener("click",function(){floor(z)});g.appendChild(b)});g.appendChild(el("div","shelf"))})}
@@ -877,10 +963,10 @@ setInterval(function(){if(CUR==="project"&&JB.some(function(j){return j.on}))ren
 renderMt();renderBp();renderJb();
 
 // ---------- CLICK Assistant: manager + department bots (read-only v1) ----------
-var BOTS={};["crypto","stocks","business","entrepreneur","tech","gaming","shop","social","sports","beauty","finance","tools","boardroom","builders","project","studio","video","music","lessons"].forEach(function(z){BOTS[z]={n:z.toUpperCase()+" BOT",st:"idle",chip:"online",last:""}});BOTS.crypto.chip="watching";BOTS.stocks.chip="watching";BOTS.sports.chip="live";
+var BOTS={};["crypto","stocks","business","entrepreneur","tech","gaming","shop","social","sports","beauty","finance","tools","boardroom","builders","project","studio","video","music","lessons","medical","lost","heartbeat","legal","hope"].forEach(function(z){BOTS[z]={n:z.toUpperCase()+" BOT",st:"idle",chip:"online",last:""}});BOTS.crypto.chip="watching";BOTS.stocks.chip="watching";BOTS.sports.chip="live";
 var Q=LS.get("queue",[]);
 var GATED=/\b(buy|sell|swap|trade|send|transfer|pay|sign|post|tweet|publish|dm|reply|message\s+\w+|approve|revoke|withdraw|deposit|mint|bridge|stake|order|refund|delete)\b/i;
-var KW={crypto:/wallet|balance|scan|watchdog|approval|price|chart|alert|stop|eth|btc|sol|xlm|fomo|posh|dusty|rx7|token|gas|crypto/i,
+var KW={medical:/911|emergency|medical|ambulance|allerg|injur|hurt/i,lost:/lost|hike|hiking|camp|trail|wander|caregiver|safe zone/i,heartbeat:/heart|pulse|bpm|check.?in/i,legal:/legal|lawyer|attorney|court|accident report|form|sue|ticket|lease/i,hope:/homeless|shelter|food|water|clothing|suicid|crisis|addict|drug|alcohol|overdose|abuse|report/i,crypto:/wallet|balance|scan|watchdog|approval|price|chart|alert|stop|eth|btc|sol|xlm|fomo|posh|dusty|rx7|token|gas|crypto/i,
   shop:/store|shop|knockout|sale|visit|order|product|merch|customer/i,
   social:/x\b|twitter|tiktok|instagram|insta|discord|facebook|social|inbox|dm|follower|post|tweet/i,
   beauty:/beauty|makeup|skincare|skin|hair|nail|sephora|ulta|fragrance|perfume|lipstick/i,
@@ -937,7 +1023,7 @@ function work(t){var x=t.text.toLowerCase();
   return Promise.resolve({s:"done",r:"Not sure yet. Try: scan my wallets, ETH price, BTC stop 60000, open TikTok, clean up storage, 12*8."})}
 
 var GLOSS={approval:"An approval is permission you gave an app to move a token from your wallet. Old or unlimited ones are a common way funds get taken.",wallet:"A wallet holds your crypto. Its public address is like an account number: safe to share, can't be used to take funds.","seed phrase":"Your seed phrase is the master key to a wallet. Never type it into any site or app, including this one.",dex:"A DEX is trading inside a blockchain app, like Uniswap.",cex:"A CEX is a company-run exchange, like Coinbase.","stop":"A stop alert tells you when a price drops to a number you pick. It does not sell anything.","2fa":"2FA means a second check when you sign in, like a code on your phone. Turn it on for every money and email account.",csv:"A CSV is a simple spreadsheet file you can open in Excel or Google Sheets, or give to a tax preparer.",gas:"Gas is the small fee a blockchain charges to process a transaction.",passkey:"A passkey lets you unlock with your fingerprint or face instead of a password.",phishing:"Phishing is a fake link or message that pretends to be a real company to steal logins or funds.",poisoning:"Address poisoning is when a scammer sends you a look-alike address hoping you'll copy it by mistake."};
-var HELP={"":"This is your home screen. Each tile is a floor. Tap one to open it, or ask the assistant at the bottom.",crypto:"Crypto shows your wallet totals, checks which apps can move your tokens, and alerts you about prices. It can't send or trade.",stocks:"Stocks shows a watchlist with live charts. It can't trade or sign in to a broker.",finance:"Finance helps you keep records and export wallet history for taxes. Not financial or tax advice.",business:"Business has tools and resources for running a company.",entrepreneur:"Entrepreneur lists ways to launch and grow an idea, like hackathons and launch sites.",tech:"Tech has developer resources and app tools.",gaming:"Gaming is free play only.",shop:"Shopping is where the Knockout Artist clothing store lives. Sales numbers are coming soon.",social:"Social puts each brand's channels and inboxes in one place.",sports:"Sports shows scores and schedules. Tap Follow to highlight your teams.",beauty:"Beauty links to beauty shops. Browsing only.",studio:"Studio opens design apps like Canva, with simple size guides.",video:"Video Editing opens your editing apps, with simple tips.",music:"Music opens recording apps like BandLab.",lessons:"Lessons links to free learning sites.",boardroom:"Boardroom keeps your meetings: time, join link, people and notes. Video opens in Meet or Zoom.",builders:"Builders Room tracks creative projects from idea to launch, with links and a checklist.",project:"Project Room tracks jobs, clients, deadlines, hours, and estimate and invoice status. It never sends or charges anything.",tools:"Tools has Clean-Up, Security Center, calendar, calculator, inbox and settings."};
+var HELP={medical:"Medical Emergency has a big 911 button, your Medical ID for responders, and a button to text your location.",lost:"Lost Zone lets a caregiver set a safe area. If you leave it while the screen is open, an alarm sounds.",heartbeat:"Heartbeat shows your heart rate from a Bluetooth monitor and runs I'm OK check-ins. It is not a medical device.",legal:"Legal AI logs accidents, finds official forms by state, and explains things in plain English. It is not legal advice.",hope:"Hope connects you to free, private help: 988 crisis line, treatment, food, shelter and private reporting.","":"This is your home screen. Each tile is a floor. Tap one to open it, or ask the assistant at the bottom.",crypto:"Crypto shows your wallet totals, checks which apps can move your tokens, and alerts you about prices. It can't send or trade.",stocks:"Stocks shows a watchlist with live charts. It can't trade or sign in to a broker.",finance:"Finance helps you keep records and export wallet history for taxes. Not financial or tax advice.",business:"Business has tools and resources for running a company.",entrepreneur:"Entrepreneur lists ways to launch and grow an idea, like hackathons and launch sites.",tech:"Tech has developer resources and app tools.",gaming:"Gaming is free play only.",shop:"Shopping is where the Knockout Artist clothing store lives. Sales numbers are coming soon.",social:"Social puts each brand's channels and inboxes in one place.",sports:"Sports shows scores and schedules. Tap Follow to highlight your teams.",beauty:"Beauty links to beauty shops. Browsing only.",studio:"Studio opens design apps like Canva, with simple size guides.",video:"Video Editing opens your editing apps, with simple tips.",music:"Music opens recording apps like BandLab.",lessons:"Lessons links to free learning sites.",boardroom:"Boardroom keeps your meetings: time, join link, people and notes. Video opens in Meet or Zoom.",builders:"Builders Room tracks creative projects from idea to launch, with links and a checklist.",project:"Project Room tracks jobs, clients, deadlines, hours, and estimate and invoice status. It never sends or charges anything.",tools:"Tools has Clean-Up, Security Center, calendar, calculator, inbox and settings."};
 function helpFor(x){var k=Object.keys(GLOSS).filter(function(g){return x.indexOf(g)>=0})[0];if(k)return GLOSS[k];return HELP[CUR||""]}
 $("helpBtn").onclick=function(){ask("what does this do?")};
 function ask(text){text=text.trim().slice(0,200);if(!text)return;var t={id:Date.now(),text:text,z:route(text.toLowerCase()),s:"queued"};Q.push(t);save();renderQ();
@@ -1019,6 +1105,55 @@ setInterval(checkPrices,60000);
 
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
 notifState();tiles();fillPairs();renderAlerts();render();checkPrices();loadBalances();loop();
+
+/* safety rooms (Stan 07:56, 08:02) */
+var MID=LS.get("medid",{});var MF=[["name","Full name"],["dob","Date of birth"],["blood","Blood type"],["allergy","Allergies"],["meds","Medicines"],["cond","Conditions"],["doc","Doctor and phone"],["c1n","Emergency contact name"],["c1p","Emergency contact phone"],["c2n","Second contact name"],["c2p","Second contact phone"]];
+$("medForm").innerHTML=MF.map(function(f){return'<label class="lzl" for="mi-'+f[0]+'">'+f[1]+'</label><input id="mi-'+f[0]+'"'+(/p$/.test(f[0])?' type="tel" inputmode="tel"':'')+'>'}).join("");
+MF.forEach(function(f){$("mi-"+f[0]).value=MID[f[0]]||""});
+$("medSave").onclick=function(){MF.forEach(function(f){MID[f[0]]=$("mi-"+f[0]).value.trim()});LS.set("medid",MID);$("medMsg").textContent="Saved on this phone only."};
+function escH(t){return String(t||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+$("medShow").onclick=function(){$("medView").innerHTML=MID.name?'<dl>'+MF.filter(function(f){return MID[f[0]]}).map(function(f){return'<dt>'+f[1]+'</dt><dd>'+escH(MID[f[0]])+'</dd>'}).join("")+'</dl>'+(MID.c1p?'<a class="btn wide" style="margin-top:14px" href="tel:'+escH(MID.c1p)+'">Call '+escH(MID.c1n||"contact")+'</a>':''):'<div class="mu">No Medical ID yet. Tap Edit my Medical ID to add it.</div>';$("dMed").showModal()};
+function textLoc(prefix){var ph=MID.c1p||"";function send(m){location.href="sms:"+encodeURIComponent(ph)+"?body="+encodeURIComponent(prefix+" "+m)}
+ if(!navigator.geolocation){send("(location not available)");return}
+ navigator.geolocation.getCurrentPosition(function(p){send("https://www.google.com/maps/search/?api=1&query="+p.coords.latitude.toFixed(5)+","+p.coords.longitude.toFixed(5))},function(){send("(couldn't get location)")},{enableHighAccuracy:true,timeout:12000})}
+$("medText").onclick=function(){if(!MID.c1p&&!confirm("No emergency contact saved. Open Messages anyway?"))return;textLoc("I need help. My location:")};
+$("lzText").onclick=function(){textLoc("Checking in. My location:")};
+/* lost zone */
+var LZ=LS.get("lzone",null),LZW=null,LZP=null,TR=LS.get("lztrail",[]);
+function hav(a,b){var R=6371000,r=Math.PI/180,dl=(b.lat-a.lat)*r,dn=(b.lng-a.lng)*r,x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dn/2)*Math.sin(dn/2);return 2*R*Math.asin(Math.sqrt(x))}
+function fmtM(m){return m<1000?Math.round(m)+" m":(m/1000).toFixed(1)+" km"}
+function lzDraw(){var svg='<circle cx="100" cy="100" r="96" fill="none" stroke="rgba(255,255,255,.08)"/>';
+ if(LZ){svg+='<circle cx="100" cy="100" r="70" fill="rgba(56,242,224,.10)" stroke="#38f2e0" stroke-width="2" stroke-dasharray="6 4"/><circle cx="100" cy="100" r="3" fill="#38f2e0"/>';
+  if(LZP){var sc=70/LZ.r,r=Math.PI/180,dx=(LZP.lng-LZ.lng)*111320*Math.cos(LZ.lat*r),dy=(LZP.lat-LZ.lat)*110540,x=100+dx*sc,y=100-dy*sc,d=Math.hypot(x-100,y-100);if(d>92){x=100+(x-100)*92/d;y=100+(y-100)*92/d}
+   svg+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7" fill="'+(LZP.out?"#ff5d6c":"#3ee07a")+'" stroke="#fff" stroke-width="2"/>'}}
+ $("lzMap").innerHTML=svg;$("lzName").value=LZ?LZ.n:$("lzName").value;
+ $("lzStat").textContent=!LZ?"No zone set":!LZP?(LZ.n||"Zone")+" set · "+fmtM(LZ.r)+(LZW?" · finding you…":""):LZP.out?"Outside "+(LZ.n||"zone")+" by "+fmtM(LZP.d-LZ.r):"Inside "+(LZ.n||"zone")+" · "+fmtM(LZ.r-LZP.d)+" to edge";
+ $("lzStat").style.color=LZP&&LZP.out?"#ff8a95":"";$("lzGo").textContent=LZW!==null?"Stop watching":"Start watching"}
+$("lzR").oninput=function(){$("lzRv").textContent=fmtM(+this.value)};
+$("lzSet").onclick=function(){if(!navigator.geolocation){alert("Location isn't available.");return}navigator.geolocation.getCurrentPosition(function(p){var z={n:$("lzName").value.trim()||"Safe zone",lat:p.coords.latitude,lng:p.coords.longitude,r:+$("lzR").value};
+ if(!confirm("Set "+z.n+" here, "+fmtM(z.r)+" around you?"))return;LZ=z;LS.set("lzone",LZ);lzDraw()},function(){alert("Couldn't get your location. Check location permission.")},{enableHighAccuracy:true,timeout:15000})};
+var lzWas=false;
+function alarm(msg){try{navigator.vibrate&&navigator.vibrate([400,200,400,200,800])}catch(e){}try{var A=new (window.AudioContext||window.webkitAudioContext)(),o=A.createOscillator(),g=A.createGain();o.frequency.value=880;o.connect(g);g.connect(A.destination);g.gain.value=.25;o.start();setTimeout(function(){o.stop();A.close()},1500)}catch(e){}
+ if(window.Notification&&Notification.permission==="granted")try{new Notification("C.L.I.C.K.it",{body:msg})}catch(e){}raToast(msg)}
+$("lzGo").onclick=function(){if(LZW!==null){navigator.geolocation.clearWatch(LZW);LZW=null;lzDraw();return}if(!LZ){alert("Set a zone first.");return}
+ if(window.Notification&&Notification.permission==="default")Notification.requestPermission();
+ LZW=navigator.geolocation.watchPosition(function(p){var c={lat:p.coords.latitude,lng:p.coords.longitude};var d=hav(LZ,c);LZP={lat:c.lat,lng:c.lng,d:d,out:d>LZ.r};
+  TR.push([+c.lat.toFixed(5),+c.lng.toFixed(5),Date.now()]);if(TR.length>300)TR=TR.slice(-300);LS.set("lztrail",TR);
+  if(LZP.out&&!lzWas)alarm("You left "+(LZ.n||"your safe zone")+". Tap Text my location if you need help.");lzWas=LZP.out;lzDraw()},function(){$("lzStat").textContent="Location blocked. Turn on location for this app."},{enableHighAccuracy:true,maximumAge:10000});lzDraw()};
+lzDraw();
+/* heartbeat */
+$("hbCon").onclick=function(){if(!navigator.bluetooth){alert("Bluetooth heart-rate isn't supported in this browser. Use Chrome on Android.");return}
+ navigator.bluetooth.requestDevice({filters:[{services:["heart_rate"]}]}).then(function(d){$("hbCon").textContent="Connecting…";return d.gatt.connect()}).then(function(s){return s.getPrimaryService("heart_rate")}).then(function(sv){return sv.getCharacteristic("heart_rate_measurement")}).then(function(ch){$("hbCon").textContent="Connected";return ch.startNotifications().then(function(){var last=0;ch.addEventListener("characteristicvaluechanged",function(e){var v=e.target.value,f=v.getUint8(0),bpm=f&1?v.getUint16(1,true):v.getUint8(1);$("hbBpm").textContent=bpm+" bpm";
+  var lo=+$("hbLo").value||0,hi=+$("hbHi").value||999,bad=bpm<lo||bpm>hi;$("hbBpm").style.color=bad?"#ff8a95":"#9ff3ea";if(bad&&Date.now()-last>60000){last=Date.now();alarm("Heart rate "+bpm+" bpm is outside your range.")}})})}).catch(function(e){$("hbCon").textContent="Connect monitor";if(e&&e.name!=="NotFoundError")alert("Couldn't connect: "+e.message)})};
+var CK=null,CKdue=0;
+function ckTick(){if(!CK)return;var left=CKdue-Date.now();if(left<=0){$("ckStat").textContent="Check-in missed. Tap I'm OK, or text your contact.";alarm("Time to check in. Tap I'm OK.");CKdue=Date.now()+5*60000;return}$("ckStat").textContent="Next check-in in "+Math.ceil(left/60000)+" min"}
+$("ckStart").onclick=function(){if(CK){clearInterval(CK);CK=null;$("ckStart").textContent="Start";$("ckOk").style.display="none";$("ckStat").textContent="Check-ins off";return}
+ if(window.Notification&&Notification.permission==="default")Notification.requestPermission();
+ CKdue=Date.now()+(+$("ckEvery").value)*60000;CK=setInterval(ckTick,20000);ckTick();$("ckStart").textContent="Stop";$("ckOk").style.display=""};
+$("ckOk").onclick=function(){CKdue=Date.now()+(+$("ckEvery").value)*60000;ckTick();raToast("Thanks. Next check-in set.")};
+/* hope */
+$("hopeNear").onclick=function(){var q="homeless shelter food bank near me";if(!navigator.geolocation){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q),"_blank");return}
+ navigator.geolocation.getCurrentPosition(function(p){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("shelter food bank")+"&center="+p.coords.latitude+","+p.coords.longitude,"_blank")},function(){window.open("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q),"_blank")},{timeout:8000})};
 /* room apps (Stan 07:50) */
 function raToast(m){var to=$("toast");if(!to)return;to.textContent=m;to.classList.add("on");setTimeout(function(){to.classList.remove("on")},3500)}
 var RA={crypto:[["Coinbase","com.coinbase.android"],["Crypto.com","co.mona.android"],["MetaMask","io.metamask"]],

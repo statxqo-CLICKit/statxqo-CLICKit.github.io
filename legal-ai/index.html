@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Legal AI · C.L.I.C.K.it</title>
+<meta name="description" content="Legal AI by C.L.I.C.K.it: accident field log, state-by-state official forms, and plain-English legal information. Not a law firm. Not legal advice.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07090d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--cy:#38f2e0;--vi:#8b6cff;--tx:#eef3f8;--mu:#a3afc2;--bad:#ff6b78;--ok:#3ee07a}
+*{box-sizing:border-box}
+html,body{margin:0;color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(900px 500px at 50% -10%,rgba(150,200,255,.16),transparent 60%),radial-gradient(800px 500px at 110% 30%,#21143d 0,transparent 55%),#07090d;min-height:100%}
+body.big{font-size:19px}
+main{max-width:520px;margin:0 auto;padding:14px 14px 110px}
+header{display:flex;align-items:center;gap:10px;margin:4px 2px 14px}
+header .logo{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid transparent;background:linear-gradient(#141b26,#0b0f16) padding-box,linear-gradient(135deg,var(--cy),var(--vi)) border-box;box-shadow:0 0 14px rgba(56,242,224,.35)}
+header .logo svg{width:26px;height:26px;stroke:#bff6f0;fill:none;stroke-width:1.5}
+header h1{margin:0;font-size:21px;flex:1}header h1 small{display:block;font-size:12px;color:var(--mu);font-weight:500}
+.card{border:1px solid transparent;border-radius:18px;padding:16px;margin:0 0 14px;background:linear-gradient(180deg,rgba(40,52,68,.75),rgba(14,18,26,.9)) padding-box,linear-gradient(135deg,rgba(56,242,224,.75),rgba(139,108,255,.75)) border-box;box-shadow:0 0 16px rgba(56,242,224,.12)}
+h2{font-size:18px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 6px;color:#9ff3ea}
+.mu{color:var(--mu)}.small{font-size:13px}
+.disc{font-size:13px;color:#ffd7a0;border:1px solid rgba(255,195,90,.45);background:rgba(255,195,90,.08);border-radius:12px;padding:10px 12px;margin:0 0 14px}
+button,.btn{font:inherit;min-height:48px;padding:0 16px;border-radius:14px;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:1px solid transparent;background:linear-gradient(180deg,rgba(60,74,92,.95),rgba(16,22,32,.95)) padding-box,linear-gradient(135deg,var(--cy),var(--vi)) border-box;box-shadow:0 0 10px rgba(56,242,224,.25)}
+button:active,.btn:active{transform:translateY(2px)}
+button.pri{background:linear-gradient(180deg,#1ec9b8,#0e7f78) padding-box,linear-gradient(135deg,var(--cy),var(--vi)) border-box;color:#04201d;font-weight:700}
+button.red,.btn.red{background:linear-gradient(180deg,#d6303f,#8d1621) padding-box,linear-gradient(135deg,#ff8a95,#ff3b4e) border-box;font-weight:700}
+.wide{width:100%}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1 1 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{flex-direction:column;min-height:110px;font-size:16px;font-weight:600;text-align:center;padding:12px}
+.tile svg{width:32px;height:32px;stroke:#bff6f0;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+label{display:block;font-size:14px;color:var(--mu);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--tx);background:rgba(4,8,14,.7);border:1px solid rgba(140,170,210,.35);border-radius:12px;padding:10px 12px;min-height:48px}
+textarea{min-height:90px}
+input:focus,select:focus,textarea:focus,button:focus-visible,.btn:focus-visible{outline:3px solid #5ff5e6;outline-offset:2px}
+.list{list-style:none;padding:0;margin:0}.list li{padding:10px 0;border-top:1px solid rgba(255,255,255,.08)}
+.list a{color:#8ff3e8}
+.chk li{display:flex;gap:10px;align-items:flex-start}.chk input{width:24px;height:24px;min-height:0;flex:none;margin-top:2px}
+.ph{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,.15)}
+.log{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tabs{display:flex;gap:6px;position:fixed;left:0;right:0;bottom:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(5,8,12,.94);border-top:1px solid rgba(56,242,224,.3);z-index:5}
+.tabs button{flex:1;min-height:56px;flex-direction:column;gap:2px;font-size:12px;padding:0 4px;background:transparent;border:1px solid transparent;box-shadow:none;color:var(--mu)}
+.tabs button.on{color:#fff;background:linear-gradient(180deg,rgba(40,60,90,.95),rgba(16,24,40,.95)) padding-box,linear-gradient(135deg,var(--cy),var(--vi)) border-box}
+.tabs svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6}
+section{display:none}section.on{display:block}
+.chat{display:flex;flex-direction:column;gap:8px;margin:10px 0}.b{padding:10px 12px;border-radius:14px;max-width:92%}.b.me{align-self:flex-end;background:rgba(56,242,224,.15)}.b.ai{background:rgba(255,255,255,.06)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips button{min-height:40px;font-size:14px;padding:0 12px}
+#print{display:none}
+@media print{body{background:#fff;color:#000}main,.tabs{display:none!important}#print{display:block;padding:24px;font:12pt/1.4 Georgia,serif;color:#000}#print h1{font-size:18pt}#print table{width:100%;border-collapse:collapse}#print td{border:1px solid #999;padding:6px;vertical-align:top}#print img{width:30%;margin:1%}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="logo"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 21h14M4 8h16M7 8l-3 6a3 3 0 006 0zM17 8l-3 6a3 3 0 006 0zM12 3l-5 5M12 3l5 5"/></svg></div><h1>Legal AI<small>by C.L.I.C.K.it</small></h1><button id="bigBtn" aria-label="Larger text" style="min-height:44px;padding:0 12px">Aa</button></header>
+<div class="disc"><b>Legal information, not legal advice.</b> Legal AI is not a lawyer or law firm. For advice about your situation, talk to a licensed attorney. In an emergency, call 911.</div>
+
+<!-- HOME -->
+<section id="s-home" class="on">
+<div class="grid2">
+<button class="tile red" data-go="log"><svg viewBox="0 0 24 24"><path d="M5 17h14l-2-6H7zM7 11l2-4h6l2 4M7 17v2M17 17v2"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg>Accident or incident</button>
+<button class="tile" data-go="forms"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM15 3v4h4M9 12h7M9 16h7"/></svg>Forms by state</button>
+<button class="tile" data-go="ask"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 113 1.7c-.6.3-1 .8-1 1.3"/></svg>Ask a question</button>
+<button class="tile" data-go="help"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0112 0M16 11l2 2 4-4"/></svg>Find a lawyer</button>
+</div>
+<div class="card" style="margin-top:14px"><h2>Your saved logs</h2><ul class="list" id="logList"></ul><div class="mu small">Saved only on this phone. Nothing is sent anywhere.</div></div>
+</section>
+
+<!-- LOG -->
+<section id="s-log">
+<div class="card"><h2>At the scene: do these first</h2>
+<ul class="list chk" id="sceneChk">
+<li><input type="checkbox" id="c1"><label for="c1" style="margin:0;color:var(--tx)">Get safe. Turn on hazards. Move out of traffic if you can.</label></li>
+<li><input type="checkbox" id="c2"><label for="c2" style="margin:0;color:var(--tx)">Anyone hurt? Call 911 now.</label></li>
+<li><input type="checkbox" id="c3"><label for="c3" style="margin:0;color:var(--tx)">Swap names, phone, license, plate and insurance.</label></li>
+<li><input type="checkbox" id="c4"><label for="c4" style="margin:0;color:var(--tx)">Take photos: cars, damage, plates, road, signs.</label></li>
+<li><input type="checkbox" id="c5"><label for="c5" style="margin:0;color:var(--tx)">Stick to facts. Don't argue about who's at fault.</label></li>
+<li><input type="checkbox" id="c6"><label for="c6" style="margin:0;color:var(--tx)">Ask police for the report number.</label></li>
+</ul>
+<a class="btn red wide" href="tel:911" style="margin-top:10px">Call 911</a></div>
+
+<div class="card"><h2>Field log</h2>
+<label for="fType">What happened</label><select id="fType"><option>Car accident</option><option>Slip or fall</option><option>Work injury</option><option>Property damage</option><option>Police stop</option><option>Other incident</option></select>
+<div class="row" style="margin-top:10px"><div><label for="fTime">Date and time</label><input id="fTime" type="datetime-local"></div></div>
+<label>Location</label><div class="row"><button id="gpsBtn">Use my location</button></div><div class="mu small" id="gpsOut" style="margin-top:6px">Not added yet</div>
+<label for="fState">State</label><select id="fState"></select>
+<label>Photos</label><div class="row"><label class="btn" style="margin:0;color:#fff" for="fPh">Add photos</label></div><input id="fPh" type="file" accept="image/*" capture="environment" multiple style="display:none"><div class="ph" id="phBox"></div>
+<h3>Other people involved</h3><div id="parties"></div><button id="addParty" class="wide">Add a person or vehicle</button>
+<h3>Witnesses</h3><div id="wits"></div><button id="addWit" class="wide">Add a witness</button>
+<h3>Insurance and police</h3>
+<label for="fIns">Your insurance company and policy number</label><input id="fIns" autocomplete="off">
+<label for="fPol">Police department and report number</label><input id="fPol" autocomplete="off">
+<label for="fInj">Injuries (yours or others)</label><input id="fInj" placeholder="None, or describe">
+<label for="fNotes">What happened, in your words</label><textarea id="fNotes" placeholder="Facts only: where you were going, what you saw, weather, lights, signs."></textarea>
+<div class="row" style="margin-top:14px"><button class="pri" id="saveLog">Save log</button><button id="pdfLog">Save as PDF</button></div>
+<div class="mu small" id="saveMsg" style="margin-top:8px"></div>
+<div id="stateNext"></div>
+</div>
+</section>
+
+<!-- FORMS -->
+<section id="s-forms">
+<div class="card"><h2>Official forms and steps</h2>
+<label for="qState">Your state</label><select id="qState"></select>
+<label for="qSit">Your situation</label><select id="qSit">
+<option value="accident">Car accident report</option><option value="small">Small claims (someone owes you)</option><option value="housing">Renting, eviction, deposit</option><option value="family">Divorce, custody, support</option><option value="traffic">Traffic ticket</option><option value="will">Wills and estates</option><option value="debt">Debt collection</option><option value="work">Unpaid wages, work issues</option></select>
+<div id="formOut" style="margin-top:12px"></div></div>
+</section>
+
+<!-- ASK -->
+<section id="s-ask">
+<div class="card"><h2>Ask in plain English</h2>
+<div class="mu small">General information with official links. It doesn't know your full situation, so it can't tell you what to do. Smarter AI answers are coming soon.</div>
+<div class="chips" style="margin-top:10px" id="chips"></div>
+<div class="chat" id="chat"></div>
+<div class="row"><input id="q" placeholder="Type your question" aria-label="Your question"><button class="pri" id="qGo" style="flex:none">Ask</button></div>
+</div>
+</section>
+
+<!-- HELP -->
+<section id="s-help">
+<div class="card"><h2>Talk to a real lawyer</h2>
+<ul class="list">
+<li><b>Free legal aid</b><br><span class="mu small">If money is tight, nonprofit legal aid may help for free.</span><br><a href="https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help" target="_blank" rel="noopener">Find legal aid near you (LSC)</a></li>
+<li><b>Free and low-cost help by state</b><br><a href="https://www.usa.gov/legal-aid" target="_blank" rel="noopener">USA.gov legal aid guide</a></li>
+<li><b>Court help centers</b><br><span class="mu small">Courts have staff who explain forms and steps for free.</span><br><a href="https://legalhelpdashboard.org/websites/public-sites/court-help/" target="_blank" rel="noopener">Find your court help center</a></li>
+<li><b>Hire a lawyer</b><br><span class="mu small">Your state bar's lawyer referral service can match you with a licensed attorney.</span><br><a id="barLink" href="#" target="_blank" rel="noopener">Search your state bar referral</a></li>
+</ul>
+<h3>Before you call, have ready</h3>
+<ul class="list"><li>Your saved field log (PDF)</li><li>Photos, police report number, insurance letters</li><li>Any deadlines on papers you got</li></ul>
+</div>
+<div class="card"><h2>Your data</h2><div class="mu small">Everything stays on this phone. Clear it anytime.</div><button class="wide" id="wipe" style="margin-top:10px">Clear all Legal AI data</button></div>
+</section>
+<div class="clk-sponsor" style="text-align:center;margin:28px auto 8px;padding:14px 16px;max-width:460px;border-radius:16px;border:1px solid rgba(56,242,224,.45);background:rgba(10,14,22,.6);color:#e8f6f5;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 0 14px rgba(56,242,224,.15)"><div style="font-weight:700;letter-spacing:.3px">Sponsored by Team C.L.I.C.K.it</div><div style="color:#a9b8c8;font-style:italic;margin-top:4px">"Our future depends on you, we appreciate the support."</div></div>
+</main>
+
+<nav class="tabs" aria-label="Main">
+<button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
+<button data-go="log"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h4"/></svg>Log</button>
+<button data-go="forms"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM15 3v4h4"/></svg>Forms</button>
+<button data-go="ask"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask</button>
+<button data-go="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Lawyer</button>
+</nav>
+<div id="print"></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var ST="AL Alabama,AK Alaska,AZ Arizona,AR Arkansas,CA California,CO Colorado,CT Connecticut,DE Delaware,DC District of Columbia,FL Florida,GA Georgia,HI Hawaii,ID Idaho,IL Illinois,IN Indiana,IA Iowa,KS Kansas,KY Kentucky,LA Louisiana,ME Maine,MD Maryland,MA Massachusetts,MI Michigan,MN Minnesota,MS Mississippi,MO Missouri,MT Montana,NE Nebraska,NV Nevada,NH New Hampshire,NJ New Jersey,NM New Mexico,NY New York,NC North Carolina,ND North Dakota,OH Ohio,OK Oklahoma,OR Oregon,PA Pennsylvania,RI Rhode Island,SC South Carolina,SD South Dakota,TN Tennessee,TX Texas,UT Utah,VT Vermont,VA Virginia,WA Washington,WV West Virginia,WI Wisconsin,WY Wyoming".split(",").map(function(s){return[s.slice(0,2),s.slice(3)]});
+var L=function(t,u){return{t:t,u:u}};
+var COMMON={court:L("Find your state's court help center","https://legalhelpdashboard.org/websites/public-sites/court-help/"),aid:L("Free legal aid near you","https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help"),dmv:L("Your state's motor vehicle office","https://www.usa.gov/state-motor-vehicle-services"),usa:L("USA.gov legal aid guide","https://www.usa.gov/legal-aid")};
+/* verified state detail (2026-11-14) */
+var SD={
+AZ:{court:L("Arizona Courts Self-Service Center (official forms)","https://www.azcourts.gov/selfservicecenter"),aid:L("AZLawHelp.org (free legal info)","https://www.azlawhelp.org/"),
+ accident:["If anyone is hurt or killed, the driver must tell police right away: city police, county sheriff, or highway patrol (A.R.S. 28-666).","Police write the crash report. Ask the officer for the report number.","Tell your insurance company soon."],accLaw:L("A.R.S. 28-666 (official text)","https://www.azleg.gov/ars/28/00666.htm")},
+CA:{court:L("California Courts Self-Help Guide (official forms)","https://selfhelp.courts.ca.gov/"),
+ accident:["File an SR-1 with the DMV within 10 days if anyone was hurt (even a little) or killed, or property damage is over $1,000.","You must file the SR-1 even if police or CHP made a report.","Tell your insurance company."],accLaw:L("California DMV SR-1 (file online)","https://www.dmv.ca.gov/portal/vehicle-industry-services/accident-reporting/")},
+NV:{accident:["If police did not investigate and anyone was hurt or killed, or damage looks like $750 or more, send the DMV an SR-1 within 10 days (NRS 484E.070).","Attach your insurance card, a repair estimate, and a doctor's note if someone was hurt.","If police investigated and listed everyone's insurance, the SR-1 is usually not needed."],accLaw:L("Nevada DMV SR-1 form (PDF)","https://dmv.nv.gov/pdfforms/sr1.pdf"),dmv:L("Nevada DMV","https://dmv.nv.gov/")}};
+var SIT={
+accident:{t:"Car accident report",s:["Make sure everyone is safe and call 911 if anyone is hurt.","Write everything down in the Field log while it's fresh.","Check your state's reporting rule and deadline.","Tell your insurance company.","If someone was hurt or fault is disputed, talk to a lawyer."]},
+small:{t:"Small claims",s:["Small claims court handles smaller money disputes without needing a lawyer.","Send a polite written request for payment first and keep a copy.","Get your state's small claims forms from the court help center.","Gather proof: receipts, texts, photos, contracts.","Watch the deadline to file. It differs by state and type of claim."]},
+housing:{t:"Renting, eviction, deposit",s:["Read every paper you get and write down any deadline.","Don't ignore court papers. Missing a date can mean you lose automatically.","Your court help center has the response forms.","Legal aid often helps renters for free."]},
+family:{t:"Divorce, custody, support",s:["Court help centers have the forms and step lists.","Many courts offer free classes or a facilitator.","If there's safety risk, ask the court about protective orders.","Talk to a family lawyer or legal aid for advice about your case."]},
+traffic:{t:"Traffic ticket",s:["Your ticket lists the court and the date to respond.","You can usually pay, fight it, or ask about traffic school. Choices differ by state.","Don't miss the date. It can lead to more fines or a license hold."]},
+will:{t:"Wills and estates",s:["Some states have a simple official will form.","When someone passes, the probate court explains next steps.","Legal aid and your state bar can point you to help."]},
+debt:{t:"Debt collection",s:["You can ask the collector, in writing, to verify the debt.","Never ignore a court summons. Respond by the deadline.","The CFPB explains your rights with debt collectors."],x:L("CFPB: debt collection help","https://www.consumerfinance.gov/consumer-tools/debt-collection/")},
+work:{t:"Unpaid wages and work issues",s:["Write down dates, hours and pay you're owed.","Your state labor office handles many wage claims.","The U.S. Department of Labor explains federal wage rights."],x:L("U.S. Department of Labor: wages","https://www.dol.gov/agencies/whd")}};
+function fill(sel){sel.innerHTML=ST.map(function(s){return'<option value="'+s[0]+'">'+s[1]+'</option>'}).join("");sel.value=localStorage.getItem("la_state")||"AZ"}
+fill($("fState"));fill($("qState"));
+function link(l){return'<li><a href="'+l.u+'" target="_blank" rel="noopener">'+esc(l.t)+' ↗</a></li>'}
+function renderForms(){var s=$("qState").value,k=$("qSit").value,d=SD[s]||{},x=SIT[k];localStorage.setItem("la_state",s);
+ var h='<h3>'+esc(x.t)+' · '+esc(ST.find(function(a){return a[0]===s})[1])+'</h3><ol style="padding-left:20px;margin:0">';
+ var steps=(k==="accident"&&d.accident)?d.accident.concat(["If someone was hurt or fault is disputed, talk to a lawyer."]):x.s;
+ steps.forEach(function(t){h+='<li style="margin:6px 0">'+esc(t)+'</li>'});h+='</ol><h3>Official links</h3><ul class="list">';
+ if(k==="accident"){if(d.accLaw)h+=link(d.accLaw);h+=link(d.dmv||COMMON.dmv)}
+ h+=link(d.court||COMMON.court);if(x.x)h+=link(x.x);h+=link(d.aid||COMMON.aid);h+='</ul>';
+ if(!SD[s]||(k==="accident"&&!d.accident))h+='<div class="mu small" style="margin-top:8px">Rules differ by state. The links above go to official or nonprofit sources for your state.</div>';
+ h+='<div class="mu small" style="margin-top:8px">Information only, not legal advice. Checked Nov 14, 2026.</div>';$("formOut").innerHTML=h}
+$("qState").onchange=renderForms;$("qSit").onchange=renderForms;renderForms();
+/* nav */
+function go(p){document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id==="s-"+p)});document.querySelectorAll(".tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.go===p)});window.scrollTo(0,0);if(p==="log"&&!$("fTime").value)newLog()}
+document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.go)})});
+var h0=location.hash.slice(1);if(["log","forms","ask","help"].indexOf(h0)>=0)setTimeout(function(){go(h0)},0);
+$("bigBtn").onclick=function(){document.body.classList.toggle("big");localStorage.setItem("la_big",document.body.classList.contains("big")?"1":"")};if(localStorage.getItem("la_big"))document.body.classList.add("big");
+/* log */
+var LOGS=[];try{LOGS=JSON.parse(localStorage.getItem("la_logs")||"[]")}catch(e){}
+var cur=null;
+function pad(n){return(n<10?"0":"")+n}
+function nowLocal(){var d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())}
+function newLog(){cur={id:Date.now(),type:"Car accident",time:nowLocal(),gps:null,state:$("fState").value,photos:[],parties:[],wits:[],ins:"",pol:"",inj:"",notes:""};toForm()}
+function partyHTML(p,i,kind){var f=kind==="p"?[["name","Name"],["phone","Phone"],["vehicle","Vehicle and plate"],["ins","Insurance and policy"]]:[["name","Name"],["phone","Phone"],["saw","What they saw"]];
+ return'<div class="card" style="padding:12px;margin:8px 0"><div class="log"><b>'+(kind==="p"?"Person/vehicle ":"Witness ")+(i+1)+'</b><button data-del="'+kind+i+'" style="min-height:40px">Remove</button></div>'+f.map(function(x){return'<label>'+x[1]+'</label><input data-k="'+kind+i+'.'+x[0]+'" value="'+esc(p[x[0]]||"")+'">'}).join("")+'</div>'}
+function toForm(){$("fType").value=cur.type;$("fTime").value=cur.time;$("fState").value=cur.state;$("fIns").value=cur.ins;$("fPol").value=cur.pol;$("fInj").value=cur.inj;$("fNotes").value=cur.notes;
+ $("gpsOut").innerHTML=cur.gps?esc(cur.gps.lat.toFixed(5)+", "+cur.gps.lng.toFixed(5))+' (±'+Math.round(cur.gps.acc)+' m) · <a style="color:#8ff3e8" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+cur.gps.lat+','+cur.gps.lng+'">Map</a>':"Not added yet";
+ $("parties").innerHTML=cur.parties.map(function(p,i){return partyHTML(p,i,"p")}).join("");$("wits").innerHTML=cur.wits.map(function(p,i){return partyHTML(p,i,"w")}).join("");
+ $("phBox").innerHTML=cur.photos.map(function(s,i){return'<img src="'+s+'" alt="Photo '+(i+1)+'">'}).join("");stateNext()}
+function fromForm(){cur.type=$("fType").value;cur.time=$("fTime").value;cur.state=$("fState").value;cur.ins=$("fIns").value;cur.pol=$("fPol").value;cur.inj=$("fInj").value;cur.notes=$("fNotes").value;
+ document.querySelectorAll("[data-k]").forEach(function(i){var m=i.dataset.k.match(/^([pw])(\d+)\.(\w+)$/);(m[1]==="p"?cur.parties:cur.wits)[+m[2]][m[3]]=i.value})}
+function stateNext(){var d=SD[cur.state];$("stateNext").innerHTML=(cur.type==="Car accident")?'<div class="card" style="padding:12px;margin:14px 0 0"><b>Next steps in '+esc(ST.find(function(a){return a[0]===cur.state})[1])+'</b><ul class="list small">'+((d&&d.accident)?d.accident.map(function(t){return'<li>'+esc(t)+'</li>'}).join("")+(d.accLaw?link(d.accLaw):""):'<li>Check your state\'s reporting rule.</li>'+link(COMMON.dmv))+'</ul></div>':""}
+$("fState").onchange=function(){fromForm();stateNext()};$("fType").onchange=function(){fromForm();stateNext()};
+$("addParty").onclick=function(){fromForm();cur.parties.push({});toForm()};$("addWit").onclick=function(){fromForm();cur.wits.push({});toForm()};
+document.addEventListener("click",function(e){var b=e.target.closest("[data-del]");if(!b)return;var k=b.dataset.del;if(!confirm("Remove this entry?"))return;fromForm();(k[0]==="p"?cur.parties:cur.wits).splice(+k.slice(1),1);toForm()});
+$("gpsBtn").onclick=function(){if(!navigator.geolocation){$("gpsOut").textContent="Location isn't available on this device.";return}$("gpsOut").textContent="Finding you…";
+ navigator.geolocation.getCurrentPosition(function(p){fromForm();cur.gps={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};toForm()},function(){$("gpsOut").textContent="Couldn't get location. Check location permission, or type the place in your notes."},{enableHighAccuracy:true,timeout:15000})};
+$("fPh").onchange=function(){var fs=[].slice.call(this.files).slice(0,9-cur.photos.length);fromForm();var n=fs.length;if(!n)return;
+ fs.forEach(function(f){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);cur.photos.push(c.toDataURL("image/jpeg",.7));if(--n===0)toForm()};im.src=r.result};r.readAsDataURL(f)});this.value=""};
+function persist(){try{localStorage.setItem("la_logs",JSON.stringify(LOGS));return true}catch(e){return false}}
+$("saveLog").onclick=function(){fromForm();var i=LOGS.findIndex(function(l){return l.id===cur.id});if(i>=0)LOGS[i]=cur;else LOGS.unshift(cur);
+ if(persist()){$("saveMsg").textContent="Saved on this phone. You can make a PDF anytime.";renderLogs()}else{$("saveMsg").textContent="Phone storage for this app is full. Remove some photos or save a PDF, then try again.";if(i<0)LOGS.shift()}};
+function renderLogs(){$("logList").innerHTML=LOGS.length?LOGS.map(function(l){return'<li class="log"><span><b>'+esc(l.type)+'</b><br><span class="mu small">'+esc((l.time||"").replace("T"," "))+' · '+esc(l.state)+'</span></span><button data-open="'+l.id+'" style="flex:none">Open</button></li>'}).join(""):'<li class="mu">No logs yet. Tap Accident or incident to start one.</li>'}
+$("logList").addEventListener("click",function(e){var b=e.target.closest("[data-open]");if(!b)return;cur=JSON.parse(JSON.stringify(LOGS.find(function(l){return l.id==b.dataset.open})));go("log");toForm()});
+renderLogs();
+$("pdfLog").onclick=function(){fromForm();var l=cur,sn=ST.find(function(a){return a[0]===l.state})[1];
+ function rows(a,kind){return a.length?a.map(function(p,i){return'<tr><td>'+(kind)+' '+(i+1)+'</td><td>'+Object.keys(p).map(function(k){return esc(k)+": "+esc(p[k])}).join("<br>")+'</td></tr>'}).join(""):'<tr><td>'+kind+'</td><td>None listed</td></tr>'}
+ $("print").innerHTML='<h1>Incident record: '+esc(l.type)+'</h1><p>Prepared with Legal AI by C.L.I.C.K.it. Personal record, not legal advice.</p><table>'+
+ '<tr><td>Date and time</td><td>'+esc((l.time||"").replace("T"," "))+'</td></tr><tr><td>State</td><td>'+esc(sn)+'</td></tr>'+
+ '<tr><td>Location</td><td>'+(l.gps?esc(l.gps.lat.toFixed(5)+", "+l.gps.lng.toFixed(5))+' (±'+Math.round(l.gps.acc)+' m)':"Not recorded")+'</td></tr>'+
+ rows(l.parties,"Person/vehicle")+rows(l.wits,"Witness")+
+ '<tr><td>My insurance</td><td>'+esc(l.ins)+'</td></tr><tr><td>Police report</td><td>'+esc(l.pol)+'</td></tr><tr><td>Injuries</td><td>'+esc(l.inj)+'</td></tr><tr><td>What happened</td><td>'+esc(l.notes).replace(/\n/g,"<br>")+'</td></tr></table>'+
+ (l.photos.length?'<h2>Photos</h2>'+l.photos.map(function(s){return'<img src="'+s+'">'}).join(""):"")+'<p style="font-size:9pt">Created '+new Date().toLocaleString()+'</p>';
+ setTimeout(function(){window.print()},100)};
+/* ask */
+var KB=[
+{k:/accident|crash|car|wreck|collision|hit/i,a:"After a crash: get safe, call 911 if anyone's hurt, swap info, take photos, and get the police report number. Many states have a deadline to report to the DMV.",go:"accident"},
+{k:/evict|landlord|rent|lease|deposit|tenant/i,a:"Read every paper and note the deadline. Don't skip court dates. Court help centers have the response forms, and legal aid often helps renters free.",go:"housing"},
+{k:/small claim|owe|owes|sue|refund|contractor/i,a:"Small claims court is for smaller money disputes, usually without a lawyer. Ask for payment in writing first, keep proof, then use your state's forms.",go:"small"},
+{k:/divorce|custody|child support|visitation|separat/i,a:"Court help centers have divorce and custody forms and step lists. For advice on your case, a family lawyer or legal aid can help.",go:"family"},
+{k:/ticket|speeding|citation|traffic court/i,a:"Your ticket names the court and the date to respond. Choices are usually pay, contest, or traffic school. Missing the date can add fines.",go:"traffic"},
+{k:/will|estate|probate|inherit|passed away|died/i,a:"Some states have a simple official will form. When someone passes, the probate court explains next steps.",go:"will"},
+{k:/debt|collector|collection|garnish/i,a:"You can ask a collector in writing to verify the debt. Never ignore a court summons; respond by the deadline.",go:"debt"},
+{k:/wage|paid|paycheck|overtime|fired|boss|employer/i,a:"Write down dates, hours and pay owed. State labor offices handle many wage claims.",go:"work"},
+{k:/arrest|police|rights|search|stop/i,a:"If police stop you, stay calm and keep your hands visible. You can say you want to stay silent and that you want a lawyer. For a criminal charge, ask the court about a public defender.",go:null}];
+var CH=["I was in a car accident","My landlord kept my deposit","Someone owes me money","I got a traffic ticket","Talk to a lawyer"];
+$("chips").innerHTML=CH.map(function(c){return'<button>'+esc(c)+'</button>'}).join("");
+$("chips").onclick=function(e){var b=e.target.closest("button");if(!b)return;if(b.textContent==="Talk to a lawyer"){go("help");return}$("q").value=b.textContent;askQ()};
+function say(t,cls){var d=document.createElement("div");d.className="b "+cls;d.innerHTML=t;$("chat").appendChild(d);d.scrollIntoView({block:"nearest"})}
+function askQ(){var q=$("q").value.trim().slice(0,300);if(!q)return;$("q").value="";say(esc(q),"me");
+ if(/911|emergency|bleeding|unconscious|not breathing|overdose|suicid/i.test(q)){say('<b>Call 911 now.</b> <a class="btn red" href="tel:911" style="margin-top:8px">Call 911</a>',"ai");return}
+ var m=KB.find(function(x){return x.k.test(q)});
+ if(m){say(esc(m.a)+(m.go?'<div class="row" style="margin-top:8px"><button data-sit="'+m.go+'">See steps and forms</button></div>':"")+'<div class="mu small" style="margin-top:6px">General info, not legal advice.</div>',"ai")}
+ else say('I don\'t have a good answer for that yet. A court help center or legal aid can explain your options for free.<div class="row" style="margin-top:8px"><button data-help="1">Find help</button></div>',"ai")}
+$("qGo").onclick=askQ;$("q").addEventListener("keydown",function(e){if(e.key==="Enter")askQ()});
+$("chat").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.sit){$("qSit").value=b.dataset.sit;$("qState").value=localStorage.getItem("la_state")||"AZ";renderForms();go("forms")}else if(b.dataset.help)go("help")});
+/* bar link: neutral search for state bar lawyer referral */
+function bar(){var s=ST.find(function(a){return a[0]===(localStorage.getItem("la_state")||"AZ")})[1];$("barLink").textContent=s+" State Bar lawyer referral";$("barLink").href="https://www.google.com/search?q="+encodeURIComponent(s+" state bar lawyer referral service")}
+bar();$("qState").addEventListener("change",bar);
+$("wipe").onclick=function(){if(confirm("Delete all saved logs, photos and settings for Legal AI on this phone? This can't be undone.")){["la_logs","la_state","la_big"].forEach(function(k){localStorage.removeItem(k)});LOGS=[];renderLogs();alert("Cleared.")}};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
+})();
+</script>
+</body>
+</html>
