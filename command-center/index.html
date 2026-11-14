@@ -137,6 +137,78 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
 .sev-bad{color:var(--bad)}.sev-warn{color:var(--warn)}.sev-ok{color:var(--gr)}
 #tour{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center;padding:20px}
 #tour .card{max-width:440px;width:100%;margin-bottom:90px}
+
+:root{--bg:#0d0f12;--card:rgba(255,255,255,.045);--line:rgba(120,230,230,.22);--vi:rgba(160,130,255,.25)}
+html,body{background:radial-gradient(900px 500px at 50% -20%,#1a2027 0,transparent 60%),#0d0f12}
+body{font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:.1px}
+.card{border-radius:16px;box-shadow:none;border-color:rgba(255,255,255,.08)}.card.v{border-color:rgba(255,255,255,.08)}
+.lh{display:flex;align-items:flex-start;margin:8px 2px 14px}.lh>div:first-child{flex:1}.lh1{font-size:15px;font-weight:600;color:#cfd6df;letter-spacing:.5px}.lh2{font-size:24px;font-weight:500}
+.lhi{display:flex;gap:4px}.lhi button{width:40px;height:40px;padding:0;border:0;background:transparent;position:relative}
+.lhi svg,.mic svg{width:22px;height:22px;fill:none;stroke:#cfd6df;stroke-width:1.5}
+#inboxN{position:absolute;top:4px;right:4px;font-size:10px;color:#07090d;background:var(--cy);border-radius:8px;padding:0 4px;line-height:14px}#inboxN:empty{display:none}
+body.priv #privBtn svg{stroke:var(--cy)}
+.tabs{display:flex;justify-content:center;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.tabs button{border:0;background:transparent;border-radius:0;padding:8px 2px;color:var(--mu);font-size:15px;border-bottom:2px solid transparent}.tabs button.on{color:var(--cy);border-bottom-color:var(--cy)}.tabs span{color:var(--mu)}
+#zoneHead .tabs{margin-bottom:0}
+.grid12{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.zt{position:relative;aspect-ratio:1/1;border-radius:16px;border:1px solid transparent;background:linear-gradient(rgba(28,32,38,.92),rgba(20,23,28,.92)) padding-box,linear-gradient(135deg,rgba(56,242,224,.75),rgba(160,130,255,.75)) border-box;box-shadow:0 0 14px rgba(56,242,224,.12),inset 0 1px 0 rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#e6ebf1;font-size:13px;padding:6px}
+.zt svg{width:34px;height:34px;fill:none;stroke:#e6ebf1;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.zt .d{position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;background:#3ee07a;box-shadow:0 0 6px #3ee07a}.zt.busy .d{background:var(--cy);animation:pulse 1s infinite}.zt.wait .d{background:var(--warn);box-shadow:0 0 6px var(--warn)}
+@keyframes pulse{50%{opacity:.3}}
+.zt:active{transform:scale(.97)}
+.floorbar b{font-size:18px;font-weight:600;letter-spacing:.3px}.floorbar #toLobby{width:40px;height:40px;padding:0;border-radius:12px}.botst{font-size:11px;color:var(--mu);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 9px;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body:not(.onfloor) #zoneHead{display:none}
+#askBar{bottom:62px}#askBar form{background:rgba(22,25,30,.92);border-radius:30px;padding:5px 6px 5px 6px;border:1px solid transparent;background:linear-gradient(rgba(22,25,30,.95),rgba(22,25,30,.95)) padding-box,linear-gradient(90deg,rgba(56,242,224,.7),rgba(160,130,255,.7)) border-box;gap:8px}
+#askBar input{border:0!important;box-shadow:none!important;background:transparent!important;padding:10px 4px;height:44px}
+#askBar .mic{flex:0 0 44px;width:44px;height:44px;border:0;background:transparent}
+.orb2{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d8fbff,#38f2e0 40%,#8b6cff 85%);box-shadow:0 0 12px rgba(56,242,224,.5)}
+body.onfloor #askBar{display:block}
+nav.bn a i{font-size:16px}
+.zl li a{color:var(--cy);text-decoration:none}
+body.light .zt{background:linear-gradient(#fff,#f4f7fb) padding-box,linear-gradient(135deg,rgba(0,170,160,.7),rgba(120,90,230,.7)) border-box;color:#0c1520}body.light .zt svg,body.light .lhi svg{stroke:#0c1520}body.light #askBar form{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,rgba(0,170,160,.7),rgba(120,90,230,.7)) border-box}
+
+.lvl2{grid-column:1/-1;font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:#7f8b99;display:flex;align-items:center;gap:8px;margin:4px 0 -4px}.lvl2:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
+.zt{aspect-ratio:auto;height:104px;padding-top:16px;overflow:hidden}
+.zt .awn{position:absolute;left:0;right:0;top:0;height:9px;background:linear-gradient(90deg,rgba(56,242,224,.35),rgba(160,130,255,.35));-webkit-mask:radial-gradient(circle at 6px 9px,transparent 5px,#000 5.5px) 0 0/12px 9px repeat-x;mask:radial-gradient(circle at 6px 9px,transparent 5px,#000 5.5px) 0 0/12px 9px repeat-x;opacity:.9}
+.zt .d{top:14px}
+#lobby{position:relative}#lobby:before{content:"";position:absolute;left:-14px;right:-14px;top:-14px;height:230px;background:radial-gradient(60% 100% at 50% 0,rgba(160,130,255,.12),transparent 70%),radial-gradient(40% 70% at 50% 0,rgba(56,242,224,.10),transparent 70%);pointer-events:none;border-radius:0 0 50% 50%/0 0 30% 30%}
+.lh2{background:linear-gradient(90deg,#fff,#bfeff0);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.sky{position:absolute;left:-14px;right:-14px;top:-14px;height:170px;pointer-events:none;background:linear-gradient(180deg,rgba(210,235,245,.22),rgba(13,15,18,0) 95%),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 1px,transparent 1px 46px),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 30px);-webkit-mask:linear-gradient(#000,transparent);mask:linear-gradient(#000,transparent)}
+#lobby:before{display:none}
+.lh{position:relative;padding-top:6px}.lh1{font-size:19px;color:#fff;font-weight:600}.lh2{font-size:14px;color:#c9d2dc;background:none;-webkit-text-fill-color:#c9d2dc}
+.lhi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:2px 4px;backdrop-filter:blur(8px)}
+.glass{position:relative;background:linear-gradient(180deg,rgba(40,60,66,.55),rgba(22,24,30,.75));border:1px solid rgba(120,230,230,.18);border-radius:22px;padding:14px 12px 6px;margin-bottom:14px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.tabs.pill{width:max-content;margin:0 auto 12px;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:3px;gap:2px}
+.tabs.pill button{border:0;border-radius:18px;padding:6px 14px;font-size:14px}.tabs.pill button.on{background:rgba(255,255,255,.12);color:#fff;border:0}
+.tabs.pill span{color:rgba(255,255,255,.2)}
+.grid12{gap:22px 10px;margin-bottom:0}
+.lvl2{text-transform:none;letter-spacing:.3px;font-size:13px;color:#9aa6b3;margin:0 2px -8px}
+.zt{height:100px;padding:20px 4px 8px;overflow:visible;justify-content:flex-start;gap:6px;border-radius:6px 6px 12px 12px;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03)) padding-box,linear-gradient(160deg,rgba(150,240,235,.45),rgba(160,130,255,.3)) border-box;box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)}
+.zt .zn{font-size:14px;color:#f1f5f9}
+.zt svg{width:28px;height:28px;stroke:#9ff3ea;stroke-width:1.3}
+.zt .awn{left:-6px;right:-6px;top:-13px;height:22px;opacity:1;border-radius:6px 6px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 60%),repeating-linear-gradient(90deg,rgba(150,240,235,.55) 0 9px,rgba(170,150,255,.35) 9px 18px);-webkit-mask:linear-gradient(#000 0 0) top/100% 14px no-repeat,radial-gradient(circle at 9px 13px,#000 8.5px,transparent 9px) 0 0/18px 22px repeat-x;mask:linear-gradient(#000 0 0) top/100% 14px no-repeat,radial-gradient(circle at 9px 13px,#000 8.5px,transparent 9px) 0 0/18px 22px repeat-x;filter:drop-shadow(0 0 6px rgba(150,240,235,.35))}
+.zt .d{top:26px;right:8px;width:6px;height:6px}
+.shelf{grid-column:1/-1;height:8px;margin:-14px -4px 0;border-radius:3px;background:linear-gradient(180deg,rgba(150,240,235,.25),rgba(150,240,235,.02));box-shadow:0 0 12px rgba(150,240,235,.15)}
+body.light .glass{background:rgba(255,255,255,.75)}body.light .zt .zn{color:#0c1520}body.light .lh1{color:#0c1520}
+
+.zt .d{top:auto;bottom:9px;right:9px}
+button,.btn{min-height:44px;min-width:44px}
+.chip{min-height:40px}
+.explain{font-size:13px;color:#b9c3cf;margin:2px 0 8px;line-height:1.45}
+:root{--mu:#a3afbd}
+body.big{font-size:18px}body.big .mu,body.big .explain{font-size:15px!important}body.big h2{font-size:19px}
+body.big .zt{height:118px}body.big .zt .zn{font-size:16px}body.big .zt svg{width:32px;height:32px}
+body.big ul.list li{font-size:16px}body.big #askBar input{font-size:17px}
+body.simple .adv{display:none!important}
+#helpBtn{width:44px;padding:0;border-radius:12px;font-weight:700}
+
+#toast{max-width:520px;margin:0 auto 8px;background:rgba(18,22,28,.97);border:1px solid rgba(56,242,224,.5);border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.4;display:none;color:#eef3f8}
+#toast.on{display:block}body.big #toast{font-size:17px}
+
+#zList a,ul.list a.sp{color:#5ff5e6;text-decoration:none}
+main>h1{display:none!important}
+main{padding-bottom:200px!important}
 </style>
 </head>
 <body class="locked">
@@ -154,64 +226,45 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
 
 <section id="dash">
 <div id="lobby">
- <div class="brandhead"><b>C.L.I.C.K.it</b><div>Command Center</div>
-  <div class="hbtns"><button id="privBtn">👁 Privacy</button><button id="inboxBtn">🔔 Inbox <span id="inboxN"></span></button><button id="tourBtn">? Tour</button></div></div>
+ <div class="sky"></div><header class="lh"><div><div class="lh1">C.L.I.C.K.it</div><div class="lh2">Command Center</div></div>
+  <div class="lhi"><button id="secBtn" aria-label="Security Center"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></button><button id="privBtn" aria-label="Privacy mode"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button><button id="bigBtn" aria-label="Large text and simple mode"><svg viewBox="0 0 24 24"><path d="M3 18l4.5-12L12 18M4.6 14h5.8M14 18l3-8 3 8M15 15.5h4"/></svg></button><button id="inboxBtn" aria-label="Inbox"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 004 0"/></svg><span id="inboxN"></span></button></div></header>
+ <div class="glass"><div class="tabs pill" id="modeTabs"><button data-mode="opp" class="on">Opportunities</button><span>|</span><button data-mode="use">Use Cases</button></div>
+ <div class="grid12" id="grid"></div></div>
  <div class="card brief" id="briefing"><div class="row"><h2 class="sp" style="margin:0">Daily briefing</h2><span class="mu" id="briefDate"></span></div><ul class="list" id="briefList"></ul></div>
- <div class="lvl">LEVEL 1 · SHOP</div>
- <div class="mall">
-  <button class="store s1" data-go="shop" id="st-shop"><span class="sign">SHOPPING</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
-  <button class="store s5" data-go="beauty" id="st-beauty"><span class="sign">BEAUTY</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
- </div>
- <div class="lvl">LEVEL 2 · MARKETS</div>
- <div class="mall">
-  <button class="store s2" data-go="crypto" id="st-crypto"><span class="sign">CRYPTO</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
-  <button class="store s6" data-go="stocks" id="st-stocks"><span class="sign">STOCKS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
- </div>
- <div class="lvl">LEVEL 3 · PLAY</div>
- <div class="mall">
-  <button class="store s3" data-go="social" id="st-social"><span class="sign">SOCIAL</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
-  <button class="store s7" data-go="sports" id="st-sports"><span class="sign">SPORTS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
- </div>
- <div class="lvl">LEVEL 4 · SERVICE</div>
- <div class="mall one">
-  <button class="store s4" data-go="tools" id="st-tools"><span class="sign">TOOLS</span><svg class="robot" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="30" y1="3" x2="30" y2="10"/><circle cx="30" cy="3" r="2" fill="currentColor"/><rect x="12" y="10" width="36" height="24" rx="10" fill="rgba(0,0,0,.5)"/><circle cx="23" cy="22" r="3.5" fill="currentColor"/><circle cx="37" cy="22" r="3.5" fill="currentColor"/><rect x="17" y="37" width="26" height="18" rx="6" fill="rgba(0,0,0,.4)"/><path d="M17 42l-7 6M43 42l7 6M24 55v7M36 55v7"/></svg><span class="stc">Online</span><span class="last"></span></button>
- </div>
- <div class="card asst" id="assistant">
-  <div class="aorb" aria-hidden="true"></div>
-  <div style="text-align:center"><b>CLICK Assistant</b><div class="mu">Type or speak a task; it goes to the right floor's bot. Read-only in v1.</div></div>
+ <div class="card" id="assistant"><div class="row"><h2 class="sp" style="margin:0">Assistant tasks</h2><button id="tourBtn" style="padding:4px 10px;font-size:12px">Tour</button></div>
   <ul class="list q" id="queue"></ul>
-  <div class="mu" style="margin-top:6px;font-size:11px">No bot spends, trades, signs, moves funds, posts or messages. Those wait for your approval tap and are coming soon.</div>
- </div>
+  <div class="mu" style="margin-top:6px;font-size:11px">Bots watch and report. Anything that spends, trades, signs, posts or messages waits for your approval tap (coming soon).</div></div>
 </div>
-<div class="floorbar"><button id="toLobby">← Mall</button><b id="floorName"></b></div>
+<div class="floorbar"><button id="toLobby" aria-label="Back">←</button><b id="floorName"></b><span class="sp"></span><span class="botst" id="botSt"></span><button id="helpBtn" aria-label="What does this do?">?</button></div>
+<div class="card" id="zoneHead"><div class="tabs" id="zTabs"><button data-t="opp">Opportunities</button><span>|</span><button data-t="use">Use Cases</button></div><div class="mu" id="zNote" style="font-size:12px;margin:6px 0 0"></div><ul class="list" id="zList"></ul></div>
 <div class="card" data-zone="crypto">
   <div class="row"><div class="sp"><div class="mu">Tracked wallet balance</div><div class="big" id="total">—</div><div class="mu" id="totalSub">Add a public address to start</div></div><svg class="spark" id="spark" viewBox="0 0 120 44"></svg></div>
 </div>
 
 <div class="card v" id="wallets" data-zone="crypto">
   <div class="row"><h2 class="sp">Wallets</h2><button id="refresh">Refresh</button></div>
-  <div class="chips" id="chainChips"></div>
+  <div class="chips adv" id="chainChips"></div>
   <ul class="list" id="walletList"></ul>
   <form id="addW" class="row" style="margin-top:8px"><input id="addr" placeholder="Public address 0x…" autocomplete="off" spellcheck="false"><input id="label" placeholder="Label" style="max-width:96px"><button class="pri">Add</button></form>
   <div class="row" style="margin-top:8px"><button id="csvBtn">⬇ Export history (CSV)</button><span class="mu sp" id="csvMsg" style="font-size:12px"></span></div>
-  <div class="mu" style="margin-top:6px">Public addresses only, saved on this device. Never enter a seed phrase or private key anywhere.</div>
+  <div class="explain">A public address is like an account number anyone can look up. It can't be used to take funds.</div><div class="mu" style="margin-top:6px">Public addresses only, saved on this device. Never enter a seed phrase or private key anywhere.</div>
 </div>
 
 <div class="card" id="watchdog" data-zone="crypto">
   <div class="row"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38f2a5" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
-  <div class="sp"><b>Watchdog</b><div class="mu" id="wdStatus">Approval scan (RX7 engine) · not run yet</div></div><button class="pri" id="scan">Scan</button></div>
+  <div class="sp"><b>Watchdog</b><div class="explain">Checks which apps are allowed to move tokens out of your wallets, and flags risky ones.</div><div class="mu" id="wdStatus">Approval scan (RX7 engine) · not run yet</div></div><button class="pri" id="scan">Scan</button></div>
   <ul class="list" id="apprList"></ul>
 </div>
 
-<div class="card v" id="markets" data-zone="crypto">
-  <div class="row"><div class="sp"><h2 style="margin:0">Market Pulse</h2><div class="mu">Live charts</div></div><div class="seg"><button data-m="dex" class="on">DEX</button><button data-m="cex">CEX</button></div></div>
+<div class="card v adv" id="markets" data-zone="crypto">
+  <div class="row"><div class="sp"><h2 style="margin:0">Market Pulse</h2><div class="mu">DEX = trading inside a blockchain app. CEX = a company exchange like Coinbase.</div></div><div class="seg"><button data-m="dex" class="on">DEX</button><button data-m="cex">CEX</button></div></div>
   <div class="row" style="margin-top:8px"><select id="pair"></select></div>
   <iframe class="chart" id="chart" title="Live chart" loading="lazy" referrerpolicy="no-referrer"></iframe>
 </div>
 
 <div class="card" id="alerts" data-zone="crypto">
   <div class="row"><h2 class="sp">Alerts</h2><span class="mu" id="notifState"></span></div>
-  <div class="mu">Alerts notify you only. Nothing auto-sells in v1.</div>
+  <div class="explain">Get a heads-up when a price goes above or drops below a number you pick ("stop" = drops to). It only notifies you; nothing is sold.</div>
   <form id="addA" class="row" style="margin-top:8px"><select id="aSym" style="max-width:90px"></select><select id="aDir" style="max-width:120px"><option value="below">Stop ≤</option><option value="above">Up ≥</option></select><input id="aVal" type="number" step="any" placeholder="USD" style="max-width:90px"><button class="pri">Set</button></form>
   <ul class="list" id="alertList"></ul>
   <div class="mu" id="pxLine" style="margin-top:6px"></div>
@@ -220,7 +273,7 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
 <div class="card v" id="apps" data-zone="crypto">
   <h2>Crypto apps</h2>
   <div class="tiles" id="tiles"></div>
-  <div style="margin-top:10px"><b style="font-size:13px">Auto-functions</b>
+  <div class="adv" style="margin-top:10px"><b style="font-size:13px">Auto-functions</b>
     <div id="autos"></div>
   </div>
 </div>
@@ -260,6 +313,11 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
   <h2>Tools</h2>
   <div class="tools"><button data-t="clean"><i>🧹</i>Device Clean-Up</button><button data-t="dCal"><i>📅</i>Calendar</button><button data-t="dCalc"><i>🧮</i>Calculator</button><button data-t="dMsg"><i>💬</i>Messages</button></div>
 </div>
+<div class="card" id="financeCard" data-zone="finance">
+  <h2>Records</h2><div class="mu" style="font-size:12px">Organizing only. Not financial or tax advice.</div>
+  <div id="recs"></div>
+  <div class="row" style="margin-top:8px"><button class="pri" onclick="document.getElementById('csvBtn').click()">⬇ Wallet history CSV</button></div>
+</div>
 <div class="card v" id="security" data-zone="tools">
   <h2>Security Center</h2>
   <b style="font-size:13px">Link checker</b>
@@ -281,6 +339,7 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
   <div class="tog"><span class="sp">Background monitor (rescan every 5 min while open)</span><input type="checkbox" id="mon" checked></div>
   <div class="tog"><span class="sp">Browser notifications</span><button id="notif">Enable</button></div>
   <div class="tog"><span class="sp">Install on home screen</span><button id="inst" disabled>Install</button></div>
+  <div class="tog"><span class="sp">Large text and Simple Mode</span><input type="checkbox" id="bigT"></div>
   <div class="tog"><span class="sp">Light theme</span><input type="checkbox" id="lightT"></div>
   <div class="tog"><span class="sp">Beta feedback</span><a class="btn" href="https://github.com/statxqo-CLICKit/statxqo-CLICKit.github.io/issues/new?title=Command%20Center%20feedback" target="_blank" rel="noopener">Send</a></div>
   <div class="tog"><span class="sp">Lock now</span><button onclick="location.reload()">Lock</button></div>
@@ -292,10 +351,10 @@ body.light button,body.light .btn{color:#0c1520;background:rgba(0,0,0,.05);borde
 </main>
 
 <div id="tour"><div class="card"><div class="mu" id="tourStep"></div><h2 id="tourT" style="margin:4px 0"></h2><div id="tourB"></div><div class="row" style="margin-top:12px"><button id="tourSkip">Skip</button><span class="sp"></span><button class="pri" id="tourNext">Next</button></div></div></div>
-<div id="askBar"><form id="askF"><input id="askI" placeholder="Ask your assistant…" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Speak">🎙</button><button class="pri go">Go</button></form></div>
+<div id="askBar"><div id="toast" role="status" aria-live="polite"></div><form id="askF"><span class="orb2" aria-hidden="true"></span><input id="askI" placeholder="Ask your assistant…" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Speak"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button></form></div>
 <button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
 <nav class="bn">
-  <a href="#" data-go="" class="on"><i>▦</i>Mall</a><a href="#" data-go="shop"><i>🛍</i>Shop</a><a href="#" data-go="crypto"><i>⛓</i>Crypto</a><a href="#" data-go="stocks"><i>📈</i>Stocks</a><a href="#" data-go="sports"><i>🏆</i>Sports</a><a href="#" data-go="social"><i>📣</i>Social</a><a href="#" data-go="beauty"><i>💄</i>Beauty</a><a href="#" data-go="tools"><i>🧰</i>Tools</a>
+  <a href="#" data-go="" class="on"><i>▦</i>Home</a><a href="#" data-go="crypto"><i>₿</i>Crypto</a><a href="#" data-go="stocks"><i>📈</i>Stocks</a><a href="#" data-go="business"><i>💼</i>Business</a><a href="#" data-go="shop"><i>🛒</i>Shop</a><a href="#" data-go="social"><i>👥</i>Social</a><a href="#" data-go="sports"><i>🏆</i>Sports</a><a href="#" data-go="tools"><i>🛠</i>Tools</a>
 </nav>
 
 <dialog id="clean">
@@ -361,7 +420,7 @@ function render(){
   var cc=$("chainChips");cc.textContent="";[["all","All"],["eth","ETH"],["base","Base"]].forEach(function(c){var b=el("button","chip"+(chainSel===c[0]?" on":""),c[1]+": "+(any?usd(total(c[0])):"—"));b.onclick=function(){chainSel=c[0];render()};cc.appendChild(b)});
   var ul=$("walletList");ul.textContent="";W.forEach(function(w,i){var li=el("li");var s=0;Object.keys(NETS).forEach(function(n){var b=BAL[w.a+"|"+n];if(b)s+=b.usd});
     var name=el("span","sp");name.appendChild(el("b",null,(w.l||"Wallet")+" "));name.appendChild(el("span","mono mu",short(w.a)));li.appendChild(name);
-    li.appendChild(el("span",null,any?usd(s):"—"));var x=el("button",null,"✕");x.style.padding="4px 8px";x.setAttribute("aria-label","Remove");x.onclick=function(){W.splice(i,1);LS.set("wallets",W);render()};li.appendChild(x);ul.appendChild(li)});
+    li.appendChild(el("span",null,any?usd(s):"—"));var x=el("button",null,"✕");x.style.padding="4px 8px";x.setAttribute("aria-label","Remove");x.onclick=function(){if(confirm("Stop tracking "+(w.l||short(w.a))+"? This only removes it from this screen.")){W.splice(i,1);LS.set("wallets",W);render()}};li.appendChild(x);ul.appendChild(li)});
   spark();
 }
 function spark(){var h=LS.get("hist",[]),s=$("spark");s.innerHTML="";if(h.length<2)return;var v=h.map(function(p){return p[1]}),mn=Math.min.apply(0,v),mx=Math.max.apply(0,v),r=mx-mn||1;
@@ -416,7 +475,7 @@ var IDS={BTC:"bitcoin",ETH:"ethereum",SOL:"solana",XLM:"stellar"},PX={};
 Object.keys(IDS).forEach(function(k){var o=el("option",null,k);$("aSym").appendChild(o)});
 function renderAlerts(){var ul=$("alertList");ul.textContent="";if(!A.length)ul.appendChild(el("li","mu","No alerts yet."));
   A.forEach(function(a,i){var li=el("li");li.appendChild(el("span","tag "+(a.dir==="below"?"bad":"ok"),a.dir==="below"?"STOP":"UP"));li.appendChild(el("span","sp",a.sym+(a.dir==="below"?" at or below ":" at or above ")+usd(a.v)+(a.hit?" · triggered":"")));
-    var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){A.splice(i,1);LS.set("alerts",A);renderAlerts()};li.appendChild(x);ul.appendChild(li)})}
+    var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){if(confirm("Delete this alert?")){A.splice(i,1);LS.set("alerts",A);renderAlerts()}};li.appendChild(x);ul.appendChild(li)})}
 $("addA").onsubmit=function(e){e.preventDefault();var v=parseFloat($("aVal").value);if(!(v>0))return;A.push({sym:$("aSym").value,dir:$("aDir").value,v:v,hit:false});LS.set("alerts",A);$("aVal").value="";renderAlerts();checkPrices();askNotif()};
 function checkPrices(){return getJSON("https://api.coingecko.com/api/v3/simple/price?ids="+Object.values(IDS).join(",")+"&vs_currencies=usd").then(function(d){
   Object.keys(IDS).forEach(function(k){if(d[IDS[k]])PX[k]=d[IDS[k]].usd});
@@ -445,14 +504,15 @@ $("cleanBtn").onclick=function(){$("clean").showModal()};$("cleanX").onclick=fun
 var dp;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;$("inst").disabled=false});
 $("inst").onclick=function(){if(dp){dp.prompt();dp=null;$("inst").disabled=true}};
 $("resetLock").onclick=function(){if(confirm("Remove the device lock? You will set a new one next time.")){["cred","pin","tries","tryT"].forEach(function(k){localStorage.removeItem("cc_"+k)});location.reload()}};
-$("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr","queue","stocks","sports","agenda","inbox","knownAddr","tfa"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
+$("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr","queue","stocks","sports","agenda","inbox","knownAddr","tfa","recs"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
 
 
 
 // ---------- mall floors ----------
-var FLOORS={shop:"SHOPPING · Knockout Artist",beauty:"BEAUTY",crypto:"CRYPTO",stocks:"STOCKS",social:"SOCIAL",sports:"SPORTS",tools:"TOOLS"};
-function floor(z,target){document.body.classList.toggle("onfloor",!!z);document.querySelectorAll("[data-zone]").forEach(function(c){c.classList.toggle("show",c.dataset.zone===z)});
-  $("floorName").textContent=z?FLOORS[z]:"";document.querySelectorAll("nav.bn a").forEach(function(a){a.classList.toggle("on",a.dataset.go===(z||""))});
+var FLOORS={};var CUR="";
+function floor(z,target){CUR=z||"";document.body.classList.toggle("onfloor",!!z);document.querySelectorAll("[data-zone]").forEach(function(c){c.classList.toggle("show",c.dataset.zone===z)});
+  if(z&&typeof ZONES!=="undefined"){$("floorName").textContent=ZONES[z].n;ZT=MODE;zoneHead(z);var b=BOTS[z];$("botSt").textContent=b?(b.st==="working"?"Bot working…":ZONES[z].n+" bot · "+(b.chip||"online")):""}
+  document.querySelectorAll("nav.bn a").forEach(function(a){a.classList.toggle("on",a.dataset.go===(z||""))});
   if(target&&$(target))$(target).scrollIntoView();else window.scrollTo(0,0)}
 document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();floor(b.dataset.go)})});
 $("toLobby").onclick=function(){floor("")};
@@ -463,7 +523,7 @@ document.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){$
 // ---------- stocks (view-only watchlist via TradingView widgets) ----------
 var STK=LS.get("stocks",["SPY","QQQ","AAPL"]);
 function addStock(t){t=String(t).toUpperCase().replace(/[^A-Z0-9:.\-]/g,"").slice(0,20);if(t&&STK.indexOf(t)<0){STK.push(t);LS.set("stocks",STK);renderStocks()}}
-function renderStocks(){var d=$("stkList");d.textContent="";STK.forEach(function(t,i){var r=el("div","row");r.style.marginTop="10px";r.appendChild(el("b","sp",t));var o=el("button",null,"Chart");o.style.padding="4px 8px";o.onclick=function(){f.style.height=f.style.height==="360px"?"110px":"360px";f.src=f.style.height==="360px"?tv(t):mini(t)};var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){STK.splice(i,1);LS.set("stocks",STK);renderStocks()};r.appendChild(o);r.appendChild(x);d.appendChild(r);
+function renderStocks(){var d=$("stkList");d.textContent="";STK.forEach(function(t,i){var r=el("div","row");r.style.marginTop="10px";r.appendChild(el("b","sp",t));var o=el("button",null,"Chart");o.style.padding="4px 8px";o.onclick=function(){f.style.height=f.style.height==="360px"?"110px":"360px";f.src=f.style.height==="360px"?tv(t):mini(t)};var x=el("button",null,"✕");x.style.padding="4px 8px";x.onclick=function(){if(!confirm("Remove "+t+" from your watchlist?"))return;STK.splice(i,1);LS.set("stocks",STK);renderStocks()};r.appendChild(o);r.appendChild(x);d.appendChild(r);
   var f=el("iframe","tvmini");f.loading="lazy";f.title=t+" chart";f.src=mini(t);d.appendChild(f)})}
 function mini(t){return "https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=en#"+encodeURIComponent(JSON.stringify({symbol:t,width:"100%",height:110,dateRange:"1D",colorTheme:"dark",isTransparent:true,autosize:true}))}
 $("stkF").onsubmit=function(e){e.preventDefault();addStock($("stkI").value);$("stkI").value=""};
@@ -492,12 +552,13 @@ function inbox(zone,text){IN.push({t:Date.now(),z:zone,x:String(text).slice(0,20
 function renderInbox(){var n=IN.filter(function(i){return !i.r}).length;$("inboxN").textContent=n?"("+n+")":"";var ul=$("inboxList");ul.textContent="";if(!IN.length)ul.appendChild(el("li","mu","Nothing new."));
   IN.slice().reverse().forEach(function(i){var li=el("li");li.appendChild(el("span","tag",((typeof FLOORS!=="undefined"&&FLOORS[i.z])||i.z).split(" ")[0]));li.appendChild(el("span","sp",i.x));li.appendChild(el("span","mu",new Date(i.t).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})));ul.appendChild(li)})}
 $("inboxBtn").onclick=function(){floor("tools","inbox");IN.forEach(function(i){i.r=true});LS.set("inbox",IN);renderInbox()};
-$("inboxClr").onclick=function(){IN=[];LS.set("inbox",IN);renderInbox()};
+$("inboxClr").onclick=function(){if(!confirm("Clear all inbox items?"))return;IN=[];LS.set("inbox",IN);renderInbox()};
 var _notify=notify;notify=function(t,b){_notify(t,b);inbox(/watchdog/i.test(t)?"crypto":"crypto",t+": "+b)};
 // ---------- privacy + theme ----------
-function applyPrefs(){var P=LS.get("prefs",{});document.body.classList.toggle("priv",!!P.priv);document.body.classList.toggle("light",!!P.light);$("lightT").checked=!!P.light;$("privBtn").textContent=P.priv?"🙈 Hidden":"👁 Privacy";
+function applyPrefs(){var P=LS.get("prefs",{});document.body.classList.toggle("big",!!P.big);document.body.classList.toggle("simple",!!P.big);$("bigT").checked=!!P.big;var bb=$("bigBtn");if(bb)bb.querySelector("svg").style.stroke=P.big?"#38f2e0":"";document.body.classList.toggle("priv",!!P.priv);document.body.classList.toggle("light",!!P.light);$("lightT").checked=!!P.light;
   var m=document.querySelector('meta[name=theme-color]');if(m)m.content=P.light?"#eef2f7":"#07090d"}
 $("privBtn").onclick=function(){var P=LS.get("prefs",{});P.priv=!P.priv;LS.set("prefs",P);applyPrefs();briefing()};
+$("bigT").onchange=function(){var P=LS.get("prefs",{});P.big=$("bigT").checked;LS.set("prefs",P);applyPrefs()};$("bigBtn").onclick=function(){var P=LS.get("prefs",{});P.big=!P.big;LS.set("prefs",P);applyPrefs();inbox("tools",P.big?"Large text and Simple Mode on":"Large text and Simple Mode off")};
 $("lightT").onchange=function(){var P=LS.get("prefs",{});P.light=$("lightT").checked;LS.set("prefs",P);applyPrefs()};
 // ---------- daily briefing ----------
 function briefing(){var P=LS.get("prefs",{});$("briefDate").textContent=new Date().toLocaleDateString([], {weekday:"short",month:"short",day:"numeric"});var ul=$("briefList");ul.textContent="";
@@ -552,9 +613,41 @@ var ti=0;function tourShow(){$("tour").style.display="flex";$("tourStep").textCo
 function tourEnd(){$("tour").style.display="none";LS.set("toured",1)}
 $("tourNext").onclick=function(){ti++;if(ti>=TOUR.length)tourEnd();else tourShow()};$("tourSkip").onclick=tourEnd;$("tourBtn").onclick=function(){ti=0;tourShow()};
 renderInbox();renderTFA();applyPrefs();
+(function(){var R=["Exchange tax forms (Coinbase, Crypto.com, Interactive Brokers)","Wallet history CSV for each self-custody wallet","Store payout reports (Fourthwall)","Business receipts and expenses","Gas and fee records"],st=LS.get("recs",{}),d=$("recs");R.forEach(function(r,i){var w=el("div","tog"),c=el("input");c.type="checkbox";c.checked=!!st[i];c.onchange=function(){st[i]=c.checked;LS.set("recs",st)};w.appendChild(c);w.appendChild(el("span","sp",r));d.appendChild(w)})})();
+
+
+// ---------- zones (12) ----------
+var ICON={"crypto": "<circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M10 7.5v9M10 7.5h3a2 2 0 010 4h-3M10 11.5h3.5a2.3 2.3 0 010 4.6H10M11 6v1.5M11 16.5V18\"/>", "stocks": "<path d=\"M4 4v16h16\"/><path d=\"M7 15l4-4 3 3 5-6\"/><path d=\"M16 8h3v3\"/>", "business": "<rect x=\"3.5\" y=\"7.5\" width=\"17\" height=\"12\" rx=\"2\"/><path d=\"M9 7.5V6a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 6v1.5M3.5 12.5h17M11 12.5v1.5h2v-1.5\"/>", "entrepreneur": "<path d=\"M9 17h6M10 20h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z\"/><path d=\"M12 1v-.5M4 4l1.2 1.2M20 4l-1.2 1.2\"/>", "tech": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.5\"/><rect x=\"10\" y=\"10\" width=\"4\" height=\"4\"/><path d=\"M9 3v4M12 3v4M15 3v4M9 17v4M12 17v4M15 17v4M3 9h4M3 12h4M3 15h4M17 9h4M17 12h4M17 15h4\"/>", "gaming": "<path d=\"M7 8h10a4 4 0 014 4.5l-.6 3.6a2 2 0 01-3.4 1L15 15H9l-2 2.1a2 2 0 01-3.4-1L3 12.5A4 4 0 017 8z\"/><path d=\"M8 11v3M6.5 12.5h3M15.5 12h.01M17.5 13.5h.01\"/>", "shop": "<path d=\"M3 4h2l2.2 10.5a1.5 1.5 0 001.5 1.2h8.6a1.5 1.5 0 001.5-1.1L20.5 8H6\"/><circle cx=\"9.5\" cy=\"19.5\" r=\"1.3\"/><circle cx=\"17\" cy=\"19.5\" r=\"1.3\"/>", "social": "<circle cx=\"12\" cy=\"8\" r=\"3\"/><circle cx=\"5.5\" cy=\"10\" r=\"2.2\"/><circle cx=\"18.5\" cy=\"10\" r=\"2.2\"/><path d=\"M6.5 19a5.5 5.5 0 0111 0M2 18.5a3.8 3.8 0 015-3.4M22 18.5a3.8 3.8 0 00-5-3.4\"/>", "sports": "<path d=\"M8 4h8v5a4 4 0 01-8 0zM8 6H5a3 3 0 003 4M16 6h3a3 3 0 01-3 4M12 13v4M9 20h6M10 17h4\"/>", "beauty": "<circle cx=\"12\" cy=\"9\" r=\"6\"/><path d=\"M12 15v4M8.5 20.5h7M9.5 6.5l2 -1.5\"/>", "finance": "<rect x=\"5.5\" y=\"3\" width=\"13\" height=\"18\" rx=\"2\"/><rect x=\"8\" y=\"5.5\" width=\"8\" height=\"4\" rx=\".5\"/><path d=\"M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16h.01M12 16h.01M15.5 16h.01M8.5 18.5h.01M12 18.5h.01\"/>", "tools": "<path d=\"M14.5 6.5a3.5 3.5 0 004.6 4.6l-8.7 8.7a1.8 1.8 0 01-2.6-2.6l8.7-8.7zM4 4l4 4M3.5 6.5L6.5 3.5\"/><circle cx=\"18\" cy=\"6\" r=\"2.2\"/>"};
+var LEVELS=[["Level 1","crypto stocks finance"],["Level 2","business entrepreneur tech"],["Level 3","gaming shop social sports beauty tools"]];
+function L(t,u){return {t:t,u:u}}
+var ZONES={
+ crypto:{n:"Crypto",note:"Read-only. No trades or fund moves here.",opp:[L("Dusty: turn dust tokens into DUSTY","https://statxqo-clickit.github.io/dusty/"),L("FOMO NFT Arena: free-to-join rounds","https://statxqo-clickit.github.io/fomo/"),L("RX7 VAPOR: free wallet safety scan","https://statxqo-clickit.github.io/rx7-vapor/"),L("POSH Escrow (testnet)",null)],use:[L("Track wallet balances by public address"),L("Watchdog approval scan"),L("DEX and CEX live charts"),L("Price and stop-loss alerts (notify only)")]},
+ stocks:{n:"Stocks",note:"View only. No trading or brokerage sign-ins.",opp:[L("Earnings calendar","https://www.nasdaq.com/market-activity/earnings")],use:[L("Watchlist with live mini charts"),L("Full TradingView charts"),L("Price alerts (coming soon with the data relay)")]},
+ business:{n:"Business",note:"Tools and resources. No investment offers.",opp:[L("SBA funding programs","https://www.sba.gov/funding-programs"),L("Grants.gov search","https://www.grants.gov"),L("SBA business guide","https://www.sba.gov/business-guide")],use:[L("Run the Knockout store","https://admin.fourthwall.com"),L("Team inbox and briefing"),L("Store stats (coming soon)")]},
+ entrepreneur:{n:"Entrepreneur",note:"Tools, resources and opportunities. No investment offers.",opp:[L("Hackathons on Devpost","https://devpost.com/hackathons"),L("Launch on Product Hunt","https://www.producthunt.com"),L("SBA business guide","https://www.sba.gov/business-guide")],use:[L("Name check before launch"),L("Launch checklist: site, socials, 2FA, analytics"),L("Ask the assistant to plan next steps")]},
+ tech:{n:"Tech",opp:[L("GitHub Explore","https://github.com/explore"),L("freeCodeCamp","https://www.freecodecamp.org"),L("Cloudflare Pages","https://pages.cloudflare.com")],use:[L("Watchdog 4.0 Android scanner (coming to Play)"),L("Install this app to your home screen"),L("Device Clean-Up guide")]},
+ gaming:{n:"Gaming",note:"Free play only. No real-value prizes or paid random entries without legal review.",opp:[L("FOMO NFT Arena: free-to-join rounds","https://statxqo-clickit.github.io/fomo/")],use:[L("Track UFC and league schedules on the Sports floor"),L("Free-play mini games (coming soon)")]},
+ shop:{n:"Shopping",opp:[L("Knockout Artist store","https://knockout-artist-llc-flk-shop.fourthwall.com")],use:[L("Visits, sales and messages (coming soon)"),L("Open the store admin","https://admin.fourthwall.com")]},
+ social:{n:"Social",use:[L("Each brand's channels in one place"),L("Inbox shortcuts: X, TikTok, Instagram, Discord"),L("Message counts (coming soon)")],opp:[]},
+ sports:{n:"Sports",use:[L("Scores and schedules from ESPN"),L("Follow teams and fighters"),L("Next event in your daily briefing")],opp:[]},
+ beauty:{n:"Beauty",use:[L("Beauty shops and apps, browsing only")],opp:[L("Sephora","https://www.sephora.com"),L("Ulta Beauty","https://www.ulta.com")]},
+ finance:{n:"Finance",note:"Organizing only. Not financial or tax advice.",use:[L("Export wallet history (CSV) for your tax preparer"),L("Records checklist: exchange 1099s, store payout reports, receipts"),L("Budget view (coming soon)")],opp:[L("IRS: digital assets","https://www.irs.gov/filing/digital-assets"),L("IRS: small business and self-employed","https://www.irs.gov/businesses/small-businesses-self-employed")]},
+ tools:{n:"Tools",use:[L("Device Clean-Up guide"),L("Security Center: link and address checks, 2FA"),L("Calendar, calculator, messages"),L("Inbox and settings")],opp:[]}
+};
+var MODE=LS.get("mode","opp"),ZT=MODE;
+function renderGrid(){var g=$("grid");g.textContent="";LEVELS.forEach(function(lv){g.appendChild(el("div","lvl2",lv[0]));lv[1].split(" ").forEach(function(z){var b=el("button","zt");b.id="zt-"+z;b.dataset.go=z;b.appendChild(el("span","awn"));b.appendChild(el("span","d"));
+  b.appendChild(el("span","zn",ZONES[z].n));b.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24">'+ICON[z]+'</svg>');b.setAttribute("aria-label",ZONES[z].n);b.addEventListener("click",function(){floor(z)});g.appendChild(b)});g.appendChild(el("div","shelf"))})}
+function setMode(m){MODE=m;LS.set("mode",m);document.querySelectorAll("#modeTabs button").forEach(function(b){b.classList.toggle("on",b.dataset.mode===m)})}
+document.querySelectorAll("#modeTabs button").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode)}});
+function zoneHead(z){var Z=ZONES[z];if(!Z)return;var has={opp:Z.opp&&Z.opp.length,use:Z.use&&Z.use.length};if(!has[ZT])ZT=has.opp?"opp":"use";
+  document.querySelectorAll("#zTabs button").forEach(function(b){b.style.display=has[b.dataset.t]?"":"none";b.classList.toggle("on",b.dataset.t===ZT)});$("zTabs").querySelector("span").style.display=has.opp&&has.use?"":"none";
+  $("zNote").textContent=Z.note||"";var ul=$("zList");ul.textContent="";(Z[ZT]||[]).forEach(function(i){var li=el("li");if(i.u){var a=el("a","sp",i.t);a.href=i.u;a.target="_blank";a.rel="noopener";li.appendChild(a);li.appendChild(el("span","mu","↗"))}else li.appendChild(el("span","sp",i.t));ul.appendChild(li)})}
+document.querySelectorAll("#zTabs button").forEach(function(b){b.onclick=function(){ZT=b.dataset.t;zoneHead(CUR)}});
+$("secBtn").onclick=function(){floor("tools","security")};
+renderGrid();setMode(MODE);
 
 // ---------- CLICK Assistant: manager + department bots (read-only v1) ----------
-var BOTS={shop:{n:"SHOPPING BOT",st:"idle",chip:"Online",last:"Knockout store"},crypto:{n:"CRYPTO BOT",st:"idle",chip:"Active",last:"Wallets · Watchdog · alerts"},social:{n:"SOCIAL BOT",st:"idle",chip:"Links ready",last:"Brand channels"},tools:{n:"TOOLS BOT",st:"idle",chip:"Ready",last:"Clean-Up · calendar · calc"},beauty:{n:"BEAUTY BOT",st:"idle",chip:"Online",last:"Beauty shops and apps"},stocks:{n:"STOCKS BOT",st:"idle",chip:"Watching",last:"Watchlist and charts"},sports:{n:"SPORTS BOT",st:"idle",chip:"Live",last:"Scores and schedules"}};
+var BOTS={};["crypto","stocks","business","entrepreneur","tech","gaming","shop","social","sports","beauty","finance","tools"].forEach(function(z){BOTS[z]={n:z.toUpperCase()+" BOT",st:"idle",chip:"online",last:""}});BOTS.crypto.chip="watching";BOTS.stocks.chip="watching";BOTS.sports.chip="live";
 var Q=LS.get("queue",[]);
 var GATED=/\b(buy|sell|swap|trade|send|transfer|pay|sign|post|tweet|publish|dm|reply|message\s+\w+|approve|revoke|withdraw|deposit|mint|bridge|stake|order|refund|delete)\b/i;
 var KW={crypto:/wallet|balance|scan|watchdog|approval|price|chart|alert|stop|eth|btc|sol|xlm|fomo|posh|dusty|rx7|token|gas|crypto/i,
@@ -563,9 +656,14 @@ var KW={crypto:/wallet|balance|scan|watchdog|approval|price|chart|alert|stop|eth
   beauty:/beauty|makeup|skincare|skin|hair|nail|sephora|ulta|fragrance|perfume|lipstick/i,
   stocks:/stock|ticker|nasdaq|nyse|spy|qqq|aapl|tsla|nvda|msft|amzn|share price|market cap|dow|s&p/i,
   sports:/score|game|match|fight|ufc|mma|nfl|nba|mlb|nhl|team|schedule|boxing|football|basketball|baseball|hockey/i,
+  finance:/tax|taxes|budget|receipt|1099|record|csv|export|expense|finance/i,
+  gaming:/gaming|game\b|play|arena|esports/i,
+  business:/business|llc|grant|sba|invoice|payout/i,
+  entrepreneur:/entrepreneur|launch|hackathon|startup|idea|product hunt/i,
+  tech:/tech|code|github|android|apk|pwa|install|deploy/i,
   tools:/clean|storage|photo|file|folder|app|calendar|agenda|remind|calc|\d\s*[-+*\/x×÷]\s*\d|messages|sms|notification|data/i};
 function route(t){if(/^[\d\s.+\-*\/()x×÷=?]+$/.test(t.replace(/^(what('|i)?s|calc(ulate)?)\s*/i,"")))return "tools";if(KW.stocks.test(t)&&!/\b(eth|btc|sol|xlm|wallet|crypto)\b/.test(t))return "stocks";var best="tools",sc=0;Object.keys(KW).forEach(function(z){var m=t.match(new RegExp(KW[z].source,"gi"));var n=m?m.length:0;if(n>sc){sc=n;best=z}});return best}
-function renderBots(){Object.keys(BOTS).forEach(function(z){var b=BOTS[z],c=$("st-"+z);if(!c)return;c.classList.toggle("busy",b.st==="working");c.querySelector(".stc").textContent=b.st==="working"?"Working":(b.chip||"Online");c.querySelector(".last").textContent=b.last})}
+function renderBots(){Object.keys(BOTS).forEach(function(z){var b=BOTS[z],c=$("zt-"+z);if(!c)return;c.classList.toggle("busy",b.st==="working");c.classList.toggle("wait",/approval/i.test(b.last||""))});if(CUR&&BOTS[CUR])$("botSt").textContent=BOTS[CUR].st==="working"?"Bot working…":ZONES[CUR].n+" bot · "+(BOTS[CUR].last?BOTS[CUR].last.slice(0,40):BOTS[CUR].chip)}
 function renderQ(){var ul=$("queue");ul.textContent="";Q.slice(-6).reverse().forEach(function(t){var li=el("li");li.appendChild(el("span","chipz s-"+t.s,t.s==="approval"?"needs approval":t.s));li.appendChild(el("span","sp",t.text));li.appendChild(el("span","mu",BOTS[t.z].n.split(" ")[0].toLowerCase()));
   if(t.s==="approval"){var a=el("button",null,"Approve");a.disabled=true;a.title="Action bots coming soon";a.style.padding="4px 8px";a.style.fontSize="12px";li.appendChild(a)}
   if(t.r){var r=el("span","rep",t.r);li.appendChild(r)}
@@ -574,6 +672,7 @@ function renderQ(){var ul=$("queue");ul.textContent="";Q.slice(-6).reverse().for
 function save(){LS.set("queue",Q.slice(-30))}
 var SOC={x:"https://x.com/messages",twitter:"https://x.com/messages",tiktok:"https://www.tiktok.com/messages",instagram:"https://www.instagram.com/direct/inbox/",insta:"https://www.instagram.com/direct/inbox/",discord:"https://discord.com/channels/@me",facebook:"https://www.facebook.com/knockoutartistapparel"};
 function work(t){var x=t.text.toLowerCase();
+  if(/what (does|is|are)|what'?s an?|explain|help|how does|mean/.test(x))return Promise.resolve({s:"done",r:helpFor(x)});
   if(GATED.test(x)&&!/\b(scan|price|balance|chart)\b/.test(x))return Promise.resolve({s:"approval",r:"This would act for you, so it waits for your approval tap. Action bots are coming soon; nothing was done."});
   if(t.z==="crypto"){
     if(/scan|watchdog|approval|safe|risk/.test(x))return Promise.resolve(runScan(true)).then(function(){return {s:"done",r:$("wdStatus").textContent}});
@@ -583,6 +682,9 @@ function work(t){var x=t.text.toLowerCase();
     if(/chart/.test(x)){floor("crypto","markets");return Promise.resolve({s:"done",r:"Opened Market Pulse."})}
     return Promise.resolve(loadBalances()).then(function(){return {s:"done",r:W.length?"Tracked balance "+$("total").textContent+" across "+W.length+" wallet"+(W.length>1?"s":"")+".":"Add a public wallet address first."}})}
 
+
+  if(t.z==="finance"){if(/csv|export|history/.test(x)){$("csvBtn").click();return Promise.resolve({s:"done",r:"Exporting wallet history CSV. Organizing only, not tax advice."})}floor("finance");return Promise.resolve({s:"done",r:"Opened Finance: records checklist and CSV export. Not financial or tax advice."})}
+  if(/^(gaming|business|entrepreneur|tech)$/.test(t.z)){floor(t.z);return Promise.resolve({s:"done",r:"Opened "+ZONES[t.z].n+": opportunities and use cases."})}
   if(t.z==="beauty"){floor("beauty");return Promise.resolve({s:"done",r:"Opened the Beauty floor: Sephora, Ulta, Amazon, Target."})}
   if(t.z==="stocks"){var tk=(t.text.match(/\b[A-Z]{1,5}\b/g)||[]).filter(function(w){return !/^(I|A|ETH|BTC)$/.test(w)})[0];if(/alert/.test(x))return Promise.resolve({s:"done",r:"Stock price alerts arrive with the private data relay (coming soon)."});
     if(tk){addStock(tk);floor("stocks");return Promise.resolve({s:"done",r:tk+" is on your watchlist with a live chart."})}floor("stocks");return Promise.resolve({s:"done",r:"Opened your watchlist."})}
@@ -596,9 +698,14 @@ function work(t){var x=t.text.toLowerCase();
   if(/calendar|agenda|remind/.test(x)){$("dCal").showModal();return Promise.resolve({s:"done",r:"Opened Calendar. Add it to the quick agenda or your phone calendar."})}
   if(/message|sms|text/.test(x)){$("dMsg").showModal();return Promise.resolve({s:"done",r:"Opened Messages."})}
   return Promise.resolve({s:"done",r:"Not sure yet. Try: scan my wallets, ETH price, BTC stop 60000, open TikTok, clean up storage, 12*8."})}
+
+var GLOSS={approval:"An approval is permission you gave an app to move a token from your wallet. Old or unlimited ones are a common way funds get taken.",wallet:"A wallet holds your crypto. Its public address is like an account number: safe to share, can't be used to take funds.","seed phrase":"Your seed phrase is the master key to a wallet. Never type it into any site or app, including this one.",dex:"A DEX is trading inside a blockchain app, like Uniswap.",cex:"A CEX is a company-run exchange, like Coinbase.","stop":"A stop alert tells you when a price drops to a number you pick. It does not sell anything.","2fa":"2FA means a second check when you sign in, like a code on your phone. Turn it on for every money and email account.",csv:"A CSV is a simple spreadsheet file you can open in Excel or Google Sheets, or give to a tax preparer.",gas:"Gas is the small fee a blockchain charges to process a transaction.",passkey:"A passkey lets you unlock with your fingerprint or face instead of a password.",phishing:"Phishing is a fake link or message that pretends to be a real company to steal logins or funds.",poisoning:"Address poisoning is when a scammer sends you a look-alike address hoping you'll copy it by mistake."};
+var HELP={"":"This is your home screen. Each tile is a floor. Tap one to open it, or ask the assistant at the bottom.",crypto:"Crypto shows your wallet totals, checks which apps can move your tokens, and alerts you about prices. It can't send or trade.",stocks:"Stocks shows a watchlist with live charts. It can't trade or sign in to a broker.",finance:"Finance helps you keep records and export wallet history for taxes. Not financial or tax advice.",business:"Business has tools and resources for running a company.",entrepreneur:"Entrepreneur lists ways to launch and grow an idea, like hackathons and launch sites.",tech:"Tech has developer resources and app tools.",gaming:"Gaming is free play only.",shop:"Shopping links to the Knockout Artist store. Sales numbers are coming soon.",social:"Social puts each brand's channels and inboxes in one place.",sports:"Sports shows scores and schedules. Tap Follow to highlight your teams.",beauty:"Beauty links to beauty shops. Browsing only.",tools:"Tools has Clean-Up, Security Center, calendar, calculator, inbox and settings."};
+function helpFor(x){var k=Object.keys(GLOSS).filter(function(g){return x.indexOf(g)>=0})[0];if(k)return GLOSS[k];return HELP[CUR||""]}
+$("helpBtn").onclick=function(){ask("what does this do?")};
 function ask(text){text=text.trim().slice(0,200);if(!text)return;var t={id:Date.now(),text:text,z:route(text.toLowerCase()),s:"queued"};Q.push(t);save();renderQ();
   var b=BOTS[t.z];b.st="working";b.last="Working: "+text;t.s="working";renderBots();renderQ();
-  work(t).then(function(res){t.s=res.s;t.r=res.r;t.link=res.link;t.linkLabel=res.linkLabel},function(){t.s="blocked";t.r="Couldn't finish; source unreachable. Try again."}).then(function(){inbox(t.z,t.text+" → "+(t.r||t.s));b.st="idle";b.last=(t.s==="approval"?"Waiting on your approval":t.r)||"";save();renderBots();renderQ()})}
+  work(t).then(function(res){t.s=res.s;t.r=res.r;t.link=res.link;t.linkLabel=res.linkLabel},function(){t.s="blocked";t.r="Couldn't finish; source unreachable. Try again."}).then(function(){inbox(t.z,t.text+" → "+(t.r||t.s));b.st="idle";b.last=(t.s==="approval"?"Waiting on your approval":t.r)||"";save();renderBots();renderQ();var to=$("toast");to.textContent=(t.s==="approval"?"Needs your approval: ":"")+(t.r||"");to.classList.add("on");clearTimeout(window._tt);window._tt=setTimeout(function(){to.classList.remove("on")},9000)})}
 $("askF").onsubmit=function(e){e.preventDefault();ask($("askI").value);$("askI").value=""};
 (function(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition,m=$("mic");if(!SR){m.style.display="none";return}var r=new SR();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;
   r.onresult=function(e){var t=e.results[0][0].transcript;$("askI").value=t;ask(t);$("askI").value=""};r.onend=function(){m.classList.remove("rec")};r.onerror=function(){m.classList.remove("rec")};
