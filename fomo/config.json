@@ -7,8 +7,8 @@
  },
  "mainnet": {
   "chainId": 8453,
-  "address": "",
-  "market": ""
+  "address": "0xe5eeE6D0Fc79318b2019A4fC1ad4Eb2E7B24c6f1",
+  "market": "0x8949a539955Fe034a52cBb91aa302F8Fca3161A5"
  },
  "ethereum": {
   "chainId": 1,
