@@ -69,6 +69,19 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
 body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
 .calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.calc button{padding:14px 0;font-size:18px}
 #cDisp{font-size:28px;text-align:right;padding:8px;background:rgba(0,0,0,.35);border-radius:10px;min-height:48px;overflow-x:auto;white-space:nowrap}
+
+.mall{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.store{position:relative;border-radius:16px;padding:14px 12px 12px;min-height:128px;text-align:left;color:var(--tx);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));border:1px solid var(--c);box-shadow:0 0 18px color-mix(in srgb,var(--c) 35%,transparent),inset 0 0 22px color-mix(in srgb,var(--c) 14%,transparent);display:flex;flex-direction:column;overflow:hidden}
+.store:before{content:"";position:absolute;left:10px;right:10px;top:0;height:5px;border-radius:0 0 6px 6px;background:var(--c);box-shadow:0 0 14px var(--c)}
+.store .sign{font-weight:800;letter-spacing:1.5px;font-size:13px;color:var(--c);text-shadow:0 0 10px var(--c);margin-top:4px}
+.store .ic{font-size:26px;margin:6px 0 2px}.store .mu{font-size:12px}
+.store.s1{--c:#ff4d6d}.store.s2{--c:#38f2e0}.store.s3{--c:#a97bff}.store.s4{--c:#38f2a5}
+.floorbar{display:none;align-items:center;gap:10px;margin:0 0 10px}.floorbar b{font-size:16px;letter-spacing:1px}
+body.onfloor .floorbar{display:flex}body.onfloor #lobby{display:none}
+[data-zone]{display:none}body.onfloor [data-zone].show{display:block}
+.brand{font-size:11px;letter-spacing:1px;color:var(--mu);margin:10px 0 4px;text-transform:uppercase}
+.soc{display:flex;gap:8px;flex-wrap:wrap}.soc a{flex:1 1 44%;font-size:13px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tools button{padding:16px 6px}.tools i{display:block;font-style:normal;font-size:22px}
 </style>
 </head>
 <body class="locked">
@@ -85,11 +98,21 @@ body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
 <h1>C.L.I.C.K.it Command Center<small>Read-only · v1 preview · nothing here can move funds</small></h1>
 
 <section id="dash">
-<div class="card">
+<div id="lobby">
+ <div class="mu" style="margin:0 2px 8px">Pick a floor</div>
+ <div class="mall">
+  <button class="store s1" data-go="shop"><span class="sign">SHOPPING</span><span class="ic">🛍</span><b>Knockout Artist</b><span class="mu">Store · visits · sales · messages</span></button>
+  <button class="store s2" data-go="crypto"><span class="sign">CRYPTO</span><span class="ic">⛓</span><b id="lobbyBal">Wallets</b><span class="mu">FOMO · POSH · Dusty · RX7 · Watchdog</span></button>
+  <button class="store s3" data-go="social"><span class="sign">SOCIAL</span><span class="ic">📣</span><b>Channels</b><span class="mu">X · TikTok · Instagram · Discord · Facebook</span></button>
+  <button class="store s4" data-go="tools"><span class="sign">TOOLS</span><span class="ic">🧰</span><b>Utilities</b><span class="mu">Clean-Up · Calendar · Calc · Messages</span></button>
+ </div>
+</div>
+<div class="floorbar"><button id="toLobby">← Mall</button><b id="floorName"></b></div>
+<div class="card" data-zone="crypto">
   <div class="row"><div class="sp"><div class="mu">Tracked wallet balance</div><div class="big" id="total">—</div><div class="mu" id="totalSub">Add a public address to start</div></div><svg class="spark" id="spark" viewBox="0 0 120 44"></svg></div>
 </div>
 
-<div class="card v" id="wallets">
+<div class="card v" id="wallets" data-zone="crypto">
   <div class="row"><h2 class="sp">Wallets</h2><button id="refresh">Refresh</button></div>
   <div class="chips" id="chainChips"></div>
   <ul class="list" id="walletList"></ul>
@@ -97,19 +120,19 @@ body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
   <div class="mu" style="margin-top:6px">Public addresses only, saved on this device. Never enter a seed phrase or private key anywhere.</div>
 </div>
 
-<div class="card">
+<div class="card" id="watchdog" data-zone="crypto">
   <div class="row"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38f2a5" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
   <div class="sp"><b>Watchdog</b><div class="mu" id="wdStatus">Approval scan (RX7 engine) · not run yet</div></div><button class="pri" id="scan">Scan</button></div>
   <ul class="list" id="apprList"></ul>
 </div>
 
-<div class="card v" id="markets">
+<div class="card v" id="markets" data-zone="crypto">
   <div class="row"><div class="sp"><h2 style="margin:0">Market Pulse</h2><div class="mu">Live charts</div></div><div class="seg"><button data-m="dex" class="on">DEX</button><button data-m="cex">CEX</button></div></div>
   <div class="row" style="margin-top:8px"><select id="pair"></select></div>
   <iframe class="chart" id="chart" title="Live chart" loading="lazy" referrerpolicy="no-referrer"></iframe>
 </div>
 
-<div class="card" id="alerts">
+<div class="card" id="alerts" data-zone="crypto">
   <div class="row"><h2 class="sp">Alerts</h2><span class="mu" id="notifState"></span></div>
   <div class="mu">Alerts notify you only. Nothing auto-sells in v1.</div>
   <form id="addA" class="row" style="margin-top:8px"><select id="aSym" style="max-width:90px"></select><select id="aDir" style="max-width:120px"><option value="below">Stop ≤</option><option value="above">Up ≥</option></select><input id="aVal" type="number" step="any" placeholder="USD" style="max-width:90px"><button class="pri">Set</button></form>
@@ -117,21 +140,32 @@ body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
   <div class="mu" id="pxLine" style="margin-top:6px"></div>
 </div>
 
-<div class="card v" id="apps">
-  <h2>Ecosystem</h2>
+<div class="card v" id="apps" data-zone="crypto">
+  <h2>Crypto apps</h2>
   <div class="tiles" id="tiles"></div>
   <div style="margin-top:10px"><b style="font-size:13px">Auto-functions</b>
     <div id="autos"></div>
   </div>
 </div>
 
-<div class="card">
-  <div class="row"><h2 class="sp">Store · Knockout Artist</h2><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Open store</a></div>
+<div class="card" id="store" data-zone="shop">
+  <div class="row"><h2 class="sp">Knockout Artist</h2><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Open store</a></div>
   <div class="stats"><div><b>—</b><span class="mu">Visits</span></div><div><b>—</b><span class="mu">Sales</span></div><div><b>—</b><span class="mu">Messages</span></div></div>
   <div class="mu" style="margin-top:8px">Live counts connect through a private server relay (coming soon), so the store key never touches this page.</div>
 </div>
 
-<div class="card v" id="settings">
+<div class="card v" id="social" data-zone="social">
+  <h2>Channels</h2><div class="mu">Each brand stays on its own accounts. Message counts need a private sign-in relay (coming soon); tap to open.</div>
+  <div class="brand">POSH Escrow</div><div class="soc"><a class="btn" href="https://x.com/poshescrow" target="_blank" rel="noopener">X @poshescrow</a><a class="btn" href="https://www.tiktok.com/@poshescrow" target="_blank" rel="noopener">TikTok</a><a class="btn" href="https://discord.gg/7DbFqrymk" target="_blank" rel="noopener">Discord</a></div>
+  <div class="brand">Dusty</div><div class="soc"><a class="btn" href="https://x.com/DUSTYappsocial" target="_blank" rel="noopener">X @DUSTYappsocial</a></div>
+  <div class="brand">Knockout Artist</div><div class="soc"><a class="btn" href="https://www.facebook.com/knockoutartistapparel" target="_blank" rel="noopener">Facebook</a><a class="btn" href="https://knockout-artist-llc-flk-shop.fourthwall.com" target="_blank" rel="noopener">Store</a></div>
+  <div class="brand">Inboxes</div><div class="soc"><a class="btn" href="https://x.com/messages" target="_blank" rel="noopener">X messages</a><a class="btn" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener">Instagram DMs</a><a class="btn" href="https://www.tiktok.com/messages" target="_blank" rel="noopener">TikTok inbox</a><a class="btn" href="https://discord.com/channels/@me" target="_blank" rel="noopener">Discord DMs</a></div>
+</div>
+<div class="card" id="toolsCard" data-zone="tools">
+  <h2>Tools</h2>
+  <div class="tools"><button data-t="clean"><i>🧹</i>Device Clean-Up</button><button data-t="dCal"><i>📅</i>Calendar</button><button data-t="dCalc"><i>🧮</i>Calculator</button><button data-t="dMsg"><i>💬</i>Messages</button></div>
+</div>
+<div class="card v" id="settings" data-zone="tools">
   <h2>Settings</h2>
   <div class="tog"><span class="sp">Background monitor (rescan every 5 min while open)</span><input type="checkbox" id="mon" checked></div>
   <div class="tog"><span class="sp">Browser notifications</span><button id="notif">Enable</button></div>
@@ -140,13 +174,13 @@ body.locked main,body.locked nav.bn,body.locked .cleanup{display:none}
   <div class="tog"><span class="sp">Reset device lock (passkey/PIN)</span><button id="resetLock">Reset</button></div>
   <div class="tog"><span class="sp">Clear wallets and alerts on this device</span><button id="wipe">Clear</button></div>
 </div>
-<div class="foot">C.L.I.C.K.it · read-only tools · Stan signs every on-chain action in his own wallet</div>
+<div class="foot" data-zone="crypto">C.L.I.C.K.it · read-only tools · Stan signs every on-chain action in his own wallet</div>
 </section>
 </main>
 
 <button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
 <nav class="bn">
-  <a href="#dash" class="on"><i>▦</i>Dashboard</a><a href="#markets"><i>📈</i>Markets</a><a href="#wallets"><i>◔</i>Wallets</a><a href="#apps"><i>⧉</i>Apps</a><a href="#settings"><i>⚙</i>Settings</a>
+  <a href="#" data-go="" class="on"><i>▦</i>Mall</a><a href="#" data-go="shop"><i>🛍</i>Shopping</a><a href="#" data-go="crypto"><i>⛓</i>Crypto</a><a href="#" data-go="social"><i>📣</i>Social</a><a href="#" data-go="tools"><i>🧰</i>Tools</a>
 </nav>
 
 <dialog id="clean">
@@ -207,7 +241,7 @@ function loadBalances(){if(!W.length){render();return}
     if(!Object.keys(BAL).length){render();$("totalSub").textContent="Couldn't reach the chain explorers; retrying in 5 min.";return}var h=LS.get("hist",[]),t=total("all");h.push([Date.now(),t]);h=h.slice(-48);LS.set("hist",h);render()})}
 function total(ch){var s=0;W.forEach(function(w){Object.keys(NETS).forEach(function(n){if(ch!=="all"&&ch!==n)return;var b=BAL[w.a+"|"+n];if(b)s+=b.usd})});return s}
 function render(){
-  var any=Object.keys(BAL).length;$("total").textContent=W.length&&any?usd(total(chainSel)):"—";
+  var any=Object.keys(BAL).length;$("lobbyBal").textContent=W.length&&any?usd(total("all")):"Wallets";$("total").textContent=W.length&&any?usd(total(chainSel)):"—";
   $("totalSub").textContent=W.length?(W.length+" wallet"+(W.length>1?"s":"")+" · Ethereum + Base · listed tokens only"):"Add a public address to start";
   var cc=$("chainChips");cc.textContent="";[["all","All"],["eth","ETH"],["base","Base"]].forEach(function(c){var b=el("button","chip"+(chainSel===c[0]?" on":""),c[1]+": "+(any?usd(total(c[0])):"—"));b.onclick=function(){chainSel=c[0];render()};cc.appendChild(b)});
   var ul=$("walletList");ul.textContent="";W.forEach(function(w,i){var li=el("li");var s=0;Object.keys(NETS).forEach(function(n){var b=BAL[w.a+"|"+n];if(b)s+=b.usd});
@@ -292,17 +326,27 @@ function tiles(){var g=$("tiles");g.textContent="";APPS.forEach(function(a){var 
 $("cleanBtn").onclick=function(){$("clean").showModal()};$("cleanX").onclick=function(){$("clean").close()};
 
 // ---------- nav, install, wipe ----------
-document.querySelectorAll("nav.bn a").forEach(function(a){a.onclick=function(){document.querySelectorAll("nav.bn a").forEach(function(x){x.classList.toggle("on",x===a)})}});
+
 var dp;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;$("inst").disabled=false});
 $("inst").onclick=function(){if(dp){dp.prompt();dp=null;$("inst").disabled=true}};
 $("resetLock").onclick=function(){if(confirm("Remove the device lock? You will set a new one next time.")){["cred","pin","tries","tryT"].forEach(function(k){localStorage.removeItem("cc_"+k)});location.reload()}};
 $("wipe").onclick=function(){if(confirm("Clear saved wallets and alerts from this device?")){["wallets","alerts","hist","seenAppr"].forEach(function(k){localStorage.removeItem("cc_"+k)});W=[];A=[];BAL={};render();renderAlerts();$("apprList").textContent=""}};
 
 
+
+// ---------- mall floors ----------
+var FLOORS={shop:"SHOPPING · Knockout Artist",crypto:"CRYPTO",social:"SOCIAL",tools:"TOOLS"};
+function floor(z,target){document.body.classList.toggle("onfloor",!!z);document.querySelectorAll("[data-zone]").forEach(function(c){c.classList.toggle("show",c.dataset.zone===z)});
+  $("floorName").textContent=z?FLOORS[z]:"";document.querySelectorAll("nav.bn a").forEach(function(a){a.classList.toggle("on",a.dataset.go===(z||""))});
+  if(target&&$(target))$(target).scrollIntoView();else window.scrollTo(0,0)}
+document.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();floor(b.dataset.go)})});
+$("toLobby").onclick=function(){floor("")};
+document.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){$(b.dataset.t).showModal()}});
+
 // ---------- lock screen: device passkey (WebAuthn) or local PIN ----------
-var ORBS=[["🛡","Watchdog",function(){go("dash",function(){runScan(false)})}],["🔔","Alerts",function(){go("alerts")}],["🧹","Clean-Up",function(){go(null,function(){$("clean").showModal()})}],["⧉","Apps",function(){go("apps")}],["💬","Messages",function(){go(null,function(){$("dMsg").showModal()})}],["📅","Calendar",function(){go(null,function(){$("dCal").showModal()})}],["🧮","Calc",function(){go(null,function(){$("dCalc").showModal()})}]];
+var ORBS=[["🛡","Watchdog",function(){go(null,function(){floor("crypto","watchdog");runScan(false)})}],["🔔","Alerts",function(){go(null,function(){floor("crypto","alerts")})}],["🧹","Clean-Up",function(){go(null,function(){$("clean").showModal()})}],["⧉","Apps",function(){go(null,function(){floor("crypto","apps")})}],["💬","Messages",function(){go(null,function(){$("dMsg").showModal()})}],["📅","Calendar",function(){go(null,function(){$("dCal").showModal()})}],["🧮","Calc",function(){go(null,function(){$("dCalc").showModal()})}]];
 var pending=null,unlocked=false;
-function go(sec,fn){pending=function(){if(sec){var t=$(sec);if(t)t.scrollIntoView()}if(fn)fn()};unlock()}
+function go(sec,fn){pending=function(){if(fn)fn()};unlock()}
 (function(){var r=$("ring");ORBS.forEach(function(o,i){var a=-Math.PI/2+i*2*Math.PI/ORBS.length,b=el("button","orb");b.style.left=(50+42*Math.cos(a))+"%";b.style.top=(50+42*Math.sin(a))+"%";b.appendChild(el("i",null,o[0]));b.appendChild(document.createTextNode(o[1]));b.setAttribute("aria-label",o[1]);b.onclick=o[2];r.appendChild(b)})})();
 function b64(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
 function unb64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
