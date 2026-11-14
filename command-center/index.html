@@ -209,6 +209,28 @@ body.simple .adv{display:none!important}
 #zList a,ul.list a.sp{color:#5ff5e6;text-decoration:none}
 main>h1{display:none!important}
 main{padding-bottom:200px!important}
+
+.zt .awn{display:none}
+.glass{background:linear-gradient(180deg,rgba(58,64,72,.55),rgba(24,27,32,.85));border:1px solid rgba(200,210,220,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 30px rgba(0,0,0,.4)}
+.zt{height:108px;padding:12px 6px 18px;justify-content:center;border-radius:10px;border:1px solid transparent;
+ background:radial-gradient(circle at 7px 7px,#9aa4ae 1.6px,transparent 2.2px) padding-box,radial-gradient(circle at calc(100% - 7px) 7px,#9aa4ae 1.6px,transparent 2.2px) padding-box,radial-gradient(circle at 7px calc(100% - 7px),#9aa4ae 1.6px,transparent 2.2px) padding-box,radial-gradient(circle at calc(100% - 7px) calc(100% - 7px),#9aa4ae 1.6px,transparent 2.2px) padding-box,repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px) padding-box,linear-gradient(180deg,#2c3138,#1c2026) padding-box,linear-gradient(160deg,#d7dee5,#6d7681 40%,#3a4048 60%,#9fe9e4) border-box;
+ box-shadow:0 4px 14px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.35)}
+.zt .zn{font-size:13.5px;font-weight:600;color:#f3f6f9;letter-spacing:-.2px;max-width:100%;overflow-wrap:anywhere}
+.zt svg{stroke:#bff6f0}
+.zt .plate{position:absolute;top:6px;left:50%;transform:translateX(-50%);font:600 9px/1 ui-monospace,Menlo,monospace;letter-spacing:1px;color:#c9d1d9;background:linear-gradient(180deg,#59616b,#363b42);border:1px solid #808a95;border-radius:3px;padding:2px 5px}
+.zt .kh{position:absolute;bottom:6px;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:#0b0d10;box-shadow:0 0 0 2px #6f7883}
+.zt .kh:after{content:"";position:absolute;left:2.5px;top:5px;width:2px;height:4px;background:#0b0d10}
+.zt .d{bottom:auto;top:8px;right:9px}
+.shelf{height:4px;margin:-12px 0 0;background:linear-gradient(180deg,#8a939d,#3c424a);box-shadow:0 2px 6px rgba(0,0,0,.5)}
+.zt:focus-visible{outline:3px solid #5ff5e6;outline-offset:2px}
+#vault{position:fixed;inset:0;z-index:25;display:none;align-items:center;justify-content:center;background:#0a0c0f;pointer-events:none}
+#vault.run{display:flex;animation:vbg .95s ease forwards}
+#vault .door{width:78vmin;height:78vmin;max-width:380px;max-height:380px;border-radius:50%;background:repeating-conic-gradient(from 0deg,#5d6670 0 2deg,#4a525b 2deg 4deg),radial-gradient(#6b747e,#2b3036);box-shadow:0 0 0 10px #2a2f35,0 0 0 14px #7c8691,0 0 60px rgba(56,242,224,.25),inset 0 0 40px rgba(0,0,0,.6);position:relative;animation:vdoor .95s cubic-bezier(.6,0,.3,1) forwards}
+#vault .door:before{content:"";position:absolute;inset:30%;border-radius:50%;background:radial-gradient(#9aa4ae,#3b4148);box-shadow:0 0 0 6px #2a2f35,inset 0 0 12px rgba(0,0,0,.5)}
+#vault .door i{position:absolute;left:50%;top:50%;width:46%;height:8px;margin-top:-4px;background:linear-gradient(180deg,#c6ced6,#6a737d);border-radius:4px;transform-origin:0 50%}
+@keyframes vdoor{0%{transform:rotate(0)}55%{transform:rotate(200deg) scale(1)}100%{transform:rotate(240deg) scale(1.9);opacity:0}}
+@keyframes vbg{0%,55%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){#vault.run{animation-duration:.2s}#vault .door{animation:none;opacity:0}}
 </style>
 </head>
 <body class="locked">
@@ -350,6 +372,7 @@ main{padding-bottom:200px!important}
 </section>
 </main>
 
+<div id="vault" aria-hidden="true"><div class="door"><i style="transform:rotate(0deg)"></i><i style="transform:rotate(120deg)"></i><i style="transform:rotate(240deg)"></i></div></div>
 <div id="tour"><div class="card"><div class="mu" id="tourStep"></div><h2 id="tourT" style="margin:4px 0"></h2><div id="tourB"></div><div class="row" style="margin-top:12px"><button id="tourSkip">Skip</button><span class="sp"></span><button class="pri" id="tourNext">Next</button></div></div></div>
 <div id="askBar"><div id="toast" role="status" aria-live="polite"></div><form id="askF"><span class="orb2" aria-hidden="true"></span><input id="askI" placeholder="Ask your assistant…" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Speak"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button></form></div>
 <button class="cleanup" id="cleanBtn">🧹 Device Clean-Up</button>
@@ -635,7 +658,7 @@ var ZONES={
  tools:{n:"Tools",use:[L("Device Clean-Up guide"),L("Security Center: link and address checks, 2FA"),L("Calendar, calculator, messages"),L("Inbox and settings")],opp:[]}
 };
 var MODE=LS.get("mode","opp"),ZT=MODE;
-function renderGrid(){var g=$("grid");g.textContent="";LEVELS.forEach(function(lv){g.appendChild(el("div","lvl2",lv[0]));lv[1].split(" ").forEach(function(z){var b=el("button","zt");b.id="zt-"+z;b.dataset.go=z;b.appendChild(el("span","awn"));b.appendChild(el("span","d"));
+var NUM=0;function renderGrid(){NUM=0;var g=$("grid");g.textContent="";LEVELS.forEach(function(lv){g.appendChild(el("div","lvl2",lv[0]));lv[1].split(" ").forEach(function(z){var b=el("button","zt");b.id="zt-"+z;b.dataset.go=z;b.appendChild(el("span","plate",String(++NUM).padStart(2,"0")));b.appendChild(el("span","kh"));b.appendChild(el("span","d"));
   b.appendChild(el("span","zn",ZONES[z].n));b.insertAdjacentHTML("beforeend",'<svg viewBox="0 0 24 24">'+ICON[z]+'</svg>');b.setAttribute("aria-label",ZONES[z].n);b.addEventListener("click",function(){floor(z)});g.appendChild(b)});g.appendChild(el("div","shelf"))})}
 function setMode(m){MODE=m;LS.set("mode",m);document.querySelectorAll("#modeTabs button").forEach(function(b){b.classList.toggle("on",b.dataset.mode===m)})}
 document.querySelectorAll("#modeTabs button").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode)}});
@@ -720,7 +743,7 @@ function go(sec,fn){pending=function(){if(fn)fn()};unlock()}
 function b64(b){return btoa(String.fromCharCode.apply(null,new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
 function unb64(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
 function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
-function opened(){unlocked=true;briefing();if(!LS.get("toured",0))setTimeout(function(){ti=0;tourShow()},400);document.body.classList.remove("locked");$("face").style.display="none";if(pending){var p=pending;pending=null;setTimeout(p,50)}}
+function opened(){var v=$("vault");v.classList.remove("run");void v.offsetWidth;v.classList.add("run");setTimeout(function(){v.classList.remove("run")},1000);unlocked=true;briefing();if(!LS.get("toured",0))setTimeout(function(){ti=0;tourShow()},400);document.body.classList.remove("locked");$("face").style.display="none";if(pending){var p=pending;pending=null;setTimeout(p,50)}}
 function msg(t){$("lockMsg").textContent=t}
 function hasPK(){return !!(window.PublicKeyCredential&&navigator.credentials)}
 function unlock(){if(unlocked){opened();return}
